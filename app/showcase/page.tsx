@@ -34,7 +34,7 @@ export default function ShowcasePage() {
       </HeroWrapper>
 
       <HeroWrapper label="2. Aurora Flow">
-        <AuroraFlow />
+        <AuroraFlow title="Omer Zaman" subtitle="Analytics Engineer" description="Building data pipelines that turn raw chaos into clean insights" />
       </HeroWrapper>
 
       <HeroWrapper label="3. Reuno Hero">

@@ -198,7 +198,7 @@ export default function ShaderShowcase() {
           >
             <div className="absolute top-0 left-1 right-1 h-px bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent rounded-full" />
             <span className="text-white/90 text-sm font-medium relative z-10 tracking-wide">
-              ✨ New Paper Shaders Experience
+              Analytics Engineer · Berlin
             </span>
           </motion.div>
 
@@ -226,10 +226,10 @@ export default function ShaderShowcase() {
                 ease: "linear",
               }}
             >
-              Beautiful
+              Omer
             </motion.span>
-            <span className="block font-black text-white drop-shadow-2xl">Shader</span>
-            <span className="block font-light text-white/80 italic">Experiences</span>
+            <span className="block font-black text-white drop-shadow-2xl">Zaman</span>
+            <span className="block font-light text-white/80 italic">Data · Pipelines · Insights</span>
           </motion.h1>
 
           <motion.p
@@ -238,8 +238,7 @@ export default function ShaderShowcase() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.8 }}
           >
-            Create stunning visual experiences with our advanced shader technology. Interactive lighting, smooth
-            animations, and beautiful effects that respond to your every move.
+            Building data pipelines that turn raw chaos into clean insights. From medallion architectures to automated reporting — I make data trustworthy.
           </motion.p>
 
           <motion.div

@@ -22,21 +22,21 @@ export default function WarpShaderHero() {
 
       <div className="relative z-10 min-h-screen flex items-center justify-center px-8">
         <div className="max-w-4xl w-full text-center space-y-8">
-          <h1 className="text-white text-5xl md:text-7xl font-sans font-light text-balance">
-            Elegant Shader Backgrounds
+          <p className="font-mono text-sm uppercase tracking-[0.3em] text-white/60">Analytics Engineer</p>
+          <h1 className="text-white text-6xl md:text-8xl lg:text-9xl font-sans font-bold tracking-tight mt-6">
+            Omer Zaman
           </h1>
 
-          <p className="text-white/90 text-xl md:text-2xl font-sans font-light leading-relaxed max-w-3xl mx-auto">
-            Beautiful, performant shader effects that enhance your content without overwhelming it. Perfect for hero
-            sections, landing pages, and modern web experiences.
+          <p className="text-white/70 text-lg md:text-xl font-sans font-light leading-relaxed max-w-xl mx-auto mt-8">
+            Building data pipelines that turn raw chaos into clean insights
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
             <button className="px-8 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full text-white font-medium hover:bg-white/30 transition-all duration-300 hover:scale-105">
-              Get Started
+              View my work
             </button>
             <button className="px-8 py-4 bg-white rounded-full text-gray-800 font-medium hover:scale-105 transition-transform duration-300">
-              View Examples
+              Get in touch
             </button>
           </div>
         </div>

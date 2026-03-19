@@ -148,55 +148,49 @@ const CameraController = () => {
 };
 
 // Main Hero Component
-export const Component = () => {
+export const Component = ({ title = "Aurora Flow", subtitle = "Digital Experience", description = "" }: { title?: string; subtitle?: string; description?: string }) => {
   return (
-    <div className="hero-container">
-      <div className="hero-canvas">
+    <div className="relative h-screen w-full overflow-hidden bg-black">
+      <div className="absolute inset-0">
         <Canvas
           camera={{ position: [0, 0, 30], fov: 75 }}
-          gl={{ 
-            antialias: true, 
+          gl={{
+            antialias: true,
             alpha: false,
             powerPreference: "high-performance"
           }}
         >
           <AuroraBackground />
           <CameraController />
-          
-          {/* Subtle lighting to enhance the aurora effect */}
           <ambientLight intensity={0.9} />
-          <pointLight 
-            position={[20, 20, 10]} 
-            intensity={0.8} 
+          <pointLight
+            position={[20, 20, 10]}
+            intensity={0.8}
             color="#00cccc"
             distance={100}
             decay={2}
           />
-          <pointLight 
-            position={[-20, -10, 5]} 
-            intensity={0.6} 
+          <pointLight
+            position={[-20, -10, 5]}
+            intensity={0.6}
             color="#00ff99"
             distance={80}
             decay={2}
           />
         </Canvas>
       </div>
-      
-      <div className="hero-content">
-        <div className="hero-text">
-          <h1 className="hero-title">
-            <span className="gradient-text">Aurora Flow</span>
-            <br />
-            Digital Experience
+
+      <div className="relative z-10 flex h-full items-center justify-center">
+        <div className="text-center px-6">
+          <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight">
+            <span className="bg-gradient-to-r from-cyan-400 via-emerald-400 to-cyan-300 bg-clip-text text-transparent">{title}</span>
           </h1>
-          <p className="hero-description">
-            Experience the mesmerizing beauty of digital aurora with flowing 
-            patterns and sparkling particles that dance across your screen.
-          </p>
-          <div className="hero-buttons">
-            <button className="btn-primary">Explore</button>
-            <button className="btn-secondary">Learn More</button>
-          </div>
+          {subtitle && (
+            <p className="mt-4 font-mono text-sm uppercase tracking-[0.3em] text-cyan-300/70">{subtitle}</p>
+          )}
+          {description && (
+            <p className="mt-6 mx-auto max-w-lg text-lg text-white/50">{description}</p>
+          )}
         </div>
       </div>
     </div>
