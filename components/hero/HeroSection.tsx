@@ -10,10 +10,7 @@ import { GlobeFallback } from "./GlobeFallback";
 
 const DataGlobe = dynamic(
   () => import("./DataGlobe").then((mod) => ({ default: mod.DataGlobe })),
-  {
-    ssr: false,
-    loading: () => <GlobeFallback />,
-  }
+  { ssr: false, loading: () => <GlobeFallback /> }
 );
 
 export function HeroSection() {
@@ -22,16 +19,25 @@ export function HeroSection() {
   const showGlobe = !isMobile && webglSupported;
 
   return (
-    <section className="relative flex h-screen items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-[#020617] to-[#0a0e1a]" />
+    <section className="section-dark relative flex h-screen items-center justify-center overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#020617] via-[#050810] to-[#0a0e1a]" />
       {showGlobe ? <DataGlobe /> : <GlobeFallback />}
 
-      <div className="relative z-10 text-center">
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
+      <div className="relative z-10 mx-auto max-w-5xl px-6 text-center">
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-5xl font-bold tracking-tight text-[#f1f5f9] md:text-7xl"
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="font-mono text-sm tracking-widest text-[#60a5fa] uppercase"
+        >
+          {bio.title}
+        </motion.p>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.3 }}
+          className="mt-6 text-6xl font-bold leading-[1.05] tracking-tight text-white md:text-8xl lg:text-9xl"
         >
           {bio.name}
         </motion.h1>
@@ -39,17 +45,8 @@ export function HeroSection() {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-4 font-mono text-lg text-[#60a5fa] md:text-xl"
-        >
-          {bio.title}
-        </motion.p>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-3 text-sm text-[#64748b] md:text-base"
+          transition={{ duration: 0.8, delay: 0.7 }}
+          className="mx-auto mt-8 max-w-xl text-lg text-[#94a3b8] md:text-xl"
         >
           {bio.tagline}
         </motion.p>
@@ -58,12 +55,12 @@ export function HeroSection() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.8 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        transition={{ delay: 1.5, duration: 0.8 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2"
       >
         <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
         >
           <ChevronDown className="h-6 w-6 text-[#64748b]" />
         </motion.div>

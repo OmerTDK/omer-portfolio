@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Github, Linkedin, Mail, Send } from "lucide-react";
-import { SectionWrapper } from "@/components/shared/SectionWrapper";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { links } from "@/lib/data";
 import { cn } from "@/lib/utils";
@@ -42,12 +41,15 @@ export function ContactSection() {
   }
 
   return (
-    <SectionWrapper
+    <section
       id="contact"
-      className="flex min-h-[80vh] flex-col items-center justify-center bg-gradient-to-b from-transparent to-[#020617]"
+      className="section-dark relative flex min-h-[80vh] flex-col items-center justify-center px-6 py-24 md:px-12 lg:px-24"
     >
+      <div className="glow-line absolute top-0 left-0 w-full" />
+
       <ScrollReveal>
-        <h2 className="text-center text-4xl font-bold text-[#f1f5f9] md:text-5xl">
+        <p className="text-center font-mono text-sm uppercase tracking-widest text-[#60a5fa]">Contact</p>
+        <h2 className="mt-4 text-center text-5xl font-bold text-white md:text-7xl">
           Let&apos;s Connect
         </h2>
       </ScrollReveal>
@@ -128,6 +130,6 @@ export function ContactSection() {
         <p>Built with Next.js, Three.js, and Framer Motion</p>
         <p className="mt-1">&copy; 2026 Omer Zaman</p>
       </footer>
-    </SectionWrapper>
+    </section>
   );
 }

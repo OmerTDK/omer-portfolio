@@ -102,10 +102,42 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
   html {
+    scroll-behavior: smooth;
     @apply font-sans;
   }
   ::selection {
     background-color: rgba(96, 165, 250, 0.3);
     color: #f1f5f9;
+  }
+}
+
+@layer utilities {
+  .section-dark {
+    background-color: #020617;
+  }
+  .section-base {
+    background-color: #050810;
+  }
+  .section-surface {
+    background-color: #0a0e1a;
+  }
+  .section-elevated {
+    background: linear-gradient(180deg, #0a0e1a 0%, #0f1629 100%);
+  }
+  .text-gradient-blue {
+    background: linear-gradient(135deg, #60a5fa 0%, #22d3ee 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .text-gradient-violet {
+    background: linear-gradient(135deg, #8b5cf6 0%, #60a5fa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .glow-line {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #60a5fa40, transparent);
   }
 }

@@ -1,72 +1,67 @@
-import { SectionWrapper } from "@/components/shared/SectionWrapper";
-import { ScrollReveal } from "@/components/shared/ScrollReveal";
+"use client";
+
+import { motion } from "motion/react";
 import { skills } from "@/lib/data";
-import { cn } from "@/lib/utils";
+import { ScrollReveal } from "@/components/shared/ScrollReveal";
 
 const categoryConfig = {
-  core: { label: "Core Stack", color: "#60a5fa", description: "Daily drivers" },
-  data: { label: "Data Science", color: "#8b5cf6", description: "ML & analysis" },
-  infra: { label: "Infrastructure", color: "#22d3ee", description: "Deploy & scale" },
-  viz: { label: "Visualization", color: "#f59e0b", description: "Tell the story" },
+  core: { label: "Core Stack", color: "#60a5fa" },
+  data: { label: "Data Science", color: "#8b5cf6" },
+  infra: { label: "Infrastructure", color: "#22d3ee" },
+  viz: { label: "Visualization", color: "#f59e0b" },
 } as const;
 
 export function SkillsSection() {
   const categories = ["core", "data", "infra", "viz"] as const;
 
   return (
-    <SectionWrapper id="skills">
-      <ScrollReveal>
-        <h2 className="text-4xl font-bold text-[#f1f5f9] md:text-5xl">
-          Skills & Tools
-        </h2>
-        <p className="mt-3 text-[#64748b]">Technologies I work with daily</p>
-      </ScrollReveal>
+    <section id="skills" className="section-surface relative">
+      <div className="glow-line w-full" />
 
-      {/* Bento grid */}
-      <div className="mx-auto mt-12 grid max-w-4xl gap-4 md:grid-cols-2">
-        {categories.map((cat, i) => {
-          const config = categoryConfig[cat];
-          const catSkills = skills.filter((s) => s.category === cat);
+      <div className="flex min-h-screen flex-col justify-center px-6 py-24 md:px-12 lg:px-24">
+        <div className="mx-auto max-w-6xl">
+          <ScrollReveal>
+            <p className="font-mono text-sm uppercase tracking-widest text-[#8b5cf6]">Skills</p>
+            <h2 className="mt-4 text-4xl font-bold leading-tight text-white md:text-6xl">
+              The tools I use to<br />
+              <span className="text-gradient-violet">turn data into decisions.</span>
+            </h2>
+          </ScrollReveal>
 
-          return (
-            <ScrollReveal key={cat} delay={i * 0.1}>
-              <div
-                className={cn(
-                  "group rounded-xl border border-[#1a2040] bg-[#0a0e1a]/60 p-6 backdrop-blur-sm",
-                  "transition-all hover:border-opacity-50",
-                  i === 0 && "md:col-span-2"
-                )}
-                style={{
-                  ["--accent" as string]: config.color,
-                }}
-              >
-                <div className="flex items-baseline justify-between">
-                  <h3 className="text-sm font-semibold" style={{ color: config.color }}>
-                    {config.label}
-                  </h3>
-                  <span className="text-xs text-[#64748b]">{config.description}</span>
-                </div>
+          <div className="mt-16 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {categories.map((cat, i) => {
+              const config = categoryConfig[cat];
+              const catSkills = skills.filter((s) => s.category === cat);
 
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {catSkills.map((skill) => (
-                    <span
-                      key={skill.name}
-                      className="rounded-md border px-3 py-1.5 text-sm font-medium transition-all hover:scale-105"
-                      style={{
-                        borderColor: `${config.color}25`,
-                        backgroundColor: `${config.color}08`,
-                        color: config.color,
-                      }}
-                    >
-                      {skill.name}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </ScrollReveal>
-          );
-        })}
+              return (
+                <ScrollReveal key={cat} delay={i * 0.1}>
+                  <div className="group h-full rounded-2xl border border-[#1a2040] bg-[#050810]/80 p-6 transition-all hover:border-[#60a5fa]/20">
+                    <h3 className="text-xs font-semibold uppercase tracking-wider" style={{ color: config.color }}>
+                      {config.label}
+                    </h3>
+
+                    <div className="mt-6 flex flex-col gap-3">
+                      {catSkills.map((skill) => (
+                        <motion.div
+                          key={skill.name}
+                          whileHover={{ x: 4 }}
+                          className="flex items-center gap-3"
+                        >
+                          <div
+                            className="h-1.5 w-1.5 rounded-full"
+                            style={{ backgroundColor: config.color }}
+                          />
+                          <span className="text-sm text-[#e2e8f0]">{skill.name}</span>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+                </ScrollReveal>
+              );
+            })}
+          </div>
+        </div>
       </div>
-    </SectionWrapper>
+    </section>
   );
 }
