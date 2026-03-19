@@ -45,6 +45,22 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  @keyframes aurora-glow {
+  0%, 100% {
+    text-shadow: 0 0 40px rgba(0, 200, 200, 0.5);
+    }
+  50% {
+    text-shadow: 0 0 60px rgba(0, 255, 153, 0.7);
+    }
+  }
+  @keyframes sparkle {
+  0%, 100% {
+    opacity: 0.7;
+    }
+  50% {
+    opacity: 1;
+    }
+  }
 }
 
 :root {
