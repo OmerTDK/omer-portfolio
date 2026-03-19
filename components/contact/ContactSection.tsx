@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Github, Linkedin, Mail, Send } from "lucide-react";
+import { MeshGradient } from "@paper-design/shaders-react";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { links } from "@/lib/data";
 import { cn } from "@/lib/utils";
@@ -43,8 +44,15 @@ export function ContactSection() {
   return (
     <section
       id="contact"
-      className="relative flex min-h-[80vh] flex-col items-center justify-center bg-[#141414] px-6 py-24 md:px-12 lg:px-24"
+      className="relative flex min-h-[80vh] flex-col items-center justify-center bg-[#141414] px-6 py-24 md:px-12 lg:px-24 overflow-hidden"
     >
+      <div className="absolute inset-0 opacity-30">
+        <MeshGradient
+          style={{ height: "100%", width: "100%" }}
+          colors={["#1a1a1a", "#60a5fa", "#1a1a1a", "#a78bfa", "#1a1a1a"]}
+          speed={0.2}
+        />
+      </div>
       <div className="section-divider absolute top-0 left-0 w-full" />
 
       <ScrollReveal>
