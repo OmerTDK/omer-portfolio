@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { ExternalLink } from "lucide-react";
 import type { Project } from "@/lib/data";
 
 interface ProjectCardProps {
@@ -38,6 +39,17 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           </span>
         ))}
       </div>
+      {project.github && (
+        <a
+          href={project.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
+          className="mt-3 inline-flex items-center gap-1 text-xs text-[#60a5fa] hover:underline"
+        >
+          View on GitHub <ExternalLink className="h-3 w-3" />
+        </a>
+      )}
       <AnimatePresence>
         {expanded && (
           <motion.div
