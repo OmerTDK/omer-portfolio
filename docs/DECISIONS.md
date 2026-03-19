@@ -68,6 +68,18 @@
 **Decision:** White background, neutral gray borders, black text — fully separate from dark version
 **Reason:** Matches Apple-like clean aesthetic. No dark mode, no glass effects — a completely different visual language.
 
+## [2026-03-20] Unique section layouts per version (not just color swaps)
+**Context:** Both versions had identical section layouts with just colors changed — felt like the same site
+**Options:** Shared components with theme props, fully separate pages
+**Decision:** Each version is a fully self-contained page with unique layouts per section
+**Reason:** The Paths version uses editorial layouts (tilted photo, horizontal pills, featured+compact cards, text links) while Reuno uses immersive layouts (glass panels, glowing grids, horizontal scroll timeline). They should feel like different websites.
+
+## [2026-03-20] Reuno palette: monochrome + subtle blue (Apple-like)
+**Context:** Original Reuno had vibrant cyan + orange — too colorful, not Apple-like
+**Options:** Keep vibrant, go monochrome, muted single accent
+**Decision:** Monochrome mesh gradient (`#000, #1a1a1a, #2a2a2a, #0a0a0a, #1e3a5f`) with blue-400 as single accent
+**Reason:** Apple product pages use near-monochrome with one subtle accent. Deep blacks with a barely-there blue feels premium and restrained.
+
 ## Standing decisions
 - **No "Co-Authored-By: Claude" in commits** — user preference
 - **Commit regularly** — document progress in git history

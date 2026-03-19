@@ -84,6 +84,32 @@ User shared inspiration sites:
 - Commit: `aa07015`
 - Live: https://omer-portfolio-ten.vercel.app
 
+## [2026-03-20] Phase 8: Unique section designs per version
+- **Paths version** completely rebuilt with light editorial aesthetic:
+  - Light hero (white bg, dark flowing SVG lines — fixed framer-motion import)
+  - Magazine-style About with tilted photo, two-tone heading, oversized stats
+  - Horizontal pill layout for Skills (category label → pills flow right)
+  - Featured + compact project cards with text-tab filters (animated underline)
+  - Clean left-aligned timeline with dot+line connectors
+  - Minimal centered contact with text social links
+  - Custom inline light nav (no shared Navbar component)
+- **Reuno version** completely rebuilt with dark immersive aesthetic:
+  - Floating glass panel About (photo+text+stats in one container)
+  - Glowing dot grid for Skills with color-coded categories
+  - Stronger glass project cards with glow on hover
+  - Horizontal scrolling timeline with snap points
+  - Glass form inputs with gradient submit button
+- Commits: `30aa284`, `ab7becc`
+
+## [2026-03-20] Phase 9: Apple-like refinement for Reuno
+- Changed mesh gradient from vibrant cyan/orange to monochrome with subtle blue
+  - New colors: `["#000000", "#1a1a1a", "#2a2a2a", "#0a0a0a", "#1e3a5f"]`
+  - Reduced dark overlay opacity for more gradient visibility
+- Swapped all accent colors: cyan → blue-400, orange → blue-300
+- Single muted blue accent throughout — much more Apple-like
+- Updated nav active state to match (blue-400)
+- Commit: `f32bece`
+
 ## Next steps
 - [ ] User picks final version based on feedback
 - [ ] Polish chosen version (animations, mobile, details)
