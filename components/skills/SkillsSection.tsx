@@ -15,14 +15,14 @@ export function SkillsSection() {
   const categories = ["core", "data", "infra", "viz"] as const;
 
   return (
-    <section id="skills" className="section-surface relative">
-      <div className="glow-line w-full" />
+    <section id="skills" className="relative bg-[#1e1e1e]">
+      <div className="section-divider w-full" />
 
       <div className="flex min-h-screen flex-col justify-center px-6 py-24 md:px-12 lg:px-24">
         <div className="mx-auto max-w-6xl">
           <ScrollReveal>
-            <p className="font-mono text-sm uppercase tracking-widest text-[#8b5cf6]">Skills</p>
-            <h2 className="mt-4 text-4xl font-bold leading-tight text-white md:text-6xl">
+            <p className="font-mono text-sm uppercase tracking-widest text-[#a78bfa]">Skills</p>
+            <h2 className="mt-4 text-4xl font-bold leading-tight text-[#f5f5f5] md:text-6xl">
               The tools I use to<br />
               <span className="text-gradient-violet">turn data into decisions.</span>
             </h2>
@@ -35,7 +35,7 @@ export function SkillsSection() {
 
               return (
                 <ScrollReveal key={cat} delay={i * 0.1}>
-                  <div className="group h-full rounded-2xl border border-[#1a2040] bg-[#050810]/80 p-6 transition-all hover:border-[#60a5fa]/20">
+                  <div className="group h-full glass glass-hover rounded-2xl p-6 transition-all">
                     <h3 className="text-xs font-semibold uppercase tracking-wider" style={{ color: config.color }}>
                       {config.label}
                     </h3>
@@ -51,7 +51,7 @@ export function SkillsSection() {
                             className="h-1.5 w-1.5 rounded-full"
                             style={{ backgroundColor: config.color }}
                           />
-                          <span className="text-sm text-[#e2e8f0]">{skill.name}</span>
+                          <span className="text-sm text-[#d4d4d4]">{skill.name}</span>
                         </motion.div>
                       ))}
                     </div>

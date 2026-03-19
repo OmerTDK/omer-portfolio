@@ -13,7 +13,7 @@ export function GlobeFallback() {
       Array.from({ length: 30 }, (_, i) => ({
         top: seededRandom(i * 3 + 1) * 100,
         left: seededRandom(i * 3 + 2) * 100,
-        color: i % 3 === 0 ? "#60a5fa" : i % 3 === 1 ? "#8b5cf6" : "#22d3ee",
+        color: i % 3 === 0 ? "#525252" : i % 3 === 1 ? "#60a5fa" : "#a78bfa",
         opacity: 0.3 + seededRandom(i * 3 + 3) * 0.4,
         duration: 3 + seededRandom(i * 5) * 4,
         delay: seededRandom(i * 7) * 5,
@@ -23,7 +23,7 @@ export function GlobeFallback() {
 
   return (
     <div className="absolute inset-0 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-[#020617] to-[#0a0e1a]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a1a] to-[#222222]" />
       <div className="absolute inset-0">
         {dots.map((dot, i) => (
           <div

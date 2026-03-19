@@ -43,19 +43,19 @@ export function ContactSection() {
   return (
     <section
       id="contact"
-      className="section-dark relative flex min-h-[80vh] flex-col items-center justify-center px-6 py-24 md:px-12 lg:px-24"
+      className="relative flex min-h-[80vh] flex-col items-center justify-center bg-[#141414] px-6 py-24 md:px-12 lg:px-24"
     >
-      <div className="glow-line absolute top-0 left-0 w-full" />
+      <div className="section-divider absolute top-0 left-0 w-full" />
 
       <ScrollReveal>
         <p className="text-center font-mono text-sm uppercase tracking-widest text-[#60a5fa]">Contact</p>
-        <h2 className="mt-4 text-center text-5xl font-bold text-white md:text-7xl">
+        <h2 className="mt-4 text-center text-5xl font-bold text-[#f5f5f5] md:text-7xl">
           Let&apos;s Connect
         </h2>
       </ScrollReveal>
 
       <ScrollReveal delay={0.1}>
-        <p className="mt-4 max-w-md text-center text-[#94a3b8]">
+        <p className="mt-4 max-w-md text-center text-[#a3a3a3]">
           Have a project in mind, a question about data, or just want to say hi?
         </p>
       </ScrollReveal>
@@ -70,21 +70,21 @@ export function ContactSection() {
               name="name"
               placeholder="Name"
               required
-              className="w-full rounded-lg border border-[#1a2040] bg-[#0a0e1a] px-4 py-3 text-sm text-[#f1f5f9] placeholder-[#64748b] outline-none transition-colors focus:border-[#60a5fa]/50"
+              className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-[#f5f5f5] placeholder-[#737373] outline-none transition-colors focus:border-white/25"
             />
             <input
               type="email"
               name="email"
               placeholder="Email"
               required
-              className="w-full rounded-lg border border-[#1a2040] bg-[#0a0e1a] px-4 py-3 text-sm text-[#f1f5f9] placeholder-[#64748b] outline-none transition-colors focus:border-[#60a5fa]/50"
+              className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-[#f5f5f5] placeholder-[#737373] outline-none transition-colors focus:border-white/25"
             />
             <textarea
               name="message"
               placeholder="Message"
               rows={4}
               required
-              className="w-full resize-none rounded-lg border border-[#1a2040] bg-[#0a0e1a] px-4 py-3 text-sm text-[#f1f5f9] placeholder-[#64748b] outline-none transition-colors focus:border-[#60a5fa]/50"
+              className="w-full resize-none rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-[#f5f5f5] placeholder-[#737373] outline-none transition-colors focus:border-white/25"
             />
             <button
               type="submit"
@@ -93,7 +93,7 @@ export function ContactSection() {
                 "inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-medium transition-all",
                 status === "sent"
                   ? "bg-green-500/20 text-green-400"
-                  : "bg-[#60a5fa] text-[#020617] hover:bg-[#60a5fa]/90"
+                  : "bg-[#f5f5f5] text-[#1a1a1a] hover:bg-[#e5e5e5]"
               )}
             >
               {status === "sending" && "Sending..."}
@@ -117,16 +117,16 @@ export function ContactSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="group flex h-12 w-12 items-center justify-center rounded-full border border-[#1a2040] bg-[#0a0e1a] transition-all hover:border-[#60a5fa]/40 hover:shadow-[0_0_20px_rgba(96,165,250,0.1)]"
+                className="group glass glass-hover flex h-12 w-12 items-center justify-center rounded-full transition-all"
               >
-                <Icon className="h-5 w-5 text-[#64748b] transition-colors group-hover:text-[#60a5fa]" />
+                <Icon className="h-5 w-5 text-[#737373] transition-colors group-hover:text-[#f5f5f5]" />
               </a>
             ))}
           </div>
         </div>
       </ScrollReveal>
 
-      <footer className="mt-24 text-center text-xs text-[#64748b]">
+      <footer className="mt-24 text-center text-xs text-[#737373]">
         <p>Built with Next.js, Three.js, and Framer Motion</p>
         <p className="mt-1">&copy; 2026 Omer Zaman</p>
       </footer>

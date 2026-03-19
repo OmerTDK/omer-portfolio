@@ -52,14 +52,14 @@ export function Navbar() {
       className={cn(
         "fixed top-0 z-50 w-full transition-colors duration-300",
         scrolled
-          ? "border-b border-[#1a2040] bg-[#050810]/90 backdrop-blur-md"
+          ? "glass"
           : "bg-transparent"
       )}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="font-mono text-sm font-medium text-[#60a5fa] transition-opacity hover:opacity-80"
+          className="font-mono text-sm font-medium text-[#f5f5f5] transition-opacity hover:opacity-80"
         >
           Omer
         </button>
@@ -74,7 +74,7 @@ export function Navbar() {
                 "text-sm transition-colors",
                 activeSection === section.id
                   ? "text-[#60a5fa]"
-                  : "text-[#64748b] hover:text-[#94a3b8]"
+                  : "text-[#737373] hover:text-[#a3a3a3]"
               )}
             >
               {section.label}
@@ -84,7 +84,7 @@ export function Navbar() {
 
         {/* Mobile hamburger */}
         <button
-          className="text-[#94a3b8] md:hidden"
+          className="text-[#a3a3a3] md:hidden"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
         >
@@ -99,7 +99,7 @@ export function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="border-b border-[#1a2040] bg-[#050810]/95 backdrop-blur-md md:hidden"
+            className="glass md:hidden"
           >
             <div className="flex flex-col gap-4 px-6 py-4">
               {sections.map((section) => (
@@ -110,7 +110,7 @@ export function Navbar() {
                     "text-left text-sm transition-colors",
                     activeSection === section.id
                       ? "text-[#60a5fa]"
-                      : "text-[#64748b]"
+                      : "text-[#737373]"
                   )}
                 >
                   {section.label}

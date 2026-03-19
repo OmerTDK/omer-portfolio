@@ -16,16 +16,16 @@ export function ProjectsSection() {
     : projects.filter((p) => p.category === activeCategory);
 
   return (
-    <section id="projects" className="section-base relative">
-      <div className="glow-line w-full" />
+    <section id="projects" className="relative bg-[#1a1a1a]">
+      <div className="section-divider w-full" />
 
       <div className="min-h-screen px-6 py-24 md:px-12 lg:px-24">
         <div className="mx-auto max-w-6xl">
           <ScrollReveal>
             <p className="font-mono text-sm uppercase tracking-widest text-[#22d3ee]">Projects</p>
-            <h2 className="mt-4 text-4xl font-bold leading-tight text-white md:text-6xl">
+            <h2 className="mt-4 text-4xl font-bold leading-tight text-[#f5f5f5] md:text-6xl">
               Things I&apos;ve built<br />
-              <span className="text-gradient-blue">and explored.</span>
+              <span className="text-gradient-cyan">and explored.</span>
             </h2>
           </ScrollReveal>
 
@@ -44,8 +44,8 @@ export function ProjectsSection() {
                   className={cn(
                     "rounded-full border px-5 py-2 text-sm font-medium transition-all",
                     activeCategory === cat.id
-                      ? "border-[#60a5fa]/50 bg-[#60a5fa]/10 text-[#60a5fa]"
-                      : "border-[#1a2040] text-[#64748b] hover:border-[#60a5fa]/30 hover:text-[#94a3b8]"
+                      ? "border-[#22d3ee]/40 bg-[#22d3ee]/10 text-[#22d3ee]"
+                      : "border-white/10 text-[#737373] hover:border-[#22d3ee]/30 hover:text-[#a3a3a3]"
                   )}
                 >
                   {cat.label}

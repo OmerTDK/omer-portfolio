@@ -3,10 +3,10 @@
 import { motion } from "motion/react";
 
 const stages = [
-  { label: "RAW", color: "#60a5fa" },
-  { label: "STG", color: "#8b5cf6" },
+  { label: "RAW", color: "#22d3ee" },
+  { label: "STG", color: "#22d3ee" },
   { label: "DWH", color: "#22d3ee" },
-  { label: "GOLD", color: "#60a5fa" },
+  { label: "GOLD", color: "#22d3ee" },
 ];
 
 export function PipelineFlow() {

@@ -14,7 +14,7 @@ interface Particle {
 
 const PARTICLE_COUNT = 50;
 const CONNECTION_DISTANCE = 120;
-const COLORS = ["#60a5fa", "#8b5cf6", "#22d3ee"];
+const COLORS = ["#525252", "#60a5fa", "#a78bfa"];
 
 export function ParticleBg() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -60,7 +60,7 @@ export function ParticleBg() {
         ctx!.beginPath();
         ctx!.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx!.fillStyle = p.color;
-        ctx!.globalAlpha = 0.6;
+        ctx!.globalAlpha = 0.3;
         ctx!.fill();
 
         for (let j = i + 1; j < particles.length; j++) {
@@ -74,7 +74,7 @@ export function ParticleBg() {
             ctx!.moveTo(p.x, p.y);
             ctx!.lineTo(q.x, q.y);
             ctx!.strokeStyle = p.color;
-            ctx!.globalAlpha = 0.1 * (1 - dist / CONNECTION_DISTANCE);
+            ctx!.globalAlpha = 0.04 * (1 - dist / CONNECTION_DISTANCE);
             ctx!.stroke();
           }
         }
