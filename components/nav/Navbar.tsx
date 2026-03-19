@@ -59,7 +59,7 @@ export function Navbar() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="font-mono text-sm font-medium text-[#f5f5f5] transition-opacity hover:opacity-80"
+          className="font-mono text-sm font-medium text-white/90 transition-opacity hover:opacity-80"
         >
           Omer
         </button>
@@ -73,8 +73,8 @@ export function Navbar() {
               className={cn(
                 "text-sm transition-colors",
                 activeSection === section.id
-                  ? "text-[#60a5fa]"
-                  : "text-[#737373] hover:text-[#a3a3a3]"
+                  ? "text-cyan-400"
+                  : "text-white/40 hover:text-white/70"
               )}
             >
               {section.label}
@@ -84,7 +84,7 @@ export function Navbar() {
 
         {/* Mobile hamburger */}
         <button
-          className="text-[#a3a3a3] md:hidden"
+          className="text-white/40 md:hidden"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
         >
@@ -109,8 +109,8 @@ export function Navbar() {
                   className={cn(
                     "text-left text-sm transition-colors",
                     activeSection === section.id
-                      ? "text-[#60a5fa]"
-                      : "text-[#737373]"
+                      ? "text-cyan-400"
+                      : "text-white/40"
                   )}
                 >
                   {section.label}

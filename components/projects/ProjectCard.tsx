@@ -19,22 +19,22 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="glass glass-hover rounded-xl p-6 cursor-pointer transition-all"
+      className="glass glass-hover rounded-xl p-6 cursor-pointer transition-all h-full"
       onClick={() => setExpanded(!expanded)}
     >
       <div className="flex items-start justify-between">
         <div>
-          <h3 className="text-lg font-semibold text-[#f5f5f5]">{project.title}</h3>
-          <p className="mt-2 text-sm leading-relaxed text-[#a3a3a3]">{project.description}</p>
+          <h3 className="text-lg font-semibold text-white">{project.title}</h3>
+          <p className="mt-2 text-sm leading-relaxed text-white/50">{project.description}</p>
         </div>
         <div className="ml-4 text-right">
-          <span className="font-mono text-2xl font-bold text-[#22d3ee]">{project.metric}</span>
-          <p className="text-xs text-[#737373]">{project.metricLabel}</p>
+          <span className="font-mono text-2xl font-bold text-cyan-400">{project.metric}</span>
+          <p className="text-xs text-white/30">{project.metricLabel}</p>
         </div>
       </div>
       <div className="mt-4 flex flex-wrap gap-2">
         {project.tags.map((tag) => (
-          <span key={tag} className="rounded-full border border-white/5 bg-white/5 px-2.5 py-0.5 text-xs text-[#737373]">
+          <span key={tag} className="rounded-full border border-white/5 bg-white/5 px-2.5 py-0.5 text-xs text-white/40">
             {tag}
           </span>
         ))}
@@ -45,7 +45,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           target="_blank"
           rel="noopener noreferrer"
           onClick={(e) => e.stopPropagation()}
-          className="mt-3 inline-flex items-center gap-1 text-xs text-[#22d3ee] hover:underline"
+          className="mt-3 inline-flex items-center gap-1 text-xs text-cyan-400 hover:underline"
         >
           View on GitHub <ExternalLink className="h-3 w-3" />
         </a>
@@ -59,7 +59,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
           >
-            <p className="mt-4 border-t border-white/5 pt-4 text-sm leading-relaxed text-[#a3a3a3]">
+            <p className="mt-4 border-t border-white/5 pt-4 text-sm leading-relaxed text-white/50">
               {project.longDescription}
             </p>
           </motion.div>

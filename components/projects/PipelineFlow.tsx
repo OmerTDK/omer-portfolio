@@ -3,10 +3,10 @@
 import { motion } from "motion/react";
 
 const stages = [
-  { label: "RAW", color: "#22d3ee" },
-  { label: "STG", color: "#22d3ee" },
+  { label: "RAW", color: "#06b6d4" },
+  { label: "STG", color: "#0891b2" },
   { label: "DWH", color: "#22d3ee" },
-  { label: "GOLD", color: "#22d3ee" },
+  { label: "GOLD", color: "#06b6d4" },
 ];
 
 export function PipelineFlow() {
@@ -34,8 +34,7 @@ export function PipelineFlow() {
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.3, delay: i * 0.15 + 0.2 }}
-              className="h-0.5 w-6 origin-left md:w-12"
-              style={{ backgroundColor: `${stage.color}30` }}
+              className="h-0.5 w-6 origin-left bg-white/10 md:w-12"
             />
           )}
         </div>
