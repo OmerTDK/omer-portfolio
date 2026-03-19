@@ -35,6 +35,22 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body className="font-sans antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Omer Zaman",
+              jobTitle: "Analytics Engineer",
+              url: "https://omerzaman.com",
+              sameAs: [
+                "https://github.com/OmerTDK",
+                "https://linkedin.com/in/omerzaman",
+              ],
+            }),
+          }}
+        />
         <a
           href="#about"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded focus:bg-[#60a5fa] focus:px-4 focus:py-2 focus:text-[#020617]"
