@@ -73,7 +73,7 @@ export function Navbar() {
               className={cn(
                 "text-sm transition-colors",
                 activeSection === section.id
-                  ? "text-cyan-400"
+                  ? "text-blue-400"
                   : "text-white/40 hover:text-white/70"
               )}
             >
@@ -109,7 +109,7 @@ export function Navbar() {
                   className={cn(
                     "text-left text-sm transition-colors",
                     activeSection === section.id
-                      ? "text-cyan-400"
+                      ? "text-blue-400"
                       : "text-white/40"
                   )}
                 >

@@ -39,7 +39,7 @@ function HeroContent() {
           <span
             className="block"
             style={{
-              background: "linear-gradient(135deg, #ffffff 0%, #06b6d4 40%, #f97316 70%, #ffffff 100%)",
+              background: "linear-gradient(135deg, #ffffff 0%, #60a5fa 40%, #93c5fd 70%, #ffffff 100%)",
               backgroundSize: "200% 200%",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
@@ -74,7 +74,7 @@ function HeroContent() {
           </a>
           <a
             href="#contact"
-            className="px-8 py-3 rounded-full bg-gradient-to-r from-cyan-500 to-orange-500 text-white text-sm font-semibold hover:from-cyan-400 hover:to-orange-400 transition-all duration-300 shadow-lg hover:shadow-xl"
+            className="px-8 py-3 rounded-full bg-gradient-to-r from-blue-500 to-blue-300 text-white text-sm font-semibold hover:from-blue-400 hover:to-blue-300 transition-all duration-300 shadow-lg hover:shadow-xl"
           >
             Get in touch
           </a>
@@ -118,7 +118,7 @@ function AboutSection() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="glass rounded-3xl p-8 md:p-12"
           >
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-400 mb-8">About</p>
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-400 mb-8">About</p>
 
             <div className="grid gap-10 md:grid-cols-[240px_1fr] md:items-start">
               {/* Photo */}
@@ -145,11 +145,11 @@ function AboutSection() {
 
                 <div className="mt-6 flex flex-wrap gap-6">
                   <span className="inline-flex items-center gap-2 text-sm text-white/50">
-                    <MapPin className="h-3.5 w-3.5 text-cyan-400" />
+                    <MapPin className="h-3.5 w-3.5 text-blue-400" />
                     {bio.location}
                   </span>
                   <span className="inline-flex items-center gap-2 text-sm text-white/50">
-                    <GraduationCap className="h-3.5 w-3.5 text-orange-400" />
+                    <GraduationCap className="h-3.5 w-3.5 text-blue-300" />
                     {bio.education}
                   </span>
                 </div>
@@ -180,8 +180,8 @@ function AboutSection() {
    --------------------------------------------------------------------------- */
 
 const skillCategoryConfig = {
-  core: { label: "Core Stack", color: "#06b6d4" },
-  data: { label: "Data Science", color: "#f97316" },
+  core: { label: "Core Stack", color: "#60a5fa" },
+  data: { label: "Data Science", color: "#93c5fd" },
   infra: { label: "Infrastructure", color: "#22d3ee" },
   viz: { label: "Visualization", color: "#fb923c" },
 } as const;
@@ -194,7 +194,7 @@ function SkillsSection() {
       <div className="section-divider mb-24" />
       <div className="mx-auto max-w-6xl">
         <ScrollReveal>
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-orange-400">Skills</p>
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-300">Skills</p>
           <h2 className="mt-4 text-4xl font-bold leading-tight text-white md:text-5xl">
             The tools I use to turn data into decisions.
           </h2>
@@ -245,10 +245,10 @@ function SkillsSection() {
    --------------------------------------------------------------------------- */
 
 const pipelineStages = [
-  { label: "RAW", color: "#06b6d4" },
+  { label: "RAW", color: "#60a5fa" },
   { label: "STG", color: "#0891b2" },
   { label: "DWH", color: "#22d3ee" },
-  { label: "GOLD", color: "#06b6d4" },
+  { label: "GOLD", color: "#60a5fa" },
 ];
 
 function GlowProjectCard({ project, index }: { project: Project; index: number }) {
@@ -261,7 +261,7 @@ function GlowProjectCard({ project, index }: { project: Project; index: number }
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.08 }}
       onClick={() => setExpanded(!expanded)}
-      className="group cursor-pointer rounded-2xl border border-white/[0.06] bg-white/[0.03] backdrop-blur-sm p-6 transition-all duration-300 hover:border-cyan-400/20 hover:bg-white/[0.06] hover:shadow-[0_0_30px_rgba(6,182,212,0.08)] h-full"
+      className="group cursor-pointer rounded-2xl border border-white/[0.06] bg-white/[0.03] backdrop-blur-sm p-6 transition-all duration-300 hover:border-blue-400/20 hover:bg-white/[0.06] hover:shadow-[0_0_30px_rgba(6,182,212,0.08)] h-full"
     >
       <div className="flex items-start justify-between">
         <div>
@@ -271,7 +271,7 @@ function GlowProjectCard({ project, index }: { project: Project; index: number }
           <p className="mt-2 text-sm leading-relaxed text-white/50">{project.description}</p>
         </div>
         <div className="ml-4 text-right shrink-0">
-          <span className="font-mono text-2xl font-bold text-cyan-400">{project.metric}</span>
+          <span className="font-mono text-2xl font-bold text-blue-400">{project.metric}</span>
           <p className="text-xs text-white/30">{project.metricLabel}</p>
         </div>
       </div>
@@ -291,7 +291,7 @@ function GlowProjectCard({ project, index }: { project: Project; index: number }
           target="_blank"
           rel="noopener noreferrer"
           onClick={(e) => e.stopPropagation()}
-          className="mt-3 inline-flex items-center gap-1 text-xs text-cyan-400 hover:underline"
+          className="mt-3 inline-flex items-center gap-1 text-xs text-blue-400 hover:underline"
         >
           View on GitHub <ExternalLink className="h-3 w-3" />
         </a>
@@ -325,7 +325,7 @@ function ProjectsSection() {
       <div className="section-divider mb-24" />
       <div className="mx-auto max-w-6xl">
         <ScrollReveal>
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-400">Projects</p>
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-400">Projects</p>
           <h2 className="mt-4 text-4xl font-bold leading-tight text-white md:text-5xl">
             Things I&apos;ve built and explored.
           </h2>
@@ -379,7 +379,7 @@ function ProjectsSection() {
                 className={cn(
                   "rounded-full border px-5 py-2 text-sm font-medium transition-all",
                   activeCategory === cat.id
-                    ? "border-cyan-400/40 bg-cyan-400/10 text-cyan-400"
+                    ? "border-blue-400/40 bg-blue-400/10 text-blue-400"
                     : "border-white/10 text-white/40 hover:border-white/20 hover:text-white/60"
                 )}
               >
@@ -421,7 +421,7 @@ function ExperienceSection() {
       <div className="section-divider mb-24" />
       <div className="mx-auto max-w-6xl">
         <ScrollReveal>
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-orange-400">Experience</p>
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-300">Experience</p>
           <h2 className="mt-4 text-4xl font-bold leading-tight text-white md:text-5xl">
             Where I&apos;ve been. What I&apos;ve built.
           </h2>
@@ -450,8 +450,8 @@ function ExperienceSection() {
                     className={cn(
                       "absolute top-4 left-6 h-4 w-4 rounded-full border-2",
                       entry.isCurrent
-                        ? "border-cyan-400 bg-cyan-400/30"
-                        : "border-orange-400 bg-orange-400/20"
+                        ? "border-blue-400 bg-blue-400/30"
+                        : "border-blue-300 bg-blue-300/20"
                     )}
                     style={{
                       boxShadow: entry.isCurrent
@@ -464,7 +464,7 @@ function ExperienceSection() {
                     className={cn(
                       "rounded-2xl border p-6 backdrop-blur-sm h-full",
                       entry.isCurrent
-                        ? "border-cyan-400/20 bg-white/[0.04]"
+                        ? "border-blue-400/20 bg-white/[0.04]"
                         : "border-white/[0.06] bg-white/[0.02]"
                     )}
                     style={
@@ -473,7 +473,7 @@ function ExperienceSection() {
                         : undefined
                     }
                   >
-                    <p className="font-mono text-sm text-cyan-400">{entry.date}</p>
+                    <p className="font-mono text-sm text-blue-400">{entry.date}</p>
                     <h3 className="mt-2 text-lg font-semibold text-white">{entry.role}</h3>
                     <p className="text-sm font-medium text-white/40">{entry.company}</p>
                     <p className="mt-3 text-sm leading-relaxed text-white/50">{entry.description}</p>
@@ -522,7 +522,7 @@ function ContactSection() {
       <div className="section-divider mb-24" />
       <div className="mx-auto max-w-2xl text-center">
         <ScrollReveal>
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-400">Contact</p>
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-400">Contact</p>
           <h2 className="mt-4 text-4xl font-bold text-white md:text-5xl">Let&apos;s Connect</h2>
         </ScrollReveal>
 
@@ -539,21 +539,21 @@ function ContactSection() {
               name="name"
               placeholder="Name"
               required
-              className="w-full rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-cyan-400/30 transition-colors"
+              className="w-full rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-blue-400/30 transition-colors"
             />
             <input
               type="email"
               name="email"
               placeholder="Email"
               required
-              className="w-full rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-cyan-400/30 transition-colors"
+              className="w-full rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-blue-400/30 transition-colors"
             />
             <textarea
               name="message"
               placeholder="Message"
               rows={4}
               required
-              className="w-full resize-none rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-cyan-400/30 transition-colors"
+              className="w-full resize-none rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-blue-400/30 transition-colors"
             />
             <button
               type="submit"
@@ -562,7 +562,7 @@ function ContactSection() {
                 "inline-flex items-center gap-2 rounded-full px-8 py-3 text-sm font-medium transition-all",
                 status === "sent"
                   ? "bg-emerald-500/20 text-emerald-400"
-                  : "bg-gradient-to-r from-cyan-500 to-orange-500 text-white hover:from-cyan-400 hover:to-orange-400"
+                  : "bg-gradient-to-r from-blue-500 to-blue-300 text-white hover:from-blue-400 hover:to-blue-300"
               )}
             >
               {status === "sending" && "Sending..."}
@@ -619,10 +619,10 @@ export default function ReunoPage() {
       <div className="fixed inset-0 z-0">
         <MeshGradient
           style={{ height: "100%", width: "100%" }}
-          colors={["#000000", "#06b6d4", "#0891b2", "#164e63", "#f97316"]}
-          speed={0.15}
+          colors={["#000000", "#1a1a1a", "#2a2a2a", "#0a0a0a", "#1e3a5f"]}
+          speed={0.1}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/70 to-black/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/60" />
       </div>
 
       <div className="relative z-10">
