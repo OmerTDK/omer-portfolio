@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://omerzaman.com"),
   title: "Omer Zaman | Analytics Engineer",
   description:
     "Analytics engineer specializing in data engineering, data science, and data analytics workflows. Building scalable data pipelines with BigQuery, dbt, and Python.",
