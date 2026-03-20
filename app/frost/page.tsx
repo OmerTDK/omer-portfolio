@@ -317,16 +317,14 @@ function HeroContent() {
   return (
     <section className="relative flex min-h-screen items-center justify-center px-6">
       <div className="relative z-10 text-center max-w-5xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/85 backdrop-blur-xl px-4 py-1.5 mb-8 shadow-sm shadow-black/8"
+          className="font-mono text-sm uppercase tracking-[0.3em] text-neutral-400 mb-8"
         >
-          <span className="text-neutral-500 text-xs font-medium tracking-wide">
-            Analytics Engineer &middot; Berlin
-          </span>
-        </motion.div>
+          Analytics Engineer
+        </motion.p>
 
         <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter text-neutral-900">
           <AnimatedName text="Omer Zaman" startDelay={0.3} className="inline" />
