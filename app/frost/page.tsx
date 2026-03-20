@@ -635,16 +635,12 @@ function CategoryIcon({ category, className }: { category: string; className?: s
   return <>{icons[category] || null}</>;
 }
 
-function FrostProjectCard({ project, index, featured }: { project: Project; index: number; featured?: boolean }) {
-  const [expanded, setExpanded] = useState(false);
-
+function FrostProjectCard({ project, index, featured, onSelect }: { project: Project; index: number; featured?: boolean; onSelect?: (p: Project) => void }) {
   const cardInner = (
     <div
-      onClick={() => setExpanded(!expanded)}
+      onClick={() => onSelect?.(project)}
       className="group cursor-pointer transition-all duration-300"
     >
-      {/* No gradient header — clean top */}
-
       <div className="flex items-start justify-between">
         <div>
           <div className="flex items-center gap-2">
@@ -662,11 +658,6 @@ function FrostProjectCard({ project, index, featured }: { project: Project; inde
           )}>
             {project.description}
           </p>
-          {featured && (
-            <p className="mt-3 text-sm leading-relaxed text-neutral-500">
-              {project.longDescription}
-            </p>
-          )}
         </div>
         <div className="ml-4 text-right shrink-0">
           <span className={cn(
@@ -699,23 +690,6 @@ function FrostProjectCard({ project, index, featured }: { project: Project; inde
           View on GitHub <ExternalLink className="h-3 w-3" />
         </a>
       )}
-      {!featured && (
-        <AnimatePresence>
-          {expanded && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="overflow-hidden"
-            >
-              <p className="mt-4 border-t border-neutral-200/50 pt-4 text-sm leading-relaxed text-neutral-500">
-                {project.longDescription}
-              </p>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      )}
     </div>
   );
 
@@ -734,6 +708,85 @@ function FrostProjectCard({ project, index, featured }: { project: Project; inde
   );
 }
 
+function ProjectModal({ project, onClose }: { project: Project | null; onClose: () => void }) {
+  if (!project) return null;
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-50 flex items-end justify-center sm:items-center"
+        onClick={onClose}
+      >
+        <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" />
+
+        <motion.div
+          initial={{ y: "100%", opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: "100%", opacity: 0 }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          onClick={(e) => e.stopPropagation()}
+          className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-t-3xl sm:rounded-3xl bg-white/90 backdrop-blur-2xl border border-white/60 shadow-2xl shadow-black/10 p-8 sm:p-10"
+        >
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 h-8 w-8 flex items-center justify-center rounded-full bg-neutral-100 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-200 transition-colors"
+          >
+            <X className="h-4 w-4" />
+          </button>
+
+          <div className="flex items-center gap-2 mb-4">
+            <span className="text-blue-600">{categoryIcons[project.category]}</span>
+            <span className="text-xs font-medium uppercase tracking-wider text-neutral-500">
+              {project.category === "engineering" ? "Data Engineering" : project.category === "science" ? "Data Science" : "Analytics"}
+            </span>
+          </div>
+
+          <div className="flex items-start justify-between gap-4">
+            <h2 className="text-2xl font-bold text-neutral-900 sm:text-3xl">{project.title}</h2>
+            <div className="text-right shrink-0">
+              <span className="font-mono text-3xl font-bold text-blue-600">{project.metric}</span>
+              <p className="text-xs text-neutral-500">{project.metricLabel}</p>
+            </div>
+          </div>
+
+          <p className="mt-4 text-base leading-relaxed text-neutral-600">{project.description}</p>
+
+          <div className="my-6 h-px bg-neutral-200/60" />
+
+          <h3 className="text-sm font-semibold text-neutral-900 mb-3">Details</h3>
+          <p className="text-sm leading-relaxed text-neutral-500">{project.longDescription}</p>
+
+          <div className="mt-6">
+            <h3 className="text-sm font-semibold text-neutral-900 mb-3">Tech Stack</h3>
+            <div className="flex flex-wrap gap-2">
+              {project.tags.map((tag) => (
+                <span key={tag} className="rounded-full bg-neutral-100 border border-neutral-200 px-3 py-1 text-xs font-medium text-neutral-600">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {project.github && (
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex items-center gap-2 rounded-full bg-neutral-900 px-6 py-2.5 text-sm font-medium text-white hover:bg-neutral-800 transition-colors"
+            >
+              <Github className="h-4 w-4" />
+              View on GitHub
+            </a>
+          )}
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
 const filterTabDescriptions: Record<string, string> = {
   all: "Everything I've built",
   engineering: "Pipelines, models, infrastructure",
@@ -743,6 +796,7 @@ const filterTabDescriptions: Record<string, string> = {
 
 function ProjectsSection() {
   const [activeCategory, setActiveCategory] = useState("all");
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const filtered =
     activeCategory === "all" ? projects : projects.filter((p) => p.category === activeCategory);
 
@@ -807,7 +861,7 @@ function ProjectsSection() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.3, delay: i * 0.05 }}
               >
-                <FrostProjectCard project={project} index={i} featured />
+                <FrostProjectCard project={project} index={i} featured onSelect={setSelectedProject} />
               </motion.div>
             ))}
           </AnimatePresence>
@@ -825,12 +879,14 @@ function ProjectsSection() {
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.3, delay: (i + 3) * 0.05 }}
                 >
-                  <FrostProjectCard project={project} index={i + 3} />
+                  <FrostProjectCard project={project} index={i + 3} onSelect={setSelectedProject} />
                 </motion.div>
               ))}
             </AnimatePresence>
           </div>
         )}
+
+        <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
       </div>
     </section>
   );
