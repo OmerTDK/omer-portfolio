@@ -35,12 +35,12 @@ import type { Project } from "@/lib/data";
    --------------------------------------------------------------------------- */
 
 const sectionColorMap: Record<string, string[]> = {
-  hero:       ["#ffffff", "#ffffff", "#e0e7ff", "#f3e8ff", "#dbeafe"],
-  about:      ["#ffffff", "#ffffff", "#dbeafe", "#ede9fe", "#c7d2fe"],
-  skills:     ["#ffffff", "#ffffff", "#c7d2fe", "#e9d5ff", "#bfdbfe"],
-  projects:   ["#ffffff", "#ffffff", "#bfdbfe", "#ddd6fe", "#a5b4fc"],
-  experience: ["#ffffff", "#ffffff", "#c7d2fe", "#e9d5ff", "#bfdbfe"],
-  contact:    ["#ffffff", "#ffffff", "#e0e7ff", "#f3e8ff", "#dbeafe"],
+  hero:       ["#ffffff", "#e0e7ff", "#c7d2fe", "#e9d5ff", "#bfdbfe"],
+  about:      ["#ffffff", "#dbeafe", "#a5b4fc", "#ddd6fe", "#93c5fd"],
+  skills:     ["#ffffff", "#c7d2fe", "#a78bfa", "#c4b5fd", "#7dd3fc"],
+  projects:   ["#ffffff", "#bfdbfe", "#818cf8", "#c084fc", "#6366f1"],
+  experience: ["#ffffff", "#c7d2fe", "#a78bfa", "#c4b5fd", "#93c5fd"],
+  contact:    ["#ffffff", "#e0e7ff", "#c7d2fe", "#e9d5ff", "#bfdbfe"],
 };
 
 const sectionIds = ["about", "skills", "projects", "experience", "contact"];
@@ -142,10 +142,10 @@ function DynamicMeshBackground() {
         <MeshGradient
           style={{ height: "100%", width: "100%" }}
           colors={colors}
-          speed={0.8}
+          speed={1.2}
         />
       </div>
-      <div className="absolute inset-0 bg-white/40" />
+      <div className="absolute inset-0 bg-white/25" />
     </div>
   );
 }
@@ -448,7 +448,7 @@ function HeroContent() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="font-mono text-sm uppercase tracking-[0.3em] text-neutral-400 mb-8"
+          className="font-mono text-base md:text-lg uppercase tracking-[0.3em] text-neutral-400 mb-8"
         >
           Analytics Engineer
         </motion.p>
@@ -982,28 +982,28 @@ function ProjectDiagram({ title }: { title: string }) {
 
 function ProjectModal({ project, onClose }: { project: Project | null; onClose: () => void }) {
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       {project && (
         <motion.div
           key="modal-backdrop"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
           className="fixed inset-0 z-50 flex items-end justify-center sm:items-center"
           onClick={onClose}
         >
-          {/* Backdrop overlay — CSS transition handles smooth blur */}
-          <div
-            className="absolute inset-0 backdrop-blur-md bg-black/15 transition-all duration-500 ease-out"
+          {/* Backdrop — separate motion for silky smooth blur fade */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute inset-0 backdrop-blur-xl bg-white/30"
           />
 
           {/* Modal sheet */}
           <motion.div
-            initial={{ y: 60, opacity: 0, scale: 0.97 }}
+            initial={{ y: 80, opacity: 0, scale: 0.95 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
-            exit={{ y: 40, opacity: 0, scale: 0.98 }}
-            transition={{ type: "spring", stiffness: 260, damping: 28, mass: 0.8 }}
+            exit={{ y: 60, opacity: 0, scale: 0.97 }}
+            transition={{ type: "spring", stiffness: 200, damping: 30, mass: 0.8 }}
             onClick={(e) => e.stopPropagation()}
             className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-t-3xl sm:rounded-3xl bg-white/92 backdrop-blur-2xl border border-white/60 shadow-2xl shadow-black/10 p-8 sm:p-10"
           >
