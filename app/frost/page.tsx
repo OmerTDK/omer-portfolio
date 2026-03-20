@@ -25,7 +25,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import NumberFlow from "@number-flow/react";
 // Dock component removed — caused runtime crash. Using custom dock instead.
-import { GlowingEffect } from "@/components/ui/glowing-effect";
+import { GlowCard } from "@/components/spotlight-card";
 import { Globe } from "@/components/ui/globe";
 import type { Project } from "@/lib/data";
 
@@ -468,15 +468,13 @@ function AboutSection() {
     <section id="about" className="relative px-6 py-32 md:px-12 lg:px-24">
       <div className="mx-auto max-w-5xl">
         <ScrollReveal>
-          <div className="relative rounded-3xl">
-            <GlowingEffect spread={60} glow={true} disabled={false} proximity={80} />
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="relative rounded-3xl bg-white/70 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 shadow-[0_8px_32px_rgba(0,0,0,0.08)] p-8 md:p-12"
           >
+          <GlowCard customSize glowColor="blue" className="rounded-3xl bg-white/70 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 p-8 md:p-12">
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600 mb-8">About</p>
 
             <div className="grid gap-10 md:grid-cols-[240px_1fr] md:items-start">
@@ -530,8 +528,8 @@ function AboutSection() {
                 />
               ))}
             </div>
+          </GlowCard>
           </motion.div>
-          </div>
         </ScrollReveal>
       </div>
     </section>
@@ -685,19 +683,10 @@ function CategoryIcon({ category, className }: { category: string; className?: s
 function FrostProjectCard({ project, index, featured }: { project: Project; index: number; featured?: boolean }) {
   const [expanded, setExpanded] = useState(false);
 
-  const cardContent = (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.08 }}
+  const cardInner = (
+    <div
       onClick={() => setExpanded(!expanded)}
-      className={cn(
-        "group cursor-pointer backdrop-blur-xl transition-all duration-300 h-full overflow-hidden",
-        featured
-          ? "relative bg-white/70 border border-white/60 shadow-lg shadow-black/8 shadow-[0_8px_32px_rgba(0,0,0,0.08)] rounded-2xl p-8 hover:bg-white/80 hover:shadow-xl"
-          : "bg-white/70 border border-white/60 shadow-sm shadow-black/8 rounded-xl p-6 hover:bg-white/80 hover:shadow-md"
-      )}
+      className="group cursor-pointer transition-all duration-300"
     >
       <div className={cn(
         "flex items-center justify-center bg-gradient-to-br",
@@ -786,19 +775,22 @@ function FrostProjectCard({ project, index, featured }: { project: Project; inde
           )}
         </AnimatePresence>
       )}
-    </motion.div>
+    </div>
   );
 
   if (featured) {
     return (
-      <div className="relative rounded-2xl">
-        <GlowingEffect spread={40} glow={true} disabled={false} proximity={60} />
-        {cardContent}
-      </div>
+      <GlowCard customSize glowColor="blue" className="rounded-2xl bg-white/70 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 p-8 h-full overflow-hidden hover:bg-white/80 hover:shadow-xl">
+        {cardInner}
+      </GlowCard>
     );
   }
 
-  return cardContent;
+  return (
+    <GlowCard customSize glowColor="purple" className="rounded-xl bg-white/70 backdrop-blur-xl border border-white/60 shadow-sm shadow-black/8 p-6 h-full overflow-hidden hover:bg-white/80 hover:shadow-md">
+      {cardInner}
+    </GlowCard>
+  );
 }
 
 const filterTabDescriptions: Record<string, string> = {
@@ -1020,8 +1012,10 @@ function TestimonialsSection() {
           {[...testimonials, ...testimonials].map((t, i) => {
             const initials = t.name.split(" ").map(n => n[0]).join("").slice(0, 2);
             return (
-              <div
+              <GlowCard
                 key={i}
+                customSize
+                glowColor="blue"
                 className="shrink-0 w-[350px] rounded-2xl bg-white/70 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 p-6"
               >
                 <p className="text-sm leading-relaxed text-neutral-600 italic">&ldquo;{t.quote}&rdquo;</p>
@@ -1050,7 +1044,7 @@ function TestimonialsSection() {
                     <p className="text-xs text-neutral-400">{t.role}</p>
                   </div>
                 </div>
-              </div>
+              </GlowCard>
             );
           })}
         </div>
