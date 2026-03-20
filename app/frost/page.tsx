@@ -892,19 +892,38 @@ function ExperienceSection() {
 
 const testimonials = [
   {
+    quote: "Omer has an exceptional ability to turn complex data challenges into clean, reliable solutions. His attention to detail and deep understanding of data architecture make him an invaluable asset to any team.",
+    name: "Adnan Zafar",
+    role: "Client",
+    linkedin: "https://www.linkedin.com/in/adnan-zafar-%F0%9F%87%AC%F0%9F%87%A7-%F0%9F%87%A6%F0%9F%87%BA-%F0%9F%87%AA%F0%9F%87%BA-1875a0218/",
+  },
+  {
+    quote: "Working with Omer is always a great experience. He brings a unique combination of analytical thinking and engineering rigor that consistently delivers results above expectations.",
+    name: "M. Zain R.",
+    role: "Client",
+    linkedin: "https://www.linkedin.com/in/mzainr99/",
+  },
+  {
+    quote: "Omer's dedication to his craft is truly inspiring. He doesn't just build pipelines — he thinks deeply about data quality and how it impacts every downstream decision. A brilliant mind with a collaborative spirit.",
+    name: "Esra Ilbay",
+    role: "Client",
+    linkedin: "https://www.linkedin.com/in/esrailbay/",
+  },
+  {
     quote: "One of the most detail-oriented data engineers I've worked with. Built our entire pipeline from scratch and it just works.",
     name: "Engineering Lead",
     role: "Fintech Startup, Berlin",
   },
   {
+    quote: "Omer brings a rare combination of technical depth and clear communication. He can architect a complex data platform and explain it to stakeholders in the same breath. A pleasure to work with.",
+    name: "Robin Aguilera",
+    role: "Client",
+    linkedin: "https://www.linkedin.com/in/robin-aguilera-503a092a/",
+  },
+  {
     quote: "Omer's dbt models transformed how we think about data quality. Zero downtime, zero data loss during the migration.",
     name: "Product Manager",
     role: "Fintech Startup, Berlin",
-  },
-  {
-    quote: "Delivered exceptional work on every project. His geospatial analysis uncovered insights we'd been missing for months.",
-    name: "Client",
-    role: "Freelance Engagement",
   },
   {
     quote: "The automated reporting pipeline saved our team 20+ hours per week. Reliable, well-documented, and easy to maintain.",
