@@ -287,7 +287,57 @@ function CursorGlow() {
 }
 
 /* ---------------------------------------------------------------------------
-   HERO — with per-character staggered animation
+   FLOATING SHAPES — frosted glass geometric shapes (adapted from kokonutd)
+   --------------------------------------------------------------------------- */
+
+function FrostShape({
+  className,
+  delay = 0,
+  width = 400,
+  height = 100,
+  rotate = 0,
+  color = "rgba(129,140,248,0.18)",
+}: {
+  className?: string;
+  delay?: number;
+  width?: number;
+  height?: number;
+  rotate?: number;
+  color?: string;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -150, rotate: rotate - 15 }}
+      animate={{ opacity: 1, y: 0, rotate }}
+      transition={{
+        duration: 2.4,
+        delay,
+        ease: [0.23, 0.86, 0.39, 0.96],
+        opacity: { duration: 1.2 },
+      }}
+      className={cn("absolute", className)}
+    >
+      <motion.div
+        animate={{ y: [0, 15, 0] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        style={{ width, height }}
+        className="relative"
+      >
+        <div
+          className="absolute inset-0 rounded-full border border-white/50 shadow-lg"
+          style={{
+            background: `linear-gradient(135deg, ${color}, transparent 70%)`,
+            backdropFilter: "blur(8px)",
+            boxShadow: "0 8px 32px rgba(100,120,220,0.12), inset 0 1px 1px rgba(255,255,255,0.6)",
+          }}
+        />
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/* ---------------------------------------------------------------------------
+   HERO — with per-character staggered animation + floating shapes
    --------------------------------------------------------------------------- */
 
 function AnimatedName({ text, className, style, startDelay = 0.4 }: { text: string; className?: string; style?: React.CSSProperties; startDelay?: number }) {
@@ -315,7 +365,51 @@ function AnimatedName({ text, className, style, startDelay = 0.4 }: { text: stri
 
 function HeroContent() {
   return (
-    <section className="relative flex min-h-screen items-center justify-center px-6">
+    <section className="relative flex min-h-screen items-center justify-center px-6 overflow-hidden">
+      {/* Floating geometric shapes */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <FrostShape
+          delay={0.3}
+          width={600}
+          height={140}
+          rotate={12}
+          color="rgba(129,140,248,0.35)"
+          className="left-[-10%] md:left-[-5%] top-[15%] md:top-[20%]"
+        />
+        <FrostShape
+          delay={0.5}
+          width={500}
+          height={120}
+          rotate={-15}
+          color="rgba(251,113,133,0.30)"
+          className="right-[-5%] md:right-[0%] top-[70%] md:top-[75%]"
+        />
+        <FrostShape
+          delay={0.4}
+          width={300}
+          height={80}
+          rotate={-8}
+          color="rgba(167,139,250,0.30)"
+          className="left-[5%] md:left-[10%] bottom-[5%] md:bottom-[10%]"
+        />
+        <FrostShape
+          delay={0.6}
+          width={200}
+          height={60}
+          rotate={20}
+          color="rgba(251,191,36,0.28)"
+          className="right-[15%] md:right-[20%] top-[10%] md:top-[15%]"
+        />
+        <FrostShape
+          delay={0.7}
+          width={150}
+          height={40}
+          rotate={-25}
+          color="rgba(34,211,238,0.28)"
+          className="left-[20%] md:left-[25%] top-[5%] md:top-[10%]"
+        />
+      </div>
+
       <div className="relative z-10 text-center max-w-5xl mx-auto">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
@@ -327,7 +421,9 @@ function HeroContent() {
         </motion.p>
 
         <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter text-neutral-900">
-          <AnimatedName text="Omer Zaman" startDelay={0.3} className="inline" />
+          <AnimatedName text="Omer" startDelay={0.3} className="inline" />
+          <span className="inline-block w-[0.25em]" />
+          <AnimatedName text="Zaman" startDelay={0.5} className="inline" />
         </h1>
 
         <motion.p
