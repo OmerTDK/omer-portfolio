@@ -35,10 +35,10 @@ import type { Project } from "@/lib/data";
 
 const sectionColorMap: Record<string, string[]> = {
   hero:       ["#ffffff", "#ffffff", "#c7d2fe", "#ffffff", "#93c5fd"],
-  about:      ["#ffffff", "#ffffff", "#ddd6fe", "#ffffff", "#c4b5fd"],
-  skills:     ["#ffffff", "#ffffff", "#a5f3fc", "#ffffff", "#99f6e4"],
-  projects:   ["#ffffff", "#ffffff", "#bfdbfe", "#ffffff", "#a5b4fc"],
-  experience: ["#ffffff", "#ffffff", "#fecdd3", "#ffffff", "#fda4af"],
+  about:      ["#ffffff", "#ffffff", "#bfdbfe", "#ffffff", "#a5b4fc"],
+  skills:     ["#ffffff", "#ffffff", "#a5b4fc", "#ffffff", "#818cf8"],
+  projects:   ["#ffffff", "#ffffff", "#93c5fd", "#ffffff", "#6366f1"],
+  experience: ["#ffffff", "#ffffff", "#818cf8", "#ffffff", "#6366f1"],
   contact:    ["#ffffff", "#ffffff", "#c7d2fe", "#ffffff", "#93c5fd"],
 };
 
@@ -46,24 +46,36 @@ const sectionIds = ["about", "skills", "projects", "experience", "contact"];
 
 function DynamicMeshBackground() {
   const [colors, setColors] = useState(sectionColorMap.hero);
+  const currentSection = useRef("hero");
 
   useEffect(() => {
+    let ticking = false;
+
     function handleScroll() {
-      const scrollY = window.scrollY;
-      const vh = window.innerHeight;
+      if (ticking) return;
+      ticking = true;
 
-      if (scrollY < vh * 0.5) {
-        setColors(sectionColorMap.hero);
-        return;
-      }
+      requestAnimationFrame(() => {
+        const vh = window.innerHeight;
+        let newSection = "hero";
 
-      for (let i = sectionIds.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sectionIds[i]);
-        if (el && el.getBoundingClientRect().top <= vh * 0.5) {
-          setColors(sectionColorMap[sectionIds[i]]);
-          return;
+        if (window.scrollY >= vh * 0.5) {
+          for (let i = sectionIds.length - 1; i >= 0; i--) {
+            const el = document.getElementById(sectionIds[i]);
+            if (el && el.getBoundingClientRect().top <= vh * 0.5) {
+              newSection = sectionIds[i];
+              break;
+            }
+          }
         }
-      }
+
+        if (newSection !== currentSection.current) {
+          currentSection.current = newSection;
+          setColors(sectionColorMap[newSection]);
+        }
+
+        ticking = false;
+      });
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -71,12 +83,14 @@ function DynamicMeshBackground() {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-0 transition-colors duration-1000">
-      <MeshGradient
-        style={{ height: "100%", width: "100%" }}
-        colors={colors}
-        speed={0.8}
-      />
+    <div className="fixed inset-0 z-0">
+      <div className="absolute inset-0 transition-opacity duration-[2000ms]">
+        <MeshGradient
+          style={{ height: "100%", width: "100%" }}
+          colors={colors}
+          speed={0.8}
+        />
+      </div>
       <div className="absolute inset-0 bg-white/20" />
     </div>
   );
