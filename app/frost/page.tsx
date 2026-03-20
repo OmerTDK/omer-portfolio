@@ -75,7 +75,7 @@ function FrostNav() {
       className={cn(
         "fixed top-0 left-0 right-0 z-40 transition-all duration-300",
         scrolled || mobileOpen
-          ? "bg-white/60 backdrop-blur-xl border-b border-white/50 shadow-sm shadow-black/5"
+          ? "bg-white/75 backdrop-blur-xl border-b border-white/60 shadow-sm shadow-black/8"
           : "bg-transparent"
       )}
     >
@@ -121,7 +121,7 @@ function FrostNav() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="bg-white/70 backdrop-blur-xl border-b border-white/50 md:hidden overflow-hidden"
+            className="bg-white/75 backdrop-blur-xl border-b border-white/60 md:hidden overflow-hidden"
           >
             <div className="flex flex-col gap-4 px-6 py-4">
               {navLinks.map((link) => (
@@ -200,11 +200,11 @@ function CursorGlow() {
 
   return (
     <div
-      className="fixed pointer-events-none z-30 w-[500px] h-[500px] rounded-full opacity-20 blur-[100px] transition-all duration-300"
+      className="fixed pointer-events-none z-20 w-[400px] h-[400px] rounded-full opacity-30 blur-[80px] transition-all duration-300"
       style={{
-        left: pos.x - 250,
-        top: pos.y - 250,
-        background: "radial-gradient(circle, rgba(147, 197, 253, 0.3) 0%, transparent 70%)",
+        left: pos.x - 200,
+        top: pos.y - 200,
+        background: "radial-gradient(circle, rgba(96, 165, 250, 0.4) 0%, transparent 70%)",
       }}
     />
   );
@@ -245,7 +245,7 @@ function HeroContent() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="inline-flex items-center gap-2 rounded-full border border-white/50 bg-white/60 backdrop-blur-xl px-4 py-1.5 mb-8 shadow-sm shadow-black/5"
+          className="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/70 backdrop-blur-xl px-4 py-1.5 mb-8 shadow-sm shadow-black/8"
         >
           <span className="text-neutral-500 text-xs font-medium tracking-wide">
             Analytics Engineer &middot; Berlin
@@ -290,7 +290,7 @@ function HeroContent() {
           </a>
           <a
             href="#contact"
-            className="px-8 py-3 rounded-full bg-white/60 backdrop-blur-md border border-white/50 text-neutral-700 text-sm font-medium hover:bg-white/80 transition-all duration-300 shadow-sm shadow-black/5"
+            className="px-8 py-3 rounded-full bg-white/70 backdrop-blur-md border border-white/60 text-neutral-700 text-sm font-medium hover:bg-white/80 transition-all duration-300 shadow-sm shadow-black/8"
           >
             Get in touch
           </a>
@@ -349,13 +349,13 @@ function AboutSection() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="rounded-3xl bg-white/60 backdrop-blur-xl border border-white/50 shadow-lg shadow-black/5 p-8 md:p-12"
+            className="rounded-3xl bg-white/70 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 shadow-[0_8px_32px_rgba(0,0,0,0.08)] p-8 md:p-12"
           >
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600 mb-8">About</p>
 
             <div className="grid gap-10 md:grid-cols-[240px_1fr] md:items-start">
               <div className="mx-auto w-48 md:w-full">
-                <div className="overflow-hidden rounded-2xl border border-white/50 shadow-md shadow-black/5">
+                <div className="overflow-hidden rounded-2xl border border-white/60 shadow-md shadow-black/8">
                   <Image
                     src={bio.profileImage}
                     alt="Omer Zaman"
@@ -431,18 +431,17 @@ function TechMarquee() {
 }
 
 /* ---------------------------------------------------------------------------
-   SKILLS — 4-column frosted glass cards
+   SKILLS — Horizontal pills layout, frosted glass
    --------------------------------------------------------------------------- */
-
-const skillCategoryConfig = {
-  core: { label: "Core Stack", color: "#2563eb" },
-  data: { label: "Data Science", color: "#3b82f6" },
-  infra: { label: "Infrastructure", color: "#0284c7" },
-  viz: { label: "Visualization", color: "#6366f1" },
-} as const;
 
 function SkillsSection() {
   const categories = ["core", "data", "infra", "viz"] as const;
+  const categoryMeta = {
+    core: { label: "Core Stack" },
+    data: { label: "Data Science" },
+    infra: { label: "Infrastructure" },
+    viz: { label: "Visualization" },
+  } as const;
 
   return (
     <section id="skills" className="relative px-6 py-32 md:px-12 lg:px-24">
@@ -454,32 +453,26 @@ function SkillsSection() {
           </h2>
         </ScrollReveal>
 
-        <ScrollReveal delay={0.1}>
-          <div className="mt-10 flex flex-wrap gap-6">
-            {categories.map((cat) => (
-              <div key={cat} className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full" style={{ backgroundColor: skillCategoryConfig[cat].color }} />
-                <span className="text-xs text-neutral-400">{skillCategoryConfig[cat].label}</span>
-              </div>
-            ))}
-          </div>
-        </ScrollReveal>
-
-        <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4">
-          {skills.map((skill, i) => {
-            const config = skillCategoryConfig[skill.category];
+        <div className="mt-16 space-y-8">
+          {categories.map((cat, i) => {
+            const catSkills = skills.filter((s) => s.category === cat);
             return (
-              <ScrollReveal key={skill.name} delay={i * 0.03}>
-                <motion.div
-                  whileHover={{ scale: 1.03 }}
-                  className="flex items-center gap-3 rounded-xl bg-white/60 backdrop-blur-xl border border-white/50 shadow-sm shadow-black/5 px-4 py-3.5 transition-all hover:bg-white/70 hover:shadow-md hover:shadow-black/10 cursor-default"
-                >
-                  <div
-                    className="h-2 w-2 shrink-0 rounded-full"
-                    style={{ backgroundColor: config.color }}
-                  />
-                  <span className="text-sm text-neutral-600">{skill.name}</span>
-                </motion.div>
+              <ScrollReveal key={cat} delay={i * 0.1}>
+                <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-8">
+                  <h3 className="shrink-0 w-36 text-xs font-semibold uppercase tracking-widest text-neutral-400">
+                    {categoryMeta[cat].label}
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {catSkills.map((skill) => (
+                      <span
+                        key={skill.name}
+                        className="rounded-full bg-white/70 backdrop-blur-xl border border-white/60 shadow-sm shadow-black/8 px-4 py-2 text-sm text-neutral-700 hover:bg-white/80 hover:shadow-md transition-all"
+                      >
+                        {skill.name}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </ScrollReveal>
             );
           })}
@@ -510,7 +503,7 @@ function PipelineFlow() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.15, type: "spring", stiffness: 200, damping: 20 }}
-            className="flex flex-col items-center gap-1 rounded-xl bg-white/60 backdrop-blur-xl border border-white/50 shadow-sm shadow-black/5 px-4 py-3 md:px-6 md:py-4"
+            className="flex flex-col items-center gap-1 rounded-xl bg-white/70 backdrop-blur-xl border border-white/60 shadow-sm shadow-black/8 px-4 py-3 md:px-6 md:py-4"
           >
             <span className="font-mono text-xs font-bold text-blue-600">{stage.label}</span>
             <span className="text-[10px] text-neutral-400">{stage.sublabel}</span>
@@ -551,8 +544,10 @@ function FrostProjectCard({ project, index, featured }: { project: Project; inde
       transition={{ duration: 0.5, delay: index * 0.08 }}
       onClick={() => setExpanded(!expanded)}
       className={cn(
-        "group cursor-pointer rounded-2xl bg-white/60 backdrop-blur-xl border border-white/50 shadow-lg shadow-black/5 p-6 transition-all duration-300 hover:bg-white/70 hover:shadow-xl hover:shadow-black/10 h-full",
-        featured && "md:p-8"
+        "group cursor-pointer backdrop-blur-xl transition-all duration-300 h-full",
+        featured
+          ? "bg-white/70 border border-white/60 shadow-lg shadow-black/8 shadow-[0_8px_32px_rgba(0,0,0,0.08)] rounded-2xl p-8 hover:bg-white/80 hover:shadow-xl"
+          : "bg-white/70 border border-white/60 shadow-sm shadow-black/8 rounded-xl p-6 hover:bg-white/80 hover:shadow-md"
       )}
     >
       <div className="flex items-start justify-between">
@@ -668,7 +663,7 @@ function ProjectsSection() {
                 {cat.label}
                 {activeCategory === cat.id && (
                   <motion.div
-                    layoutId="frost-project-filter"
+                    layoutId="frost-project-tab"
                     className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full bg-blue-600"
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
@@ -719,13 +714,13 @@ function ProjectsSection() {
 }
 
 /* ---------------------------------------------------------------------------
-   EXPERIENCE — Vertical timeline with blue dots
+   EXPERIENCE — Clean dot timeline
    --------------------------------------------------------------------------- */
 
 function ExperienceSection() {
   return (
     <section id="experience" className="relative px-6 py-32 md:px-12 lg:px-24">
-      <div className="mx-auto max-w-4xl">
+      <div className="mx-auto max-w-6xl">
         <ScrollReveal>
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600">Experience</p>
           <h2 className="mt-4 text-4xl font-bold leading-tight text-neutral-900 md:text-5xl">
@@ -733,36 +728,28 @@ function ExperienceSection() {
           </h2>
         </ScrollReveal>
 
-        <div className="mt-16 relative">
-          <div className="absolute left-6 top-0 bottom-0 w-px bg-neutral-200/60" />
-
-          <div className="space-y-10">
-            {experience.map((entry, i) => (
-              <ScrollReveal key={entry.date} delay={i * 0.1}>
-                <div className="relative pl-16">
+        <div className="mt-16 max-w-2xl space-y-16">
+          {experience.map((entry) => (
+            <ScrollReveal key={entry.date}>
+              <div className="flex gap-6">
+                <div className="flex flex-col items-center pt-2">
                   <div
                     className={cn(
-                      "absolute left-4 top-2 h-5 w-5 rounded-full border-2",
-                      entry.isCurrent
-                        ? "border-blue-600 bg-blue-100"
-                        : "border-neutral-300 bg-neutral-100"
+                      "h-3 w-3 shrink-0 rounded-full",
+                      entry.isCurrent ? "bg-blue-600" : "bg-neutral-300"
                     )}
-                  >
-                    {entry.isCurrent && (
-                      <div className="absolute inset-1 rounded-full bg-blue-600 animate-pulse" />
-                    )}
-                  </div>
-
-                  <div className="rounded-2xl bg-white/60 backdrop-blur-xl border border-white/50 shadow-lg shadow-black/5 p-6 transition-all hover:bg-white/70 hover:shadow-xl hover:shadow-black/10">
-                    <p className="font-mono text-sm text-blue-600">{entry.date}</p>
-                    <h3 className="mt-2 text-lg font-semibold text-neutral-900">{entry.role}</h3>
-                    <p className="text-sm font-medium text-neutral-400">{entry.company}</p>
-                    <p className="mt-3 text-sm leading-relaxed text-neutral-500">{entry.description}</p>
-                  </div>
+                  />
+                  <div className="mt-2 w-px flex-1 bg-neutral-200/50" />
                 </div>
-              </ScrollReveal>
-            ))}
-          </div>
+                <div className="pb-4">
+                  <p className="font-mono text-sm text-blue-600">{entry.date}</p>
+                  <h3 className="mt-2 text-xl font-semibold text-neutral-900">{entry.role}</h3>
+                  <p className="text-sm text-neutral-400">{entry.company}</p>
+                  <p className="mt-3 text-base leading-relaxed text-neutral-500">{entry.description}</p>
+                </div>
+              </div>
+            </ScrollReveal>
+          ))}
         </div>
       </div>
     </section>
@@ -819,21 +806,21 @@ function ContactSection() {
               name="name"
               placeholder="Name"
               required
-              className="w-full rounded-xl bg-white/50 backdrop-blur-md border border-white/50 px-4 py-3 text-sm text-neutral-900 placeholder-neutral-400 outline-none focus:border-blue-600/30 focus:ring-2 focus:ring-blue-600/10 transition-all shadow-sm shadow-black/5"
+              className="w-full rounded-xl bg-white/60 backdrop-blur-md border border-white/60 px-4 py-3 text-sm text-neutral-900 placeholder-neutral-400 outline-none focus:border-blue-600/30 focus:ring-2 focus:ring-blue-600/10 transition-all shadow-sm shadow-black/8"
             />
             <input
               type="email"
               name="email"
               placeholder="Email"
               required
-              className="w-full rounded-xl bg-white/50 backdrop-blur-md border border-white/50 px-4 py-3 text-sm text-neutral-900 placeholder-neutral-400 outline-none focus:border-blue-600/30 focus:ring-2 focus:ring-blue-600/10 transition-all shadow-sm shadow-black/5"
+              className="w-full rounded-xl bg-white/60 backdrop-blur-md border border-white/60 px-4 py-3 text-sm text-neutral-900 placeholder-neutral-400 outline-none focus:border-blue-600/30 focus:ring-2 focus:ring-blue-600/10 transition-all shadow-sm shadow-black/8"
             />
             <textarea
               name="message"
               placeholder="Message"
               rows={4}
               required
-              className="w-full resize-none rounded-xl bg-white/50 backdrop-blur-md border border-white/50 px-4 py-3 text-sm text-neutral-900 placeholder-neutral-400 outline-none focus:border-blue-600/30 focus:ring-2 focus:ring-blue-600/10 transition-all shadow-sm shadow-black/5"
+              className="w-full resize-none rounded-xl bg-white/60 backdrop-blur-md border border-white/60 px-4 py-3 text-sm text-neutral-900 placeholder-neutral-400 outline-none focus:border-blue-600/30 focus:ring-2 focus:ring-blue-600/10 transition-all shadow-sm shadow-black/8"
             />
             <button
               type="submit"
@@ -871,7 +858,7 @@ function ContactSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="group flex h-12 w-12 items-center justify-center rounded-full bg-white/60 backdrop-blur-xl border border-white/50 shadow-sm shadow-black/5 transition-all hover:bg-white/70 hover:shadow-md hover:shadow-black/10"
+                className="group flex h-12 w-12 items-center justify-center rounded-full bg-white/70 backdrop-blur-xl border border-white/60 shadow-sm shadow-black/8 transition-all hover:bg-white/80 hover:shadow-md hover:shadow-black/10"
               >
                 <Icon className="h-5 w-5 text-neutral-400 transition-colors group-hover:text-neutral-700" />
               </a>
@@ -915,7 +902,7 @@ function Footer() {
 
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="ml-4 flex h-8 w-8 items-center justify-center rounded-full bg-white/60 backdrop-blur-xl border border-white/50 shadow-sm shadow-black/5 transition-all hover:bg-white/80"
+              className="ml-4 flex h-8 w-8 items-center justify-center rounded-full bg-white/70 backdrop-blur-xl border border-white/60 shadow-sm shadow-black/8 transition-all hover:bg-white/80"
               aria-label="Back to top"
             >
               <ArrowUp className="h-3.5 w-3.5 text-neutral-500" />
@@ -951,7 +938,7 @@ export default function FrostPage() {
         <div className="fixed top-4 right-4 z-50">
           <a
             href="/"
-            className="rounded-full border border-white/50 bg-white/60 backdrop-blur-xl px-4 py-2 text-xs font-medium text-neutral-500 hover:bg-white/80 hover:text-neutral-700 transition-all shadow-sm shadow-black/5"
+            className="rounded-full border border-white/60 bg-white/70 backdrop-blur-xl px-4 py-2 text-xs font-medium text-neutral-500 hover:bg-white/80 hover:text-neutral-700 transition-all shadow-sm shadow-black/8"
           >
             Compare versions
           </a>
