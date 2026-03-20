@@ -258,36 +258,28 @@ function ScrollProgress() {
    --------------------------------------------------------------------------- */
 
 function CursorGlow() {
-  const [pos, setPos] = useState({ x: 0, y: 0 });
-  const [isDesktop, setIsDesktop] = useState(false);
+  const glowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    function checkDesktop() {
-      setIsDesktop(window.innerWidth >= 768);
-    }
-    checkDesktop();
-    window.addEventListener("resize", checkDesktop);
-    return () => window.removeEventListener("resize", checkDesktop);
-  }, []);
+    if (window.innerWidth < 768) return;
 
-  useEffect(() => {
-    if (!isDesktop) return;
     function handleMove(e: MouseEvent) {
-      setPos({ x: e.clientX, y: e.clientY });
+      if (glowRef.current) {
+        glowRef.current.style.transform = `translate(${e.clientX - 250}px, ${e.clientY - 250}px)`;
+      }
     }
-    window.addEventListener("mousemove", handleMove);
-    return () => window.removeEventListener("mousemove", handleMove);
-  }, [isDesktop]);
 
-  if (!isDesktop) return null;
+    window.addEventListener("mousemove", handleMove, { passive: true });
+    return () => window.removeEventListener("mousemove", handleMove);
+  }, []);
 
   return (
     <div
-      className="fixed pointer-events-none z-20 w-[500px] h-[500px] rounded-full opacity-40 blur-[90px] transition-all duration-150"
+      ref={glowRef}
+      className="fixed top-0 left-0 pointer-events-none z-20 w-[500px] h-[500px] rounded-full opacity-35 blur-[100px] hidden md:block"
       style={{
-        left: pos.x - 250,
-        top: pos.y - 250,
-        background: "radial-gradient(circle, rgba(96, 165, 250, 0.5) 0%, rgba(139, 92, 246, 0.15) 40%, transparent 70%)",
+        willChange: "transform",
+        background: "radial-gradient(circle, rgba(255, 255, 255, 0.7) 0%, rgba(199, 210, 254, 0.3) 40%, transparent 70%)",
       }}
     />
   );
