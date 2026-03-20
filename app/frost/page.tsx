@@ -773,7 +773,7 @@ function FrostProjectCard({ project, index, featured }: { project: Project; inde
   }
 
   return (
-    <GlowCard customSize glowColor="purple" className="rounded-xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-sm shadow-black/8 p-6 h-full overflow-hidden hover:bg-white/80 hover:shadow-md">
+    <GlowCard customSize glowColor="blue" className="rounded-xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-sm shadow-black/8 p-6 h-full overflow-hidden hover:bg-white/80 hover:shadow-md">
       {cardInner}
     </GlowCard>
   );
