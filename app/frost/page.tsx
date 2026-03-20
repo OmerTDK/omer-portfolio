@@ -666,9 +666,9 @@ const categoryIcons: Record<string, React.ReactNode> = {
 };
 
 const categoryGradients: Record<string, string> = {
-  engineering: "from-blue-50 to-indigo-50",
-  science: "from-violet-50 to-purple-50",
-  analytics: "from-blue-50 to-violet-50",
+  engineering: "from-white/80 to-blue-50/50",
+  science: "from-white/80 to-violet-50/50",
+  analytics: "from-white/80 to-indigo-50/50",
 };
 
 function CategoryIcon({ category, className }: { category: string; className?: string }) {
