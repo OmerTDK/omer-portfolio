@@ -328,9 +328,8 @@ function HeroContent() {
           </span>
         </motion.div>
 
-        <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-[0.9]">
-          <AnimatedName text="Omer" startDelay={0.3} className="block text-blue-800" />
-          <AnimatedName text="Zaman" startDelay={0.3} className="block text-neutral-900" />
+        <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter text-neutral-900">
+          <AnimatedName text="Omer Zaman" startDelay={0.3} className="inline" />
         </h1>
 
         <motion.p
@@ -1426,35 +1425,7 @@ export default function FrostPage() {
     <div className="relative min-h-screen">
       <DynamicMeshBackground />
 
-      {/* Floating SVG paths — hero area only */}
-      <div className="absolute top-0 left-0 right-0 h-screen z-[1] pointer-events-none opacity-60">
-        <svg className="w-full h-full text-neutral-400" viewBox="0 0 696 316" fill="none" preserveAspectRatio="none">
-          {Array.from({ length: 36 }, (_, i) => ({
-            id: i,
-            d: `M-${380 - i * 5} -${189 + i * 6}C-${380 - i * 5} -${189 + i * 6} -${312 - i * 5} ${216 - i * 6} ${152 - i * 5} ${343 - i * 6}C${616 - i * 5} ${470 - i * 6} ${684 - i * 5} ${875 - i * 6} ${684 - i * 5} ${875 - i * 6}`,
-            width: 0.3 + i * 0.03,
-          })).map((path) => (
-            <motion.path
-              key={path.id}
-              d={path.d}
-              stroke="currentColor"
-              strokeWidth={path.width}
-              strokeOpacity={0.08 + path.id * 0.015}
-              initial={{ pathLength: 0.3, opacity: 0.4 }}
-              animate={{
-                pathLength: 1,
-                opacity: [0.2, 0.4, 0.2],
-                pathOffset: [0, 1, 0],
-              }}
-              transition={{
-                duration: 20 + path.id * 0.5,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-            />
-          ))}
-        </svg>
-      </div>
+      {/* SVG paths removed — didn't fit the frost aesthetic */}
 
       <motion.div
         initial={{ opacity: 0 }}
