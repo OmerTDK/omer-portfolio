@@ -187,8 +187,8 @@ function FrostNav() {
   }
 
   return (
-    <div className="fixed bottom-0 sm:top-0 left-1/2 -translate-x-1/2 z-40 mb-6 sm:pt-6">
-      <div className="flex items-center gap-1 bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 py-1 px-1 rounded-full">
+    <div className="fixed bottom-0 sm:top-0 left-1/2 -translate-x-1/2 z-40 mb-6 sm:pt-6 pointer-events-none">
+      <div className="pointer-events-auto flex items-center gap-1 bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 py-1 px-1 rounded-full">
         {navLinks.map((link) => {
           const Icon = link.icon;
           const isActive = activeSection === link.id;
@@ -1143,8 +1143,8 @@ function FloatingDock() {
   ];
 
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40">
-      <div className="flex items-center gap-2 rounded-2xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/10 px-3 py-2">
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 pointer-events-none">
+      <div className="pointer-events-auto flex items-center gap-2 rounded-2xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/10 px-3 py-2">
         {dockItems.map(({ href, icon: Icon, label }) => (
           <motion.a
             key={label}
