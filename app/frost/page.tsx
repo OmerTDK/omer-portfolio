@@ -906,27 +906,36 @@ function ProjectDiagram({ title }: { title: string }) {
 }
 
 function ProjectModal({ project, onClose }: { project: Project | null; onClose: () => void }) {
-  if (!project) return null;
-
   return (
     <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 flex items-end justify-center sm:items-center"
-        onClick={onClose}
-      >
-        <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" />
-
+      {project && (
         <motion.div
-          initial={{ y: "100%", opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: "100%", opacity: 0 }}
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          onClick={(e) => e.stopPropagation()}
-          className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-t-3xl sm:rounded-3xl bg-white/90 backdrop-blur-2xl border border-white/60 shadow-2xl shadow-black/10 p-8 sm:p-10"
+          key="modal-backdrop"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="fixed inset-0 z-50 flex items-end justify-center sm:items-center"
+          onClick={onClose}
         >
+          {/* Animated backdrop */}
+          <motion.div
+            initial={{ backdropFilter: "blur(0px)", backgroundColor: "rgba(0,0,0,0)" }}
+            animate={{ backdropFilter: "blur(8px)", backgroundColor: "rgba(0,0,0,0.15)" }}
+            exit={{ backdropFilter: "blur(0px)", backgroundColor: "rgba(0,0,0,0)" }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="absolute inset-0"
+          />
+
+          {/* Modal sheet */}
+          <motion.div
+            initial={{ y: 60, opacity: 0, scale: 0.97 }}
+            animate={{ y: 0, opacity: 1, scale: 1 }}
+            exit={{ y: 40, opacity: 0, scale: 0.98 }}
+            transition={{ type: "spring", stiffness: 260, damping: 28, mass: 0.8 }}
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-t-3xl sm:rounded-3xl bg-white/92 backdrop-blur-2xl border border-white/60 shadow-2xl shadow-black/10 p-8 sm:p-10"
+          >
           <button
             onClick={onClose}
             className="absolute top-4 right-4 h-8 w-8 flex items-center justify-center rounded-full bg-neutral-100 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-200 transition-colors"
@@ -981,6 +990,7 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
           )}
         </motion.div>
       </motion.div>
+      )}
     </AnimatePresence>
   );
 }
