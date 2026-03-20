@@ -1434,7 +1434,7 @@ export default function FrostPage() {
       >
         <ScrollProgress />
         <FrostNav />
-        <CursorGlow />
+        {/* CursorGlow removed — added visual noise on light background */}
 
         <div className="fixed top-4 right-4 z-50">
           <a
