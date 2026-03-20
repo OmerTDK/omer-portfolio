@@ -297,6 +297,10 @@ function FrostShape({
   height = 100,
   rotate = 0,
   color = "rgba(129,140,248,0.18)",
+  floatDuration = 12,
+  floatDistance = 15,
+  rotateDrift = 0,
+  scalePulse = false,
 }: {
   className?: string;
   delay?: number;
@@ -304,6 +308,10 @@ function FrostShape({
   height?: number;
   rotate?: number;
   color?: string;
+  floatDuration?: number;
+  floatDistance?: number;
+  rotateDrift?: number;
+  scalePulse?: boolean;
 }) {
   return (
     <motion.div
@@ -312,14 +320,22 @@ function FrostShape({
       transition={{
         duration: 2.4,
         delay,
-        ease: [0.23, 0.86, 0.39, 0.96],
+        ease: [0.23, 0.86, 0.39, 0.96] as const,
         opacity: { duration: 1.2 },
       }}
       className={cn("absolute", className)}
     >
       <motion.div
-        animate={{ y: [0, 15, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        animate={{
+          y: [0, floatDistance, -floatDistance * 0.3, 0],
+          rotate: rotateDrift ? [0, rotateDrift, -rotateDrift * 0.5, 0] : undefined,
+          scale: scalePulse ? [1, 1.05, 0.97, 1] : undefined,
+        }}
+        transition={{
+          duration: floatDuration,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
         style={{ width, height }}
         className="relative"
       >
@@ -374,6 +390,9 @@ function HeroContent() {
           height={140}
           rotate={12}
           color="rgba(129,140,248,0.35)"
+          floatDuration={14}
+          floatDistance={20}
+          rotateDrift={4}
           className="left-[-10%] md:left-[-5%] top-[15%] md:top-[20%]"
         />
         <FrostShape
@@ -381,7 +400,11 @@ function HeroContent() {
           width={500}
           height={120}
           rotate={-15}
-          color="rgba(251,113,133,0.30)"
+          color="rgba(96,165,250,0.30)"
+          floatDuration={10}
+          floatDistance={18}
+          rotateDrift={-6}
+          scalePulse
           className="right-[-5%] md:right-[0%] top-[70%] md:top-[75%]"
         />
         <FrostShape
@@ -389,7 +412,10 @@ function HeroContent() {
           width={300}
           height={80}
           rotate={-8}
-          color="rgba(167,139,250,0.30)"
+          color="rgba(165,180,252,0.30)"
+          floatDuration={16}
+          floatDistance={12}
+          rotateDrift={3}
           className="left-[5%] md:left-[10%] bottom-[5%] md:bottom-[10%]"
         />
         <FrostShape
@@ -397,7 +423,11 @@ function HeroContent() {
           width={200}
           height={60}
           rotate={20}
-          color="rgba(251,191,36,0.28)"
+          color="rgba(147,197,253,0.32)"
+          floatDuration={9}
+          floatDistance={22}
+          rotateDrift={-8}
+          scalePulse
           className="right-[15%] md:right-[20%] top-[10%] md:top-[15%]"
         />
         <FrostShape
@@ -405,7 +435,10 @@ function HeroContent() {
           width={150}
           height={40}
           rotate={-25}
-          color="rgba(34,211,238,0.28)"
+          color="rgba(59,130,246,0.22)"
+          floatDuration={11}
+          floatDistance={16}
+          rotateDrift={5}
           className="left-[20%] md:left-[25%] top-[5%] md:top-[10%]"
         />
       </div>
