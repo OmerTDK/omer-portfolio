@@ -24,7 +24,7 @@ import {
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import NumberFlow from "@number-flow/react";
-import { Dock, DockIcon, DockItem, DockLabel } from "@/components/ui/dock";
+// Dock component removed — caused runtime crash. Using custom dock instead.
 import { GlowingEffect } from "@/components/ui/glowing-effect";
 import { Globe } from "@/components/ui/globe";
 import type { Project } from "@/lib/data";
@@ -909,32 +909,31 @@ function Footer() {
    --------------------------------------------------------------------------- */
 
 function FloatingDock() {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  if (!mounted) return null;
+  const dockItems = [
+    { href: links.github, icon: Github, label: "GitHub" },
+    { href: links.linkedin, icon: Linkedin, label: "LinkedIn" },
+    { href: links.email, icon: Mail, label: "Email" },
+  ];
 
   return (
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40">
-      <Dock className="bg-white/70 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/10">
-        <DockItem className="aspect-square rounded-full bg-white/50 backdrop-blur-md border border-white/40">
-          <a href={links.github} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center">
-            <DockIcon><Github className="h-5 w-5 text-neutral-600" /></DockIcon>
-          </a>
-          <DockLabel>GitHub</DockLabel>
-        </DockItem>
-        <DockItem className="aspect-square rounded-full bg-white/50 backdrop-blur-md border border-white/40">
-          <a href={links.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center">
-            <DockIcon><Linkedin className="h-5 w-5 text-neutral-600" /></DockIcon>
-          </a>
-          <DockLabel>LinkedIn</DockLabel>
-        </DockItem>
-        <DockItem className="aspect-square rounded-full bg-white/50 backdrop-blur-md border border-white/40">
-          <a href={links.email} className="flex items-center justify-center">
-            <DockIcon><Mail className="h-5 w-5 text-neutral-600" /></DockIcon>
-          </a>
-          <DockLabel>Email</DockLabel>
-        </DockItem>
-      </Dock>
+      <div className="flex items-center gap-2 rounded-2xl bg-white/70 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/10 px-3 py-2">
+        {dockItems.map(({ href, icon: Icon, label }) => (
+          <motion.a
+            key={label}
+            href={href}
+            target={href.startsWith("mailto") ? undefined : "_blank"}
+            rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
+            aria-label={label}
+            whileHover={{ scale: 1.3, y: -8 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 20 }}
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/60 border border-white/50 shadow-sm shadow-black/5 text-neutral-500 hover:text-neutral-900 hover:shadow-md transition-colors"
+          >
+            <Icon className="h-4 w-4" />
+          </motion.a>
+        ))}
+      </div>
     </div>
   );
 }
