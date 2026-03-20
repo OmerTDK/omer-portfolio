@@ -1426,8 +1426,8 @@ export default function FrostPage() {
     <div className="relative min-h-screen">
       <DynamicMeshBackground />
 
-      {/* Floating SVG paths layered over mesh gradient */}
-      <div className="fixed inset-0 z-[1] pointer-events-none opacity-40">
+      {/* Floating SVG paths — hero area only */}
+      <div className="absolute top-0 left-0 right-0 h-screen z-[1] pointer-events-none opacity-60">
         <svg className="w-full h-full text-neutral-400" viewBox="0 0 696 316" fill="none" preserveAspectRatio="none">
           {Array.from({ length: 36 }, (_, i) => ({
             id: i,
