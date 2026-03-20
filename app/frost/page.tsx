@@ -613,24 +613,21 @@ function TechMarquee() {
     "BigQuery", "dbt", "SQL", "Python", "Pandas", "GCP", "Docker",
     "Metabase", "Streamlit", "TensorFlow", "Git", "Cloud Run",
   ];
-  // Triple the items for seamless loop
   const items = [...techStack, ...techStack, ...techStack];
 
   return (
-    <div className="py-8">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="rounded-2xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-sm shadow-black/5 overflow-hidden py-4">
-          <div className="flex animate-marquee gap-12">
-            {items.map((tech, i) => (
-              <span
-                key={i}
-                className="shrink-0 text-sm font-semibold text-neutral-500 whitespace-nowrap"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-        </div>
+    <div className="relative py-8 overflow-hidden w-full">
+      <div className="absolute left-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-r from-white/80 to-transparent pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-l from-white/80 to-transparent pointer-events-none" />
+      <div className="flex animate-marquee gap-16">
+        {items.map((tech, i) => (
+          <span
+            key={i}
+            className="shrink-0 text-sm font-semibold text-neutral-400 whitespace-nowrap tracking-wide uppercase"
+          >
+            {tech}
+          </span>
+        ))}
       </div>
     </div>
   );
@@ -685,47 +682,6 @@ function SkillsSection() {
         </div>
       </div>
     </section>
-  );
-}
-
-/* ---------------------------------------------------------------------------
-   PIPELINE FLOW — RAW → STG → DWH → GOLD animation
-   --------------------------------------------------------------------------- */
-
-const pipelineStages = [
-  { label: "RAW", sublabel: "Extract" },
-  { label: "STG", sublabel: "Clean" },
-  { label: "DWH", sublabel: "Model" },
-  { label: "GOLD", sublabel: "Serve" },
-];
-
-function PipelineFlow() {
-  return (
-    <div className="flex items-center justify-center gap-2 md:gap-4 py-8">
-      {pipelineStages.map((stage, i) => (
-        <div key={stage.label} className="flex items-center gap-2 md:gap-4">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.15, type: "spring", stiffness: 200, damping: 20 }}
-            className="flex flex-col items-center gap-1 rounded-xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-sm shadow-black/8 px-4 py-3 md:px-6 md:py-4"
-          >
-            <span className="font-mono text-xs font-bold text-blue-600">{stage.label}</span>
-            <span className="text-[10px] text-neutral-500">{stage.sublabel}</span>
-          </motion.div>
-          {i < pipelineStages.length - 1 && (
-            <motion.div
-              initial={{ opacity: 0, scaleX: 0 }}
-              whileInView={{ opacity: 1, scaleX: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.15 + 0.1, duration: 0.3 }}
-              className="h-px w-6 bg-blue-300 md:w-10 origin-left"
-            />
-          )}
-        </div>
-      ))}
-    </div>
   );
 }
 
@@ -1138,10 +1094,6 @@ function ProjectsSection() {
           <h2 className="mt-4 text-4xl font-bold leading-tight text-neutral-900 md:text-5xl">
             Things I&apos;ve built and explored.
           </h2>
-        </ScrollReveal>
-
-        <ScrollReveal delay={0.05}>
-          <PipelineFlow />
         </ScrollReveal>
 
         <ScrollReveal delay={0.1}>
