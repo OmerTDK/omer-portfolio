@@ -708,6 +708,203 @@ function FrostProjectCard({ project, index, featured, onSelect }: { project: Pro
   );
 }
 
+function ProjectDiagram({ title }: { title: string }) {
+  const diagrams: Record<string, React.ReactNode> = {
+    "Medallion Data Platform": (
+      <svg viewBox="0 0 600 120" className="w-full h-auto" fill="none">
+        {[
+          { x: 0, label: "Bronze", sub: "Raw", color: "#dbeafe" },
+          { x: 155, label: "Staging", sub: "Clean", color: "#c7d2fe" },
+          { x: 310, label: "Silver", sub: "Transform", color: "#a5b4fc" },
+          { x: 465, label: "Gold", sub: "Serve", color: "#818cf8" },
+        ].map((node, i) => (
+          <g key={node.label}>
+            <rect x={node.x} y={20} width={120} height={70} rx={12} fill={node.color} stroke="#e2e8f0" strokeWidth={1} />
+            <text x={node.x + 60} y={50} textAnchor="middle" className="text-xs font-semibold" fill="#1e293b">{node.label}</text>
+            <text x={node.x + 60} y={68} textAnchor="middle" className="text-[10px]" fill="#64748b">{node.sub}</text>
+            {i < 3 && <path d={`M${node.x + 125} 55 L${node.x + 150} 55`} stroke="#94a3b8" strokeWidth={1.5} markerEnd="url(#arrow)" />}
+          </g>
+        ))}
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth={6} markerHeight={6} orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
+          </marker>
+        </defs>
+      </svg>
+    ),
+
+    "Deal Volume Forecasting": (
+      <svg viewBox="0 0 600 140" className="w-full h-auto" fill="none">
+        <rect x={40} y={10} width={540} height={110} rx={8} fill="#f8fafc" stroke="#e2e8f0" strokeWidth={1} />
+        {[35, 60, 85].map(y => <line key={y} x1={60} y1={y} x2={560} y2={y} stroke="#f1f5f9" strokeWidth={1} />)}
+        <polyline points="60,90 120,70 180,80 240,50 300,60 360,40 420,45 480,30 540,35" stroke="#2563eb" strokeWidth={2} fill="none" />
+        <polyline points="60,85 120,75 180,78 240,55 300,58 360,42 420,40 480,35 540,32" stroke="#93c5fd" strokeWidth={2} fill="none" strokeDasharray="6,4" />
+        <polygon points="360,35 420,30 480,22 540,20 540,45 480,48 420,55 360,50" fill="#2563eb" fillOpacity={0.08} />
+        <line x1={70} y1={125} x2={90} y2={125} stroke="#2563eb" strokeWidth={2} />
+        <text x={95} y={128} className="text-[9px]" fill="#64748b">Actual</text>
+        <line x1={150} y1={125} x2={170} y2={125} stroke="#93c5fd" strokeWidth={2} strokeDasharray="4,3" />
+        <text x={175} y={128} className="text-[9px]" fill="#64748b">Predicted</text>
+        <rect x={230} y={120} width={30} height={10} rx={2} fill="#2563eb" fillOpacity={0.1} stroke="#2563eb" strokeWidth={0.5} />
+        <text x={265} y={128} className="text-[9px]" fill="#64748b">Confidence</text>
+      </svg>
+    ),
+
+    "AI Document Extraction": (
+      <svg viewBox="0 0 600 120" className="w-full h-auto" fill="none">
+        {[
+          { x: 0, label: "PDF Upload", color: "#fee2e2", icon: "\uD83D\uDCC4" },
+          { x: 155, label: "Gemini AI", color: "#dbeafe", icon: "\uD83E\uDD16" },
+          { x: 310, label: "Validate", color: "#e0e7ff", icon: "\u2713" },
+          { x: 465, label: "BigQuery", color: "#d1fae5", icon: "\uD83D\uDCCA" },
+        ].map((node, i) => (
+          <g key={node.label}>
+            <rect x={node.x} y={20} width={120} height={70} rx={12} fill={node.color} stroke="#e2e8f0" strokeWidth={1} />
+            <text x={node.x + 60} y={48} textAnchor="middle" fontSize={18}>{node.icon}</text>
+            <text x={node.x + 60} y={72} textAnchor="middle" className="text-[10px] font-medium" fill="#374151">{node.label}</text>
+            {i < 3 && <path d={`M${node.x + 125} 55 L${node.x + 150} 55`} stroke="#94a3b8" strokeWidth={1.5} markerEnd="url(#arrow2)" />}
+          </g>
+        ))}
+        <defs>
+          <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth={6} markerHeight={6} orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
+          </marker>
+        </defs>
+      </svg>
+    ),
+
+    "Automated Financial Reporting": (
+      <svg viewBox="0 0 600 120" className="w-full h-auto" fill="none">
+        {[
+          { x: 0, label: "BigQuery", color: "#dbeafe", icon: "\uD83D\uDDC4" },
+          { x: 155, label: "Transform", color: "#e0e7ff", icon: "\u2699\uFE0F" },
+          { x: 310, label: "Sheets", color: "#d1fae5", icon: "\uD83D\uDCCB" },
+          { x: 465, label: "Slack", color: "#fef3c7", icon: "\uD83D\uDD14" },
+        ].map((node, i) => (
+          <g key={node.label}>
+            <rect x={node.x} y={20} width={120} height={70} rx={12} fill={node.color} stroke="#e2e8f0" strokeWidth={1} />
+            <text x={node.x + 60} y={48} textAnchor="middle" fontSize={18}>{node.icon}</text>
+            <text x={node.x + 60} y={72} textAnchor="middle" className="text-[10px] font-medium" fill="#374151">{node.label}</text>
+            {i < 3 && <path d={`M${node.x + 125} 55 L${node.x + 150} 55`} stroke="#94a3b8" strokeWidth={1.5} markerEnd="url(#arrow3)" />}
+          </g>
+        ))}
+        <defs>
+          <marker id="arrow3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth={6} markerHeight={6} orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
+          </marker>
+        </defs>
+      </svg>
+    ),
+
+    "Tax Invoice Parser": (
+      <svg viewBox="0 0 600 120" className="w-full h-auto" fill="none">
+        {[
+          { x: 0, label: "PDF Invoice", color: "#fee2e2", icon: "\uD83D\uDCC4" },
+          { x: 155, label: "Regex Parse", color: "#dbeafe", icon: "\uD83D\uDD0D" },
+          { x: 310, label: "Structured", color: "#d1fae5", icon: "\uD83D\uDCCA" },
+          { x: 465, label: "BigQuery", color: "#e0e7ff", icon: "\uD83D\uDDC4" },
+        ].map((node, i) => (
+          <g key={node.label}>
+            <rect x={node.x} y={20} width={120} height={70} rx={12} fill={node.color} stroke="#e2e8f0" strokeWidth={1} />
+            <text x={node.x + 60} y={48} textAnchor="middle" fontSize={18}>{node.icon}</text>
+            <text x={node.x + 60} y={72} textAnchor="middle" className="text-[10px] font-medium" fill="#374151">{node.label}</text>
+            {i < 3 && <path d={`M${node.x + 125} 55 L${node.x + 150} 55`} stroke="#94a3b8" strokeWidth={1.5} markerEnd="url(#arrow4)" />}
+          </g>
+        ))}
+        <defs>
+          <marker id="arrow4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth={6} markerHeight={6} orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
+          </marker>
+        </defs>
+      </svg>
+    ),
+
+    "Executive KPI Dashboard": (
+      <svg viewBox="0 0 600 140" className="w-full h-auto" fill="none">
+        {[
+          { x: 0, y: 10, label: "BigQuery", color: "#dbeafe" },
+          { x: 0, y: 55, label: "HubSpot", color: "#fce7f3" },
+          { x: 0, y: 100, label: "Personio", color: "#d1fae5" },
+        ].map(src => (
+          <g key={src.label}>
+            <rect x={src.x} y={src.y} width={100} height={35} rx={8} fill={src.color} stroke="#e2e8f0" strokeWidth={1} />
+            <text x={50} y={src.y + 22} textAnchor="middle" className="text-[10px] font-medium" fill="#374151">{src.label}</text>
+            <path d={`M105 ${src.y + 17} L200 72`} stroke="#94a3b8" strokeWidth={1} />
+          </g>
+        ))}
+        <rect x={200} y={45} width={120} height={50} rx={10} fill="#e0e7ff" stroke="#a5b4fc" strokeWidth={1.5} />
+        <text x={260} y={72} textAnchor="middle" className="text-[11px] font-semibold" fill="#3730a3">Aggregator</text>
+        <path d="M325 70 L380 70" stroke="#94a3b8" strokeWidth={1.5} markerEnd="url(#arrow5)" />
+        <rect x={385} y={30} width={200} height={80} rx={10} fill="#f8fafc" stroke="#e2e8f0" strokeWidth={1} />
+        {[0,1,2,3,4,5].map(i => (
+          <rect key={i} x={395 + (i % 3) * 62} y={40 + Math.floor(i / 3) * 35} width={52} height={28} rx={4} fill={i === 0 ? "#dbeafe" : i === 1 ? "#fce7f3" : i === 2 ? "#d1fae5" : i === 3 ? "#e0e7ff" : i === 4 ? "#fef3c7" : "#f1f5f9"} />
+        ))}
+        <text x={485} y={125} textAnchor="middle" className="text-[9px]" fill="#94a3b8">20+ KPIs</text>
+        <defs>
+          <marker id="arrow5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth={6} markerHeight={6} orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
+          </marker>
+        </defs>
+      </svg>
+    ),
+
+    "Data Quality Framework": (
+      <svg viewBox="0 0 600 120" className="w-full h-auto" fill="none">
+        {[
+          { x: 0, label: "Raw", check: "Freshness", color: "#fef3c7" },
+          { x: 155, label: "Staging", check: "Unique + Not Null", color: "#dbeafe" },
+          { x: 310, label: "DWH", check: "Referential", color: "#e0e7ff" },
+          { x: 465, label: "Marts", check: "Reconciliation", color: "#d1fae5" },
+        ].map((node, i) => (
+          <g key={node.label}>
+            <rect x={node.x} y={15} width={120} height={80} rx={12} fill={node.color} stroke="#e2e8f0" strokeWidth={1} />
+            <text x={node.x + 60} y={40} textAnchor="middle" className="text-xs font-semibold" fill="#1e293b">{node.label}</text>
+            <text x={node.x + 60} y={58} textAnchor="middle" className="text-[9px]" fill="#64748b">{node.check}</text>
+            <text x={node.x + 60} y={78} textAnchor="middle" fontSize={16} fill="#22c55e">{"\u2713"}</text>
+            {i < 3 && <path d={`M${node.x + 125} 55 L${node.x + 150} 55`} stroke="#94a3b8" strokeWidth={1.5} markerEnd="url(#arrow6)" />}
+          </g>
+        ))}
+        <defs>
+          <marker id="arrow6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth={6} markerHeight={6} orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
+          </marker>
+        </defs>
+      </svg>
+    ),
+
+    "Banking Loan Sale Automation": (
+      <svg viewBox="0 0 600 120" className="w-full h-auto" fill="none">
+        {[
+          { x: 0, label: "Query", color: "#dbeafe", icon: "\uD83D\uDDC4" },
+          { x: 155, label: "Validate", color: "#fef3c7", icon: "\u2713" },
+          { x: 310, label: "Filter", color: "#e0e7ff", icon: "\u2699\uFE0F" },
+          { x: 465, label: "9-Tab Report", color: "#d1fae5", icon: "\uD83D\uDCCB" },
+        ].map((node, i) => (
+          <g key={node.label}>
+            <rect x={node.x} y={20} width={120} height={70} rx={12} fill={node.color} stroke="#e2e8f0" strokeWidth={1} />
+            <text x={node.x + 60} y={48} textAnchor="middle" fontSize={18}>{node.icon}</text>
+            <text x={node.x + 60} y={72} textAnchor="middle" className="text-[10px] font-medium" fill="#374151">{node.label}</text>
+            {i < 3 && <path d={`M${node.x + 125} 55 L${node.x + 150} 55`} stroke="#94a3b8" strokeWidth={1.5} markerEnd="url(#arrow7)" />}
+          </g>
+        ))}
+        <defs>
+          <marker id="arrow7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth={6} markerHeight={6} orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
+          </marker>
+        </defs>
+      </svg>
+    ),
+  };
+
+  const diagram = diagrams[title];
+  if (!diagram) return null;
+
+  return (
+    <div className="mb-6 rounded-xl bg-neutral-50 border border-neutral-200/60 p-4 overflow-hidden">
+      {diagram}
+    </div>
+  );
+}
+
 function ProjectModal({ project, onClose }: { project: Project | null; onClose: () => void }) {
   if (!project) return null;
 
@@ -754,6 +951,7 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
 
           <p className="mt-4 text-base leading-relaxed text-neutral-600">{project.description}</p>
 
+          <div className="mt-6"><ProjectDiagram title={project.title} /></div>
           <div className="my-6 h-px bg-neutral-200/60" />
 
           <h3 className="text-sm font-semibold text-neutral-900 mb-3">Details</h3>
