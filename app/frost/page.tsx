@@ -786,7 +786,7 @@ function ProjectsSection() {
                 </button>
               ))}
             </div>
-            <AnimatePresence mode="wait">
+            <AnimatePresence mode="popLayout">
               <motion.p
                 key={activeCategory}
                 initial={{ opacity: 0, y: 4 }}
