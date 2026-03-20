@@ -24,6 +24,9 @@ import {
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import NumberFlow from "@number-flow/react";
+import { Dock, DockIcon, DockItem, DockLabel } from "@/components/ui/dock";
+import { GlowingEffect } from "@/components/ui/glowing-effect";
+import { Globe } from "@/components/ui/globe";
 import type { Project } from "@/lib/data";
 
 /* ---------------------------------------------------------------------------
@@ -80,7 +83,7 @@ function FrostNav() {
       )}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <a href="#" className="text-lg font-bold text-neutral-900">
+        <a href="#" className="text-sm font-medium text-neutral-900 tracking-tight">
           Omer
         </a>
 
@@ -344,12 +347,14 @@ function AboutSection() {
     <section id="about" className="relative px-6 py-32 md:px-12 lg:px-24">
       <div className="mx-auto max-w-5xl">
         <ScrollReveal>
+          <div className="relative rounded-3xl">
+            <GlowingEffect spread={60} glow={true} disabled={false} proximity={80} />
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="rounded-3xl bg-white/70 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 shadow-[0_8px_32px_rgba(0,0,0,0.08)] p-8 md:p-12"
+            className="relative rounded-3xl bg-white/70 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 shadow-[0_8px_32px_rgba(0,0,0,0.08)] p-8 md:p-12"
           >
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600 mb-8">About</p>
 
@@ -398,6 +403,7 @@ function AboutSection() {
               ))}
             </div>
           </motion.div>
+          </div>
         </ScrollReveal>
       </div>
     </section>
@@ -786,8 +792,11 @@ function ContactSection() {
   }
 
   return (
-    <section id="contact" className="relative px-6 py-32 md:px-12 lg:px-24">
-      <div className="mx-auto max-w-2xl text-center">
+    <section id="contact" className="relative px-6 py-32 md:px-12 lg:px-24 overflow-hidden">
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-20 pointer-events-none hidden lg:block w-[400px] h-[400px]">
+        <Globe className="relative w-full h-full max-w-none" />
+      </div>
+      <div className="relative mx-auto max-w-2xl text-center">
         <ScrollReveal>
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600">Contact</p>
           <h2 className="mt-4 text-4xl font-bold text-neutral-900 md:text-5xl">Let&apos;s Connect</h2>
@@ -845,26 +854,6 @@ function ContactSection() {
           </form>
         </ScrollReveal>
 
-        <ScrollReveal delay={0.3}>
-          <div className="mt-12 flex justify-center gap-4">
-            {[
-              { href: links.github, icon: Github, label: "GitHub" },
-              { href: links.linkedin, icon: Linkedin, label: "LinkedIn" },
-              { href: links.email, icon: Mail, label: "Email" },
-            ].map(({ href, icon: Icon, label }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={label}
-                className="group flex h-12 w-12 items-center justify-center rounded-full bg-white/70 backdrop-blur-xl border border-white/60 shadow-sm shadow-black/8 transition-all hover:bg-white/80 hover:shadow-md hover:shadow-black/10"
-              >
-                <Icon className="h-5 w-5 text-neutral-400 transition-colors group-hover:text-neutral-700" />
-              </a>
-            ))}
-          </div>
-        </ScrollReveal>
       </div>
     </section>
   );
@@ -915,6 +904,41 @@ function Footer() {
 }
 
 /* ---------------------------------------------------------------------------
+   FLOATING DOCK — macOS-style social links bar
+   --------------------------------------------------------------------------- */
+
+function FloatingDock() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+
+  return (
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40">
+      <Dock className="bg-white/70 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/10">
+        <DockItem className="aspect-square rounded-full bg-white/50 backdrop-blur-md border border-white/40">
+          <a href={links.github} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center">
+            <DockIcon><Github className="h-5 w-5 text-neutral-600" /></DockIcon>
+          </a>
+          <DockLabel>GitHub</DockLabel>
+        </DockItem>
+        <DockItem className="aspect-square rounded-full bg-white/50 backdrop-blur-md border border-white/40">
+          <a href={links.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center">
+            <DockIcon><Linkedin className="h-5 w-5 text-neutral-600" /></DockIcon>
+          </a>
+          <DockLabel>LinkedIn</DockLabel>
+        </DockItem>
+        <DockItem className="aspect-square rounded-full bg-white/50 backdrop-blur-md border border-white/40">
+          <a href={links.email} className="flex items-center justify-center">
+            <DockIcon><Mail className="h-5 w-5 text-neutral-600" /></DockIcon>
+          </a>
+          <DockLabel>Email</DockLabel>
+        </DockItem>
+      </Dock>
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------------------------
    MAIN PAGE
    --------------------------------------------------------------------------- */
 
@@ -954,6 +978,7 @@ export default function FrostPage() {
           <ContactSection />
         </main>
         <Footer />
+        <FloatingDock />
       </div>
     </div>
   );
