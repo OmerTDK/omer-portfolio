@@ -28,11 +28,11 @@ export const bio = {
   tagline: "Building data pipelines that turn raw chaos into clean insights",
   profileImage: "/assets/omer-profile.jpg",
   location: "Berlin, Germany",
-  education: "MSc Data Science — Arden University",
+  education: "MSc Data Science — Arden University (Graduated)",
   about: [
     "I build the data infrastructure that teams depend on for real decisions. At a Berlin-based fintech startup, I designed the entire data platform from scratch — a medallion architecture processing production data through four transformation layers into business-ready analytics.",
     "My work spans the full data lifecycle: extraction pipelines, dimensional modeling with dbt, automated financial reporting for banking partners, and data quality frameworks that catch problems before they reach stakeholders.",
-    "Currently deepening my expertise with an MSc in Data Science, bridging the gap between engineering rigor and statistical modeling.",
+    "With a freshly completed MSc in Data Science and 4+ years of hands-on experience across freelance, enterprise, and startup environments, I bridge the gap between engineering rigor and statistical modeling.",
   ],
   stats: [
     { value: 41, label: "dbt Models", suffix: "" },
@@ -152,17 +152,31 @@ export const projects: Project[] = [
 
 export const experience: Experience[] = [
   {
-    date: "2024 — Present",
-    company: "Fintech Startup · Berlin",
-    role: "Analytics Engineer",
-    description: "Building the data platform from scratch — medallion architecture, automated financial reporting, compliance pipelines, and a comprehensive data quality framework. Sole data engineer owning the full stack from raw extraction to consumption-layer marts.",
+    date: "Aug 2025 — Present",
+    company: "Cloover · Berlin, Germany",
+    role: "Data Scientist",
+    description: "Building the data platform from scratch — medallion architecture (Bronze→Gold), automated financial reporting for banking partners, compliance pipelines, and a comprehensive data quality framework. Sole data engineer owning the full stack from raw extraction to consumption-layer marts.",
     isCurrent: true,
   },
   {
-    date: "2023 — 2024",
-    company: "Freelance · Remote",
-    role: "Data Analyst & BI Specialist",
-    description: "Delivered 20+ data projects for clients — dashboards, predictive models, geospatial analysis, and sales strategy analytics. Built interactive Streamlit apps and automated reporting workflows.",
+    date: "Oct 2023 — Dec 2024",
+    company: "Fidelis Care · New York, US (Remote)",
+    role: "Data Analyst I",
+    description: "Contract role supporting healthcare data operations. Built analytical workflows, developed reporting solutions, and contributed to data-driven decision making across the organization.",
+    isCurrent: false,
+  },
+  {
+    date: "Sep 2023 — Feb 2025",
+    company: "KBY Solutions, Inc. · US (Remote)",
+    role: "Data Analyst",
+    description: "Full-time data analyst role delivering dashboards, data pipelines, and analytical insights. Worked across multiple data tools and platforms to support business intelligence needs.",
+    isCurrent: false,
+  },
+  {
+    date: "Jun 2022 — Aug 2025",
+    company: "Upwork · Remote",
+    role: "Freelance Data Scientist",
+    description: "Delivered 20+ data projects for clients spanning dashboards (Power BI, Tableau), predictive modeling (Python), geospatial analysis, and sales strategy analytics. Built interactive Streamlit apps and automated reporting workflows.",
     isCurrent: false,
   },
 ];

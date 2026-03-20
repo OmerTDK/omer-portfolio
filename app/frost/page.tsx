@@ -25,7 +25,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import NumberFlow from "@number-flow/react";
 // Dock component removed — caused runtime crash. Using custom dock instead.
-import { GlowCard } from "@/components/spotlight-card";
+// GlowCard removed — added dark halo around cards. Using clean glass instead.
 import { Globe } from "@/components/ui/globe";
 import type { Project } from "@/lib/data";
 
@@ -474,7 +474,7 @@ function AboutSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-          <GlowCard customSize glowColor="blue" className="rounded-3xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 p-8 md:p-12">
+          <div className="rounded-3xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 p-8 md:p-12">
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600 mb-8">About</p>
 
             <div className="grid gap-10 md:grid-cols-[240px_1fr] md:items-start">
@@ -528,7 +528,7 @@ function AboutSection() {
                 />
               ))}
             </div>
-          </GlowCard>
+          </div>
           </motion.div>
         </ScrollReveal>
       </div>
@@ -766,16 +766,16 @@ function FrostProjectCard({ project, index, featured }: { project: Project; inde
 
   if (featured) {
     return (
-      <GlowCard customSize glowColor="blue" className="rounded-2xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 p-8 h-full overflow-hidden hover:bg-white/80 hover:shadow-xl">
+      <div className="rounded-2xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 p-8 h-full overflow-hidden hover:bg-white/80 hover:shadow-xl">
         {cardInner}
-      </GlowCard>
+      </div>
     );
   }
 
   return (
-    <GlowCard customSize glowColor="blue" className="rounded-xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-sm shadow-black/8 p-6 h-full overflow-hidden hover:bg-white/80 hover:shadow-md">
+    <div className="rounded-xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-sm shadow-black/8 p-6 h-full overflow-hidden hover:bg-white/80 hover:shadow-md">
       {cardInner}
-    </GlowCard>
+    </div>
   );
 }
 
@@ -998,10 +998,8 @@ function TestimonialsSection() {
           {[...testimonials, ...testimonials].map((t, i) => {
             const initials = t.name.split(" ").map(n => n[0]).join("").slice(0, 2);
             return (
-              <GlowCard
+              <div
                 key={i}
-                customSize
-                glowColor="blue"
                 className="shrink-0 w-[350px] rounded-2xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 p-6"
               >
                 <p className="text-sm leading-relaxed text-neutral-500 italic">&ldquo;{t.quote}&rdquo;</p>
@@ -1030,7 +1028,7 @@ function TestimonialsSection() {
                     <p className="text-xs text-neutral-500">{t.role}</p>
                   </div>
                 </div>
-              </GlowCard>
+              </div>
             );
           })}
         </div>
