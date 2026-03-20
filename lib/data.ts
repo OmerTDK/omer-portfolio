@@ -198,28 +198,28 @@ export const projects: Project[] = [
 export const experience: Experience[] = [
   {
     date: "Aug 2025 — Present",
-    company: "Cloover · Berlin, Germany",
+    company: "Fintech Startup · Berlin, Germany",
     role: "Data Scientist",
     description: "Building the data platform from scratch — medallion architecture (Bronze→Gold), automated financial reporting for banking partners, compliance pipelines, and a comprehensive data quality framework. Sole data engineer owning the full stack from raw extraction to consumption-layer marts.",
     isCurrent: true,
   },
   {
     date: "Oct 2023 — Dec 2024",
-    company: "Fidelis Care · New York, US (Remote)",
+    company: "Healthcare Provider · US (Remote)",
     role: "Data Analyst I",
     description: "Contract role supporting healthcare data operations. Built analytical workflows, developed reporting solutions, and contributed to data-driven decision making across the organization.",
     isCurrent: false,
   },
   {
     date: "Sep 2023 — Feb 2025",
-    company: "KBY Solutions, Inc. · US (Remote)",
+    company: "Data Solutions Firm · US (Remote)",
     role: "Data Analyst",
     description: "Full-time data analyst role delivering dashboards, data pipelines, and analytical insights. Worked across multiple data tools and platforms to support business intelligence needs.",
     isCurrent: false,
   },
   {
     date: "Jun 2022 — Aug 2025",
-    company: "Upwork · Remote",
+    company: "Freelance · Remote",
     role: "Freelance Data Scientist",
     description: "Delivered 20+ data projects for clients spanning dashboards (Power BI, Tableau), predictive modeling (Python), geospatial analysis, and sales strategy analytics. Built interactive Streamlit apps and automated reporting workflows.",
     isCurrent: false,

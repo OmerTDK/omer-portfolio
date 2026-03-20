@@ -2,117 +2,49 @@
 
 ## [2026-03-19] Framework: Next.js 16 + Tailwind v4
 **Context:** Need a modern React framework with good DX, SSR, and Vercel deployment
-**Options:** Next.js 16, Astro, plain Vite+React
 **Decision:** Next.js 16 (App Router, Turbopack)
-**Reason:** Best Vercel integration, Server Components for performance, shadcn/ui compatibility, Geist fonts built-in
-
-## [2026-03-19] Initial approach: Hybrid 3D (Three.js hero + Framer Motion)
-**Context:** User wanted "super cool 3D animations"
-**Options:** Full Three.js everywhere, CSS-only, Hybrid
-**Decision:** Three.js Data Globe for hero, Framer Motion for scroll animations
-**Reason:** Hero gets 80% of first impressions; rest benefits more from speed than WebGL
-**Status:** SUPERSEDED — user found the globe generic, pivoted to designer-made components
-
-## [2026-03-19] Color palette v1: Blue Spectrum (cold navy)
-**Context:** User chose "Blue Spectrum" from 4 palette options
-**Decision:** Dark base (#050810), blue (#60a5fa), violet (#8b5cf6), cyan (#22d3ee)
-**Status:** SUPERSEDED — user found it too cold/sterile, pivoted to warm charcoal then to Reuno aesthetic
-
-## [2026-03-19] Color palette v2: Warm charcoal
-**Context:** Cold navy felt "generic and AI-made"
-**Decision:** Warm charcoal (#1a1a1a), frosted glass effects, same accent colors
-**Status:** SUPERSEDED — still felt like color swaps, not a real redesign
+**Reason:** Best Vercel integration, Server Components, shadcn/ui compatibility
 
 ## [2026-03-19] Anonymize employer references
-**Context:** Original content named Cloover, BAWAG, Bubble.io directly
-**Options:** Keep real names, fully anonymize, partial anonymize
-**Decision:** Replace with descriptors — "Fintech Startup", "Banking Partner"
-**Reason:** Industry standard: keep technical depth, remove identifying details. Protects employer while showcasing skills.
+**Decision:** Replace company names with descriptors — "Fintech Startup", "Banking Partner", "Healthcare Provider", "Data Solutions Firm"
+**Reason:** Industry standard: keep technical depth, remove identifying details
 
-## [2026-03-19] Include all projects (not just current role)
-**Context:** Initial build only had 4 Cloover projects, user has 14 GitHub repos + old portfolio projects
-**Decision:** Include 9 projects spanning Data Engineering, Data Science, and Analytics categories
-**Reason:** Shows breadth and depth, includes GitHub links for credibility
+## [2026-03-19] 21st.dev components over custom-built
+**Decision:** Use designer-made components from 21st.dev community registry
+**Reason:** Designer-made components have visual craft that AI-generated code lacks
 
-## [2026-03-19] Contact form with Formspree (no backend)
-**Context:** User wanted contact form, not just links
-**Options:** Server Action + email API, Formspree, Calendly embed, links only
-**Decision:** Formspree for the form + social links alongside
-**Reason:** No backend needed, free tier sufficient, form + links is modern standard
+## [2026-03-20] Three portfolio versions for comparison
+**Decision:** /paths (light editorial), /reuno (dark mesh gradient), /frost (light frosted glass)
+**Reason:** User couldn't decide, wanted to compare with friends/family
 
-## [2026-03-19] Ditch custom-built components for 21st.dev
-**Context:** Multiple iterations of custom heroes/sections felt "generic" and "AI-made"
-**Options:** Keep iterating on custom components, use 21st.dev pre-built components, use v0
-**Decision:** Install and evaluate 21st.dev community components (shadcn-compatible)
-**Reason:** Designer-made components have visual craft that AI-generated code lacks. They install via `npx shadcn@latest add` and are fully customizable.
+## [2026-03-20] Frost as primary version
+**Decision:** Frost version became the primary focus for all new features
+**Reason:** Combines mesh gradient (living background) with light readability and macOS frosted glass aesthetic
 
-## [2026-03-19] Hero finalists from 21st.dev
-**Context:** Installed 9 hero components, user narrowed to 4, then 3 favorites
-**Components evaluated:** Background Paths, Aurora Flow, Hero 01, Reuno Hero, Easemize Hero, Wrap Shader, Splite, Glowy Waves, Spatial Showcase
-**User's top 3:** Background Paths (#1), Reuno Hero (#3), Wrap Shader (#4)
-**Reason for elimination:** Aurora Flow had WebGL issues; others didn't match user's aesthetic preference
+## [2026-03-20] Tubelight floating nav
+**Decision:** Replaced traditional fixed nav with floating pill navbar (tubelight style from 21st.dev)
+**Reason:** More unique, matches the frost aesthetic, works on both mobile (bottom) and desktop (top)
 
-## [2026-03-20] Two-version approach
-**Context:** User couldn't choose between Background Paths (clean/Apple) and Reuno (dark/immersive)
-**Options:** Pick one, combine elements, build both
-**Decision:** Build two fully separate versions at /paths and /reuno with a chooser at /
-**Reason:** User wants to compare with friends/family before committing. Each version is cohesive — one visual language throughout.
-
-## [2026-03-20] Reuno version: ONE persistent mesh gradient
-**Context:** Earlier attempts mixed different visual styles per section (globe, particles, shaders) — felt incoherent
-**Decision:** Single fixed MeshGradient background for entire page, all content scrolls over it
-**Reason:** Sites user admired (anime.js, igloo.inc) all have one consistent visual identity. Glass cards + consistent cyan/orange accents unify the sections.
-
-## [2026-03-20] Paths version: Light/white aesthetic
-**Context:** Background Paths component is naturally light/neutral
-**Decision:** White background, neutral gray borders, black text — fully separate from dark version
-**Reason:** Matches Apple-like clean aesthetic. No dark mode, no glass effects — a completely different visual language.
-
-## [2026-03-20] Unique section layouts per version (not just color swaps)
-**Context:** Both versions had identical section layouts with just colors changed — felt like the same site
-**Options:** Shared components with theme props, fully separate pages
-**Decision:** Each version is a fully self-contained page with unique layouts per section
-**Reason:** The Paths version uses editorial layouts (tilted photo, horizontal pills, featured+compact cards, text links) while Reuno uses immersive layouts (glass panels, glowing grids, horizontal scroll timeline). They should feel like different websites.
-
-## [2026-03-20] Reuno palette: monochrome + subtle blue (Apple-like)
-**Context:** Original Reuno had vibrant cyan + orange — too colorful, not Apple-like
-**Options:** Keep vibrant, go monochrome, muted single accent
-**Decision:** Monochrome mesh gradient (`#000, #1a1a1a, #2a2a2a, #0a0a0a, #1e3a5f`) with blue-400 as single accent
-**Reason:** Apple product pages use near-monochrome with one subtle accent. Deep blacks with a barely-there blue feels premium and restrained.
-
-## [2026-03-20] Frost version: light macOS frosted glass
-**Context:** User liked both Background Paths (clean) and Reuno (dark) but wanted to explore a third direction
-**Options:** Pick one, combine them, build a third
-**Decision:** Created /frost — light mode with MeshGradient background and macOS-style frosted glass (`bg-white/70 backdrop-blur-xl`)
-**Reason:** Combines the best of both: mesh gradient's living background (Reuno) with light/clean readability (Paths). The frosted glass gives a premium macOS Big Sur feel.
-
-## [2026-03-20] Frost gradient: white-dominant with blue accents, scroll-driven
-**Context:** Initial frost gradient was too colorful (all pastels) then too invisible (all near-white)
-**Options:** Static gradient, per-section different colors, progressive depth
-**Decision:** White-dominant with blue/indigo accents that get progressively deeper as you scroll, then lighten back for Contact
-**Reason:** Creates a subtle narrative — the deeper you go into the content, the more the color intensifies. Returning to light at the end feels like resolution.
+## [2026-03-20] Project detail modal (Apple sheet-style)
+**Decision:** Click project cards → slides up a modal sheet with full details instead of inline expand
+**Reason:** Apple uses sheet-style modals. Cleaner than inline expansion, focused reading experience
 
 ## [2026-03-20] Smooth gradient transitions via RGB interpolation
-**Context:** MeshGradient prop changes caused colors to snap instantly between sections
-**Options:** CSS transition (doesn't work on WebGL), instant swap, manual interpolation
-**Decision:** Custom RGB interpolation with cubic ease-in-out over 1.5 seconds using requestAnimationFrame
-**Reason:** The shader doesn't support CSS transitions. Manual interpolation blends each color channel smoothly, creating the illusion of a continuous color flow.
+**Decision:** Custom per-channel RGB interpolation with cubic ease over 1.8s using requestAnimationFrame
+**Reason:** MeshGradient shader doesn't support CSS transitions. Manual interpolation creates smooth color flow
 
-## [2026-03-20] Replace 21st.dev Dock with custom implementation
-**Context:** The `motion-primitives/dock` component caused a runtime crash (`Cannot read properties of undefined`)
-**Options:** Debug the component, wrap in error boundary, build custom
-**Decision:** Built custom dock using `motion.a` with spring hover animations
-**Reason:** The 21st.dev component had an internal framer-motion dependency issue. Custom dock achieves the same visual effect (scale up + float on hover) with zero dependencies beyond motion/react.
+## [2026-03-20] Remove GlowCard (spotlight-card)
+**Decision:** Removed GlowCard component, reverted to clean frosted glass divs
+**Reason:** GlowCard added a dark halo/gradient overlay that made cards look "dirty" instead of premium
 
-## [2026-03-20] Testimonials: real clients + placeholder references
-**Context:** Need social proof section
-**Options:** Skip testimonials, use all placeholders, mix real + placeholder
-**Decision:** 4 real clients (Adnan, Zain, Esra, Robin) with LinkedIn links + 3 anonymous placeholders
-**Reason:** Real names with LinkedIn links add credibility. Placeholders fill the marquee and can be replaced with real quotes later. Photo slots ready for when user downloads profile pictures.
+## [2026-03-20] Real work projects from codebase
+**Decision:** Added 5 projects from actual work: Deal Volume Forecasting, AI Document Extraction, Executive KPI Dashboard, Tax Invoice Parser, Banking Loan Sale Automation
+**Reason:** Shows real production engineering depth, all anonymized
 
 ## Standing decisions
 - **No "Co-Authored-By: Claude" in commits** — user preference
 - **Commit regularly** — document progress in git history
 - **Feature branches** — `omer/` prefix, squash merge to main
-- **Formspree ID** — placeholder `YOUR_FORM_ID`, user to configure after choosing version
+- **Formspree ID** — placeholder `YOUR_FORM_ID`, user to configure
 - **Profile picture** — downloaded from GitHub, used in About section
+- **Firecrawl** — 500 credits, use sparingly
