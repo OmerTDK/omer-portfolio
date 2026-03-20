@@ -73,31 +73,39 @@ function lerpColors(from: string[], to: string[], t: number): string[] {
 function DynamicMeshBackground() {
   const [colors, setColors] = useState(sectionColorMap.hero);
   const currentSection = useRef("hero");
-  const targetColors = useRef(sectionColorMap.hero);
-  const currentColors = useRef(sectionColorMap.hero);
-  const animationRef = useRef<number | null>(null);
+  const fromColors = useRef(sectionColorMap.hero);
+  const toColors = useRef(sectionColorMap.hero);
+  const animRef = useRef<number | null>(null);
+  const startTimeRef = useRef<number | null>(null);
+  const displayedColors = useRef(sectionColorMap.hero);
 
-  // Smoothly interpolate colors over ~1.5 seconds
   useEffect(() => {
-    let startTime: number | null = null;
-    const duration = 1500; // ms
+    const duration = 1800;
 
-    function animate(time: number) {
-      if (!startTime) startTime = time;
-      const elapsed = time - startTime;
+    function tick(time: number) {
+      if (!startTimeRef.current) startTimeRef.current = time;
+      const elapsed = time - startTimeRef.current;
       const t = Math.min(elapsed / duration, 1);
-      // Ease-in-out cubic
       const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
-      const interpolated = lerpColors(currentColors.current, targetColors.current, eased);
+      const interpolated = lerpColors(fromColors.current, toColors.current, eased);
+      displayedColors.current = interpolated;
       setColors(interpolated);
 
       if (t < 1) {
-        animationRef.current = requestAnimationFrame(animate);
+        animRef.current = requestAnimationFrame(tick);
       } else {
-        currentColors.current = targetColors.current;
-        animationRef.current = null;
+        fromColors.current = [...toColors.current];
+        animRef.current = null;
       }
+    }
+
+    function startTransition(targetSection: string) {
+      fromColors.current = [...displayedColors.current];
+      toColors.current = sectionColorMap[targetSection];
+      startTimeRef.current = null;
+      if (animRef.current) cancelAnimationFrame(animRef.current);
+      animRef.current = requestAnimationFrame(tick);
     }
 
     function handleScroll() {
@@ -116,23 +124,16 @@ function DynamicMeshBackground() {
 
       if (newSection !== currentSection.current) {
         currentSection.current = newSection;
-        // Snapshot current interpolated state as the new start
-        currentColors.current = [...colors];
-        targetColors.current = sectionColorMap[newSection];
-
-        // Restart animation
-        if (animationRef.current) cancelAnimationFrame(animationRef.current);
-        startTime = null;
-        animationRef.current = requestAnimationFrame(animate);
+        startTransition(newSection);
       }
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+      if (animRef.current) cancelAnimationFrame(animRef.current);
     };
-  }, [colors]);
+  }, []); // empty deps — all state managed via refs
 
   return (
     <div className="fixed inset-0 z-0">
