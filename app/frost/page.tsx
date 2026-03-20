@@ -389,7 +389,7 @@ function HeroContent() {
           width={600}
           height={140}
           rotate={12}
-          color="rgba(129,140,248,0.35)"
+          color="rgba(99,102,241,0.30)"
           floatDuration={14}
           floatDistance={20}
           rotateDrift={4}
@@ -400,7 +400,7 @@ function HeroContent() {
           width={500}
           height={120}
           rotate={-15}
-          color="rgba(96,165,250,0.30)"
+          color="rgba(56,189,248,0.28)"
           floatDuration={10}
           floatDistance={18}
           rotateDrift={-6}
@@ -412,7 +412,7 @@ function HeroContent() {
           width={300}
           height={80}
           rotate={-8}
-          color="rgba(165,180,252,0.30)"
+          color="rgba(139,92,246,0.25)"
           floatDuration={16}
           floatDistance={12}
           rotateDrift={3}
@@ -423,7 +423,7 @@ function HeroContent() {
           width={200}
           height={60}
           rotate={20}
-          color="rgba(147,197,253,0.32)"
+          color="rgba(14,165,233,0.24)"
           floatDuration={9}
           floatDistance={22}
           rotateDrift={-8}
@@ -435,7 +435,7 @@ function HeroContent() {
           width={150}
           height={40}
           rotate={-25}
-          color="rgba(59,130,246,0.22)"
+          color="rgba(79,70,229,0.22)"
           floatDuration={11}
           floatDistance={16}
           rotateDrift={5}
