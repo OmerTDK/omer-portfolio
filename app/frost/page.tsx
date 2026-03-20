@@ -3,15 +3,31 @@
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { bio, skills, projects, projectCategories, experience, links } from "@/lib/data";
 import { MeshGradient } from "@paper-design/shaders-react";
-import { motion, AnimatePresence } from "motion/react";
-import { useState, useEffect } from "react";
-import { MapPin, GraduationCap, Github, Linkedin, Mail, Send, ExternalLink, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence, useInView } from "motion/react";
+import { useState, useEffect, useRef } from "react";
+import {
+  MapPin,
+  GraduationCap,
+  Github,
+  Linkedin,
+  Mail,
+  Send,
+  ExternalLink,
+  ChevronDown,
+  Wrench,
+  FlaskConical,
+  BarChart3,
+  ArrowUp,
+  Menu,
+  X,
+} from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import NumberFlow from "@number-flow/react";
 import type { Project } from "@/lib/data";
 
 /* ---------------------------------------------------------------------------
-   INLINE NAV — Frosted glass, macOS style
+   INLINE NAV — Frosted glass, macOS style, with mobile menu
    --------------------------------------------------------------------------- */
 
 const navLinks = [
@@ -25,6 +41,7 @@ const navLinks = [
 function FrostNav() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     function handleScroll() {
@@ -45,11 +62,19 @@ function FrostNav() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  function scrollTo(id: string) {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+      setMobileOpen(false);
+    }
+  }
+
   return (
     <nav
       className={cn(
         "fixed top-0 left-0 right-0 z-40 transition-all duration-300",
-        scrolled
+        scrolled || mobileOpen
           ? "bg-white/60 backdrop-blur-xl border-b border-white/50 shadow-sm shadow-black/5"
           : "bg-transparent"
       )}
@@ -58,11 +83,12 @@ function FrostNav() {
         <a href="#" className="text-lg font-bold text-neutral-900">
           Omer
         </a>
+
         <div className="hidden items-center gap-8 md:flex">
           {navLinks.map((link) => (
-            <a
+            <button
               key={link.id}
-              href={`#${link.id}`}
+              onClick={() => scrollTo(link.id)}
               className={cn(
                 "relative text-sm font-medium transition-colors duration-200",
                 activeSection === link.id ? "text-blue-600" : "text-neutral-400 hover:text-neutral-600"
@@ -76,17 +102,140 @@ function FrostNav() {
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
-            </a>
+            </button>
           ))}
         </div>
+
+        <button
+          className="text-neutral-500 md:hidden"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label={mobileOpen ? "Close menu" : "Open menu"}
+        >
+          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
       </div>
+
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="bg-white/70 backdrop-blur-xl border-b border-white/50 md:hidden overflow-hidden"
+          >
+            <div className="flex flex-col gap-4 px-6 py-4">
+              {navLinks.map((link) => (
+                <button
+                  key={link.id}
+                  onClick={() => scrollTo(link.id)}
+                  className={cn(
+                    "text-left text-sm transition-colors",
+                    activeSection === link.id ? "text-blue-600 font-medium" : "text-neutral-400"
+                  )}
+                >
+                  {link.label}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }
 
 /* ---------------------------------------------------------------------------
-   HERO
+   SCROLL PROGRESS — thin line at top of page
    --------------------------------------------------------------------------- */
+
+function ScrollProgress() {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    function handleScroll() {
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(total > 0 ? window.scrollY / total : 0);
+    }
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <div className="fixed top-0 left-0 right-0 z-50 h-0.5">
+      <div
+        className="h-full bg-blue-600 transition-all duration-100"
+        style={{ width: `${progress * 100}%` }}
+      />
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------------------------
+   CURSOR GLOW — radial gradient following mouse (desktop only)
+   --------------------------------------------------------------------------- */
+
+function CursorGlow() {
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    function checkDesktop() {
+      setIsDesktop(window.innerWidth >= 768);
+    }
+    checkDesktop();
+    window.addEventListener("resize", checkDesktop);
+    return () => window.removeEventListener("resize", checkDesktop);
+  }, []);
+
+  useEffect(() => {
+    if (!isDesktop) return;
+    function handleMove(e: MouseEvent) {
+      setPos({ x: e.clientX, y: e.clientY });
+    }
+    window.addEventListener("mousemove", handleMove);
+    return () => window.removeEventListener("mousemove", handleMove);
+  }, [isDesktop]);
+
+  if (!isDesktop) return null;
+
+  return (
+    <div
+      className="fixed pointer-events-none z-30 w-[500px] h-[500px] rounded-full opacity-20 blur-[100px] transition-all duration-300"
+      style={{
+        left: pos.x - 250,
+        top: pos.y - 250,
+        background: "radial-gradient(circle, rgba(147, 197, 253, 0.3) 0%, transparent 70%)",
+      }}
+    />
+  );
+}
+
+/* ---------------------------------------------------------------------------
+   HERO — with per-character staggered animation
+   --------------------------------------------------------------------------- */
+
+function AnimatedName({ text, className, style }: { text: string; className?: string; style?: React.CSSProperties }) {
+  return (
+    <span className={className} style={style}>
+      {text.split("").map((char, i) => (
+        <motion.span
+          key={i}
+          initial={{ y: 40, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{
+            delay: 0.4 + i * 0.04,
+            type: "spring",
+            stiffness: 150,
+            damping: 25,
+          }}
+          className="inline-block"
+        >
+          {char}
+        </motion.span>
+      ))}
+    </span>
+  );
+}
 
 function HeroContent() {
   return (
@@ -103,13 +252,9 @@ function HeroContent() {
           </span>
         </motion.div>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.4 }}
-          className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-[0.9]"
-        >
-          <span
+        <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-[0.9]">
+          <AnimatedName
+            text="Omer"
             className="block"
             style={{
               background: "linear-gradient(135deg, #171717 0%, #2563eb 45%, #171717 100%)",
@@ -118,11 +263,9 @@ function HeroContent() {
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
             }}
-          >
-            Omer
-          </span>
-          <span className="block text-neutral-900">Zaman</span>
-        </motion.h1>
+          />
+          <AnimatedName text="Zaman" className="block text-neutral-900" />
+        </h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -174,8 +317,27 @@ function HeroContent() {
 }
 
 /* ---------------------------------------------------------------------------
-   ABOUT — Frosted glass panel
+   ABOUT — Frosted glass panel with animated stat counters
    --------------------------------------------------------------------------- */
+
+function AnimatedStat({ value, suffix, label }: { value: number; suffix: string; label: string }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
+  const [displayValue, setDisplayValue] = useState(0);
+
+  useEffect(() => {
+    if (inView) setDisplayValue(value);
+  }, [inView, value]);
+
+  return (
+    <div ref={ref} className="text-center">
+      <div className="font-mono text-3xl font-bold text-neutral-900 md:text-4xl">
+        <NumberFlow value={displayValue} />{suffix}
+      </div>
+      <div className="mt-1 text-xs uppercase tracking-wider text-neutral-400">{label}</div>
+    </div>
+  );
+}
 
 function AboutSection() {
   return (
@@ -227,19 +389,44 @@ function AboutSection() {
 
             <div className="mt-10 border-t border-neutral-200/50 pt-8 flex justify-around">
               {bio.stats.map((stat) => (
-                <div key={stat.label} className="text-center">
-                  <div className="font-mono text-3xl font-bold text-neutral-900 md:text-4xl">
-                    {stat.value}
-                    {stat.suffix}
-                  </div>
-                  <div className="mt-1 text-xs uppercase tracking-wider text-neutral-400">{stat.label}</div>
-                </div>
+                <AnimatedStat
+                  key={stat.label}
+                  value={stat.value}
+                  suffix={stat.suffix}
+                  label={stat.label}
+                />
               ))}
             </div>
           </motion.div>
         </ScrollReveal>
       </div>
     </section>
+  );
+}
+
+/* ---------------------------------------------------------------------------
+   TECH MARQUEE — scrolling tech stack names
+   --------------------------------------------------------------------------- */
+
+function TechMarquee() {
+  const techStack = [
+    "BigQuery", "dbt", "SQL", "Python", "Pandas", "GCP", "Docker",
+    "Metabase", "Streamlit", "TensorFlow", "Git", "Cloud Run",
+  ];
+
+  return (
+    <div className="py-16 overflow-hidden">
+      <div className="flex animate-marquee gap-8">
+        {[...techStack, ...techStack].map((tech, i) => (
+          <span
+            key={i}
+            className="shrink-0 text-sm font-medium text-neutral-300 whitespace-nowrap"
+          >
+            {tech}
+          </span>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -303,10 +490,57 @@ function SkillsSection() {
 }
 
 /* ---------------------------------------------------------------------------
-   PROJECTS — Frosted glass cards with text-tab filters
+   PIPELINE FLOW — RAW → STG → DWH → GOLD animation
    --------------------------------------------------------------------------- */
 
-function FrostProjectCard({ project, index }: { project: Project; index: number }) {
+const pipelineStages = [
+  { label: "RAW", sublabel: "Extract" },
+  { label: "STG", sublabel: "Clean" },
+  { label: "DWH", sublabel: "Model" },
+  { label: "GOLD", sublabel: "Serve" },
+];
+
+function PipelineFlow() {
+  return (
+    <div className="flex items-center justify-center gap-2 md:gap-4 py-8">
+      {pipelineStages.map((stage, i) => (
+        <div key={stage.label} className="flex items-center gap-2 md:gap-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.15, type: "spring", stiffness: 200, damping: 20 }}
+            className="flex flex-col items-center gap-1 rounded-xl bg-white/60 backdrop-blur-xl border border-white/50 shadow-sm shadow-black/5 px-4 py-3 md:px-6 md:py-4"
+          >
+            <span className="font-mono text-xs font-bold text-blue-600">{stage.label}</span>
+            <span className="text-[10px] text-neutral-400">{stage.sublabel}</span>
+          </motion.div>
+          {i < pipelineStages.length - 1 && (
+            <motion.div
+              initial={{ opacity: 0, scaleX: 0 }}
+              whileInView={{ opacity: 1, scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.15 + 0.1, duration: 0.3 }}
+              className="h-px w-6 bg-blue-300 md:w-10 origin-left"
+            />
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------------------------
+   PROJECTS — Frosted glass cards with text-tab filters and category icons
+   --------------------------------------------------------------------------- */
+
+const categoryIcons: Record<string, React.ReactNode> = {
+  engineering: <Wrench className="h-3.5 w-3.5" />,
+  science: <FlaskConical className="h-3.5 w-3.5" />,
+  analytics: <BarChart3 className="h-3.5 w-3.5" />,
+};
+
+function FrostProjectCard({ project, index, featured }: { project: Project; index: number; featured?: boolean }) {
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -316,17 +550,41 @@ function FrostProjectCard({ project, index }: { project: Project; index: number 
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.08 }}
       onClick={() => setExpanded(!expanded)}
-      className="group cursor-pointer rounded-2xl bg-white/60 backdrop-blur-xl border border-white/50 shadow-lg shadow-black/5 p-6 transition-all duration-300 hover:bg-white/70 hover:shadow-xl hover:shadow-black/10 h-full"
+      className={cn(
+        "group cursor-pointer rounded-2xl bg-white/60 backdrop-blur-xl border border-white/50 shadow-lg shadow-black/5 p-6 transition-all duration-300 hover:bg-white/70 hover:shadow-xl hover:shadow-black/10 h-full",
+        featured && "md:p-8"
+      )}
     >
       <div className="flex items-start justify-between">
         <div>
-          <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-blue-600 transition-colors">
-            {project.title}
-          </h3>
-          <p className="mt-2 text-sm leading-relaxed text-neutral-500">{project.description}</p>
+          <div className="flex items-center gap-2">
+            <span className="text-blue-500">{categoryIcons[project.category]}</span>
+            <h3 className={cn(
+              "font-semibold text-neutral-900 group-hover:text-blue-600 transition-colors",
+              featured ? "text-xl" : "text-lg"
+            )}>
+              {project.title}
+            </h3>
+          </div>
+          <p className={cn(
+            "mt-2 leading-relaxed text-neutral-500",
+            featured ? "text-sm md:text-base" : "text-sm"
+          )}>
+            {project.description}
+          </p>
+          {featured && (
+            <p className="mt-3 text-sm leading-relaxed text-neutral-400">
+              {project.longDescription}
+            </p>
+          )}
         </div>
         <div className="ml-4 text-right shrink-0">
-          <span className="font-mono text-2xl font-bold text-blue-600">{project.metric}</span>
+          <span className={cn(
+            "font-mono font-bold text-blue-600",
+            featured ? "text-3xl" : "text-2xl"
+          )}>
+            {project.metric}
+          </span>
           <p className="text-xs text-neutral-400">{project.metricLabel}</p>
         </div>
       </div>
@@ -351,21 +609,23 @@ function FrostProjectCard({ project, index }: { project: Project; index: number 
           View on GitHub <ExternalLink className="h-3 w-3" />
         </a>
       )}
-      <AnimatePresence>
-        {expanded && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="overflow-hidden"
-          >
-            <p className="mt-4 border-t border-neutral-200/50 pt-4 text-sm leading-relaxed text-neutral-500">
-              {project.longDescription}
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {!featured && (
+        <AnimatePresence>
+          {expanded && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="overflow-hidden"
+            >
+              <p className="mt-4 border-t border-neutral-200/50 pt-4 text-sm leading-relaxed text-neutral-500">
+                {project.longDescription}
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      )}
     </motion.div>
   );
 }
@@ -374,6 +634,9 @@ function ProjectsSection() {
   const [activeCategory, setActiveCategory] = useState("all");
   const filtered =
     activeCategory === "all" ? projects : projects.filter((p) => p.category === activeCategory);
+
+  const featuredProjects = filtered.slice(0, 3);
+  const remainingProjects = filtered.slice(3);
 
   return (
     <section id="projects" className="relative px-6 py-32 md:px-12 lg:px-24">
@@ -385,8 +648,12 @@ function ProjectsSection() {
           </h2>
         </ScrollReveal>
 
+        <ScrollReveal delay={0.05}>
+          <PipelineFlow />
+        </ScrollReveal>
+
         <ScrollReveal delay={0.1}>
-          <div className="mt-10 flex flex-wrap gap-6">
+          <div className="mt-4 flex flex-wrap gap-6">
             {projectCategories.map((cat) => (
               <button
                 key={cat.id}
@@ -411,9 +678,9 @@ function ProjectsSection() {
           </div>
         </ScrollReveal>
 
-        <div className="mt-10 grid gap-4 md:grid-cols-2">
+        <div className="mt-10 space-y-4">
           <AnimatePresence mode="popLayout">
-            {filtered.map((project, i) => (
+            {featuredProjects.map((project, i) => (
               <motion.div
                 key={project.title}
                 layout
@@ -422,11 +689,30 @@ function ProjectsSection() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.3, delay: i * 0.05 }}
               >
-                <FrostProjectCard project={project} index={i} />
+                <FrostProjectCard project={project} index={i} featured />
               </motion.div>
             ))}
           </AnimatePresence>
         </div>
+
+        {remainingProjects.length > 0 && (
+          <div className="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <AnimatePresence mode="popLayout">
+              {remainingProjects.map((project, i) => (
+                <motion.div
+                  key={project.title}
+                  layout
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.3, delay: (i + 3) * 0.05 }}
+                >
+                  <FrostProjectCard project={project} index={i + 3} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+        )}
       </div>
     </section>
   );
@@ -592,12 +878,52 @@ function ContactSection() {
             ))}
           </div>
         </ScrollReveal>
-
-        <div className="mt-24 text-center text-xs text-neutral-400">
-          <p>Built by Omer Zaman</p>
-        </div>
       </div>
     </section>
+  );
+}
+
+/* ---------------------------------------------------------------------------
+   FOOTER — proper footer with social links and back-to-top
+   --------------------------------------------------------------------------- */
+
+function Footer() {
+  return (
+    <footer className="relative px-6 pb-12 pt-8 md:px-12 lg:px-24">
+      <div className="mx-auto max-w-6xl">
+        <div className="h-px bg-neutral-200/40 mb-8" />
+        <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+          <p className="text-sm text-neutral-400">Built by Omer Zaman</p>
+
+          <div className="flex items-center gap-4">
+            {[
+              { href: links.github, icon: Github, label: "GitHub" },
+              { href: links.linkedin, icon: Linkedin, label: "LinkedIn" },
+              { href: links.email, icon: Mail, label: "Email" },
+            ].map(({ href, icon: Icon, label }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="text-neutral-400 transition-colors hover:text-neutral-600"
+              >
+                <Icon className="h-4 w-4" />
+              </a>
+            ))}
+
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="ml-4 flex h-8 w-8 items-center justify-center rounded-full bg-white/60 backdrop-blur-xl border border-white/50 shadow-sm shadow-black/5 transition-all hover:bg-white/80"
+              aria-label="Back to top"
+            >
+              <ArrowUp className="h-3.5 w-3.5 text-neutral-500" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </footer>
   );
 }
 
@@ -618,7 +944,9 @@ export default function FrostPage() {
       </div>
 
       <div className="relative z-10">
+        <ScrollProgress />
         <FrostNav />
+        <CursorGlow />
 
         <div className="fixed top-4 right-4 z-50">
           <a
@@ -632,11 +960,13 @@ export default function FrostPage() {
         <main>
           <HeroContent />
           <AboutSection />
+          <TechMarquee />
           <SkillsSection />
           <ProjectsSection />
           <ExperienceSection />
           <ContactSection />
         </main>
+        <Footer />
       </div>
     </div>
   );
