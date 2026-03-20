@@ -217,7 +217,7 @@ function CursorGlow() {
    HERO — with per-character staggered animation
    --------------------------------------------------------------------------- */
 
-function AnimatedName({ text, className, style }: { text: string; className?: string; style?: React.CSSProperties }) {
+function AnimatedName({ text, className, style, startDelay = 0.4 }: { text: string; className?: string; style?: React.CSSProperties; startDelay?: number }) {
   return (
     <span className={className} style={style}>
       {text.split("").map((char, i) => (
@@ -226,7 +226,7 @@ function AnimatedName({ text, className, style }: { text: string; className?: st
           initial={{ y: 40, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{
-            delay: 0.4 + i * 0.04,
+            delay: startDelay + i * 0.04,
             type: "spring",
             stiffness: 150,
             damping: 25,
@@ -258,6 +258,7 @@ function HeroContent() {
         <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-[0.9]">
           <AnimatedName
             text="Omer"
+            startDelay={0.4}
             className="block"
             style={{
               background: "linear-gradient(135deg, #171717 0%, #2563eb 45%, #171717 100%)",
@@ -267,7 +268,7 @@ function HeroContent() {
               backgroundClip: "text",
             }}
           />
-          <AnimatedName text="Zaman" className="block text-neutral-900" />
+          <AnimatedName text="Zaman" startDelay={0.35} className="block text-neutral-900" />
         </h1>
 
         <motion.p
