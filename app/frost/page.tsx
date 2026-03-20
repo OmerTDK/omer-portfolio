@@ -35,12 +35,12 @@ import type { Project } from "@/lib/data";
    --------------------------------------------------------------------------- */
 
 const sectionColorMap: Record<string, string[]> = {
-  hero:       ["#ffffff", "#e0e7ff", "#c7d2fe", "#e9d5ff", "#bfdbfe"],
-  about:      ["#ffffff", "#dbeafe", "#a5b4fc", "#ddd6fe", "#93c5fd"],
-  skills:     ["#ffffff", "#c7d2fe", "#a78bfa", "#c4b5fd", "#7dd3fc"],
-  projects:   ["#ffffff", "#bfdbfe", "#818cf8", "#c084fc", "#6366f1"],
-  experience: ["#ffffff", "#c7d2fe", "#a78bfa", "#c4b5fd", "#93c5fd"],
-  contact:    ["#ffffff", "#e0e7ff", "#c7d2fe", "#e9d5ff", "#bfdbfe"],
+  hero:       ["#ffffff", "#eef2ff", "#dbeafe", "#ede9fe", "#dbeafe"],
+  about:      ["#ffffff", "#e0e7ff", "#c7d2fe", "#e9d5ff", "#bfdbfe"],
+  skills:     ["#ffffff", "#dbeafe", "#c4b5fd", "#d4d4f8", "#a5d8ff"],
+  projects:   ["#ffffff", "#d0d5ff", "#a5b4fc", "#c4b5fd", "#93c5fd"],
+  experience: ["#ffffff", "#dbeafe", "#c7d2fe", "#d8d5f0", "#bfdbfe"],
+  contact:    ["#ffffff", "#eef2ff", "#dbeafe", "#ede9fe", "#dbeafe"],
 };
 
 const sectionIds = ["about", "skills", "projects", "experience", "contact"];
@@ -998,12 +998,12 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
             className="absolute inset-0 backdrop-blur-xl bg-white/30"
           />
 
-          {/* Modal sheet */}
+          {/* Modal sheet — scale from center, no vertical slide */}
           <motion.div
-            initial={{ y: 80, opacity: 0, scale: 0.95 }}
-            animate={{ y: 0, opacity: 1, scale: 1 }}
-            exit={{ y: 60, opacity: 0, scale: 0.97 }}
-            transition={{ type: "spring", stiffness: 200, damping: 30, mass: 0.8 }}
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             onClick={(e) => e.stopPropagation()}
             className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-t-3xl sm:rounded-3xl bg-white/92 backdrop-blur-2xl border border-white/60 shadow-2xl shadow-black/10 p-8 sm:p-10"
           >
