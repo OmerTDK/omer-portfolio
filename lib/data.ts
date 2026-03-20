@@ -35,9 +35,8 @@ export const bio = {
     "With a freshly completed MSc in Data Science and 4+ years of hands-on experience across freelance, enterprise, and startup environments, I bridge the gap between engineering rigor and statistical modeling.",
   ],
   stats: [
-    { value: 41, label: "dbt Models", suffix: "" },
-    { value: 4, label: "Pipeline Layers", suffix: "" },
-    { value: 20, label: "Projects", suffix: "+" },
+    { value: 32, label: "Completed Projects", suffix: "" },
+    { value: 10, label: "Clients", suffix: "+" },
   ],
 };
 
