@@ -283,11 +283,11 @@ function CursorGlow() {
 
   return (
     <div
-      className="fixed pointer-events-none z-20 w-[400px] h-[400px] rounded-full opacity-30 blur-[80px] transition-all duration-300"
+      className="fixed pointer-events-none z-20 w-[500px] h-[500px] rounded-full opacity-40 blur-[90px] transition-all duration-150"
       style={{
-        left: pos.x - 200,
-        top: pos.y - 200,
-        background: "radial-gradient(circle, rgba(96, 165, 250, 0.4) 0%, transparent 70%)",
+        left: pos.x - 250,
+        top: pos.y - 250,
+        background: "radial-gradient(circle, rgba(96, 165, 250, 0.5) 0%, rgba(139, 92, 246, 0.15) 40%, transparent 70%)",
       }}
     />
   );
