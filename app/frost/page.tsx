@@ -336,18 +336,7 @@ function HeroContent() {
         </motion.div>
 
         <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-[0.9]">
-          <AnimatedName
-            text="Omer"
-            startDelay={0.3}
-            className="block"
-            style={{
-              background: "linear-gradient(135deg, #171717 0%, #2563eb 45%, #171717 100%)",
-              backgroundSize: "200% 200%",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          />
+          <AnimatedName text="Omer" startDelay={0.3} className="block text-blue-600" />
           <AnimatedName text="Zaman" startDelay={0.3} className="block text-neutral-900" />
         </h1>
 
@@ -505,18 +494,24 @@ function TechMarquee() {
     "BigQuery", "dbt", "SQL", "Python", "Pandas", "GCP", "Docker",
     "Metabase", "Streamlit", "TensorFlow", "Git", "Cloud Run",
   ];
+  // Triple the items for seamless loop
+  const items = [...techStack, ...techStack, ...techStack];
 
   return (
-    <div className="py-16 overflow-hidden">
-      <div className="flex animate-marquee gap-8">
-        {[...techStack, ...techStack].map((tech, i) => (
-          <span
-            key={i}
-            className="shrink-0 text-sm font-medium text-neutral-400 whitespace-nowrap"
-          >
-            {tech}
-          </span>
-        ))}
+    <div className="py-8">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="rounded-2xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-sm shadow-black/5 overflow-hidden py-4">
+          <div className="flex animate-marquee gap-12">
+            {items.map((tech, i) => (
+              <span
+                key={i}
+                className="shrink-0 text-sm font-semibold text-neutral-500 whitespace-nowrap"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
