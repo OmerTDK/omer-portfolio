@@ -611,7 +611,7 @@ export default function FrostPage() {
       <div className="fixed inset-0 z-0">
         <MeshGradient
           style={{ height: "100%", width: "100%" }}
-          colors={["#c7d2fe", "#93c5fd", "#a5b4fc", "#7dd3fc", "#c4b5fd"]}
+          colors={["#ffffff", "#ffffff", "#c7d2fe", "#ffffff", "#93c5fd"]}
           speed={0.8}
         />
         <div className="absolute inset-0 bg-white/20" />
