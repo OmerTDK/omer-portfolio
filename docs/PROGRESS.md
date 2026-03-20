@@ -110,22 +110,109 @@ User shared inspiration sites:
 - Updated nav active state to match (blue-400)
 - Commit: `f32bece`
 
+## [2026-03-20] Phase 10: Frost version created (third variant)
+- New `/frost` route: light mode with macOS-style frosted glass
+- MeshGradient background with white-dominant blue/indigo pastels
+- All surfaces use frosted glass: `bg-white/70 backdrop-blur-xl border-white/60`
+- Custom frosted nav with animated underline
+- Built as fully self-contained page (no shared section components)
+- Commit: initial frost creation
+
+## [2026-03-20] Phase 11: Major frost feature additions
+- **Mobile navigation**: Hamburger menu with frosted glass dropdown
+- **Animated stat counters**: NumberFlow from `@number-flow/react`, triggers on scroll-into-view
+- **Per-character hero animation**: Each letter of "Omer Zaman" springs in individually
+- **Tech stack marquee**: Scrolling banner of 12 tech names between About and Skills
+- **Scroll progress indicator**: Thin blue line at top of page
+- **Project category icons**: Wrench (engineering), Flask (science), BarChart (analytics)
+- **Featured project layout**: First 3 projects full-width with expanded descriptions, rest in 3-column grid
+- **Pipeline flow animation**: RAW→STG→DWH→GOLD frosted glass nodes
+- **Cursor glow effect**: Blue radial gradient following mouse (desktop only)
+- **Proper footer**: Social links, "Built by Omer Zaman", back to top button
+- **Floating dock**: macOS-style bottom bar with social links (custom, replaced broken 21st.dev Dock)
+- **Glowing effect**: Cursor-following glow border on About panel and featured project cards
+- **Globe**: Subtle interactive globe in contact section background (desktop)
+- Commits: multiple across this phase
+
+## [2026-03-20] Phase 12: Section layout upgrades
+- Replaced Skills section with horizontal pills layout (from paths version, frosted)
+- Replaced Experience section with clean dot+line timeline (from paths version)
+- Increased frostiness: `bg-white/70`, stronger shadows, brighter borders
+- Fixed cursor glow visibility (opacity 30%, tighter blur, stronger blue)
+- Fixed Dock runtime crash — replaced 21st.dev component with custom motion dock
+
+## [2026-03-20] Phase 13: Scroll-triggered gradient + visual polish
+- **Scroll-triggered mesh gradient color shifts**: Background transitions between blue shades per section
+  - Hero: light blue → About: medium blue → Skills: indigo → Projects: deeper → Experience: deepest → Contact: back to light
+  - All in the same blue family, progressively deeper as you scroll
+  - RGB interpolation with cubic ease-in-out over 1.5 seconds (per-channel smooth blending)
+- **Project visual thumbnails**: Colored gradient headers with category icons on each card
+- **Testimonials section**: Auto-scrolling marquee with client cards
+  - Real clients: Adnan Zafar, M. Zain R., Esra Ilbay, Robin Aguilera (with LinkedIn links + photo slots)
+  - Placeholder testimonials for anonymous references
+  - Photos show initials fallback until images are added
+- **Enhanced project filters**: Animated description subtitle that fades in per category
+- **Glowing effect on featured cards**: Same treatment as About panel
+- **Parallax photo**: About section photo zooms subtly on scroll
+- **Smooth page load**: Opacity fade-in over 0.8s
+- **Custom 404 page**: Dark themed, minimal
+- Commits: `e355c4d` through `1a39112`
+
+## [2026-03-20] Phase 14: Content updates
+- Added 4 real client testimonials with LinkedIn profile links
+- Name animation timing synced (Omer and Zaman start simultaneously)
+- Nav logo made smaller and less aggressive
+
 ## Next steps
-- [ ] User picks final version based on feedback
-- [ ] Polish chosen version (animations, mobile, details)
+- [ ] Add testimonial photos (user to download from LinkedIn → public/assets/testimonials/)
 - [ ] Set up Formspree account and configure contact form
+- [ ] Add favicon (custom "OZ" design)
+- [ ] Dark mode toggle (theme-toggle component already installed)
 - [ ] Buy omerzaman.com domain and configure on Vercel
 - [ ] Performance audit (Lighthouse 90+)
+- [ ] Final mobile testing and responsive polish
 - [ ] Merge `omer/apple-vibe-rework` to `main`
+- [ ] Consider: Cases with Infinite Scroll for projects, Gallery component, Expandable Tabs
+
+## 21st.dev components installed
+| Component | Status | Used in |
+|-----------|--------|---------|
+| Background Paths (kokonutd) | Active | /paths hero |
+| MeshGradient (@paper-design) | Active | /frost + /reuno background |
+| NumberFlow (@number-flow/react) | Active | /frost stat counters |
+| Glowing Effect (aceternity) | Active | /frost About + featured cards |
+| Globe (magicui) | Active | /frost contact background |
+| Theme Toggle (ayushmxxn) | Installed | Saved for later |
+| Cases with Infinite Scroll (tommyjepsen) | Installed | Not yet integrated |
+| Expandable Tabs (victorwelander) | Installed | Not yet integrated |
+| Gallery (shadcnblockscom) | Installed | Not yet integrated |
+| Marquee Logo Scroller (ravikatiyar) | Installed | Using custom marquee instead |
+| Scroll Morph Hero (prashantsom75) | Installed | Not yet integrated |
+| Parallax Scrolling (osmosupply) | Installed | Not yet integrated |
+| Dock (motion-primitives) | Installed | Replaced with custom (crashed) |
+| Aurora Flow (Scottclayton3d) | Active | /showcase only |
+| Wrap Shader (shadway) | Active | /showcase only |
+| Reuno Hero (reuno-ui) | Active | /showcase + /reuno |
 
 ## Tech stack (current)
 - Next.js 16.2.0 (App Router, Turbopack)
 - Tailwind CSS v4
 - shadcn/ui + 21st.dev community components
-- @paper-design/shaders-react (MeshGradient for Reuno version)
+- @paper-design/shaders-react (MeshGradient)
+- @number-flow/react (animated counters)
 - motion v11 (Framer Motion)
 - GSAP + @gsap/react (timeline animations)
 - Three.js + React Three Fiber v9 (Aurora Flow showcase)
+- cobe (globe)
 - Geist Sans + Geist Mono
+- Vercel Analytics
+- Deployed on Vercel (free tier)
+
+## Live URLs
+- **Chooser**: https://omer-portfolio-ten.vercel.app/
+- **Frost** (primary): https://omer-portfolio-ten.vercel.app/frost
+- **Paths**: https://omer-portfolio-ten.vercel.app/paths
+- **Reuno**: https://omer-portfolio-ten.vercel.app/reuno
+- **Showcase**: https://omer-portfolio-ten.vercel.app/showcase
 - Vercel Analytics
 - Deployed on Vercel (free tier)

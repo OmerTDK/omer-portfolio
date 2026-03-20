@@ -80,6 +80,36 @@
 **Decision:** Monochrome mesh gradient (`#000, #1a1a1a, #2a2a2a, #0a0a0a, #1e3a5f`) with blue-400 as single accent
 **Reason:** Apple product pages use near-monochrome with one subtle accent. Deep blacks with a barely-there blue feels premium and restrained.
 
+## [2026-03-20] Frost version: light macOS frosted glass
+**Context:** User liked both Background Paths (clean) and Reuno (dark) but wanted to explore a third direction
+**Options:** Pick one, combine them, build a third
+**Decision:** Created /frost — light mode with MeshGradient background and macOS-style frosted glass (`bg-white/70 backdrop-blur-xl`)
+**Reason:** Combines the best of both: mesh gradient's living background (Reuno) with light/clean readability (Paths). The frosted glass gives a premium macOS Big Sur feel.
+
+## [2026-03-20] Frost gradient: white-dominant with blue accents, scroll-driven
+**Context:** Initial frost gradient was too colorful (all pastels) then too invisible (all near-white)
+**Options:** Static gradient, per-section different colors, progressive depth
+**Decision:** White-dominant with blue/indigo accents that get progressively deeper as you scroll, then lighten back for Contact
+**Reason:** Creates a subtle narrative — the deeper you go into the content, the more the color intensifies. Returning to light at the end feels like resolution.
+
+## [2026-03-20] Smooth gradient transitions via RGB interpolation
+**Context:** MeshGradient prop changes caused colors to snap instantly between sections
+**Options:** CSS transition (doesn't work on WebGL), instant swap, manual interpolation
+**Decision:** Custom RGB interpolation with cubic ease-in-out over 1.5 seconds using requestAnimationFrame
+**Reason:** The shader doesn't support CSS transitions. Manual interpolation blends each color channel smoothly, creating the illusion of a continuous color flow.
+
+## [2026-03-20] Replace 21st.dev Dock with custom implementation
+**Context:** The `motion-primitives/dock` component caused a runtime crash (`Cannot read properties of undefined`)
+**Options:** Debug the component, wrap in error boundary, build custom
+**Decision:** Built custom dock using `motion.a` with spring hover animations
+**Reason:** The 21st.dev component had an internal framer-motion dependency issue. Custom dock achieves the same visual effect (scale up + float on hover) with zero dependencies beyond motion/react.
+
+## [2026-03-20] Testimonials: real clients + placeholder references
+**Context:** Need social proof section
+**Options:** Skip testimonials, use all placeholders, mix real + placeholder
+**Decision:** 4 real clients (Adnan, Zain, Esra, Robin) with LinkedIn links + 3 anonymous placeholders
+**Reason:** Real names with LinkedIn links add credibility. Placeholders fill the marquee and can be replaced with real quotes later. Photo slots ready for when user downloads profile pictures.
+
 ## Standing decisions
 - **No "Co-Authored-By: Claude" in commits** — user preference
 - **Commit regularly** — document progress in git history
