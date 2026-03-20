@@ -34,12 +34,12 @@ import type { Project } from "@/lib/data";
    --------------------------------------------------------------------------- */
 
 const sectionColorMap: Record<string, string[]> = {
-  hero:       ["#ffffff", "#ffffff", "#c7d2fe", "#ffffff", "#93c5fd"],
-  about:      ["#ffffff", "#ffffff", "#bfdbfe", "#ffffff", "#a5b4fc"],
-  skills:     ["#ffffff", "#ffffff", "#a5b4fc", "#ffffff", "#818cf8"],
-  projects:   ["#ffffff", "#ffffff", "#93c5fd", "#ffffff", "#6366f1"],
-  experience: ["#ffffff", "#ffffff", "#818cf8", "#ffffff", "#6366f1"],
-  contact:    ["#ffffff", "#ffffff", "#c7d2fe", "#ffffff", "#93c5fd"],
+  hero:       ["#ffffff", "#ffffff", "#c7d2fe", "#e9d5ff", "#93c5fd"],
+  about:      ["#ffffff", "#ffffff", "#bfdbfe", "#ddd6fe", "#a5b4fc"],
+  skills:     ["#ffffff", "#ffffff", "#a5b4fc", "#d8b4fe", "#818cf8"],
+  projects:   ["#ffffff", "#ffffff", "#93c5fd", "#c4b5fd", "#6366f1"],
+  experience: ["#ffffff", "#ffffff", "#818cf8", "#c084fc", "#6366f1"],
+  contact:    ["#ffffff", "#ffffff", "#c7d2fe", "#e9d5ff", "#93c5fd"],
 };
 
 const sectionIds = ["about", "skills", "projects", "experience", "contact"];
