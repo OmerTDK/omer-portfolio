@@ -34,12 +34,12 @@ import type { Project } from "@/lib/data";
    --------------------------------------------------------------------------- */
 
 const sectionColorMap: Record<string, string[]> = {
-  hero:       ["#ffffff", "#ffffff", "#c7d2fe", "#e9d5ff", "#93c5fd"],
-  about:      ["#ffffff", "#ffffff", "#bfdbfe", "#ddd6fe", "#a5b4fc"],
-  skills:     ["#ffffff", "#ffffff", "#a5b4fc", "#d8b4fe", "#818cf8"],
-  projects:   ["#ffffff", "#ffffff", "#93c5fd", "#c4b5fd", "#6366f1"],
-  experience: ["#ffffff", "#ffffff", "#818cf8", "#c084fc", "#6366f1"],
-  contact:    ["#ffffff", "#ffffff", "#c7d2fe", "#e9d5ff", "#93c5fd"],
+  hero:       ["#ffffff", "#ffffff", "#e0e7ff", "#f3e8ff", "#dbeafe"],
+  about:      ["#ffffff", "#ffffff", "#dbeafe", "#ede9fe", "#c7d2fe"],
+  skills:     ["#ffffff", "#ffffff", "#c7d2fe", "#e9d5ff", "#bfdbfe"],
+  projects:   ["#ffffff", "#ffffff", "#bfdbfe", "#ddd6fe", "#a5b4fc"],
+  experience: ["#ffffff", "#ffffff", "#c7d2fe", "#e9d5ff", "#bfdbfe"],
+  contact:    ["#ffffff", "#ffffff", "#e0e7ff", "#f3e8ff", "#dbeafe"],
 };
 
 const sectionIds = ["about", "skills", "projects", "experience", "contact"];
@@ -144,7 +144,7 @@ function DynamicMeshBackground() {
           speed={0.8}
         />
       </div>
-      <div className="absolute inset-0 bg-white/20" />
+      <div className="absolute inset-0 bg-white/40" />
     </div>
   );
 }
@@ -198,7 +198,7 @@ function FrostNav() {
       className={cn(
         "fixed top-0 left-0 right-0 z-40 transition-all duration-300",
         scrolled || mobileOpen
-          ? "bg-white/75 backdrop-blur-xl border-b border-white/60 shadow-sm shadow-black/8"
+          ? "bg-white/90 backdrop-blur-xl border-b border-white/60 shadow-sm shadow-black/8"
           : "bg-transparent"
       )}
     >
@@ -214,7 +214,7 @@ function FrostNav() {
               onClick={() => scrollTo(link.id)}
               className={cn(
                 "relative text-sm font-medium transition-colors duration-200",
-                activeSection === link.id ? "text-blue-600" : "text-neutral-400 hover:text-neutral-600"
+                activeSection === link.id ? "text-blue-600" : "text-neutral-500 hover:text-neutral-500"
               )}
             >
               {link.label}
@@ -244,7 +244,7 @@ function FrostNav() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="bg-white/75 backdrop-blur-xl border-b border-white/60 md:hidden overflow-hidden"
+            className="bg-white/90 backdrop-blur-xl border-b border-white/60 md:hidden overflow-hidden"
           >
             <div className="flex flex-col gap-4 px-6 py-4">
               {navLinks.map((link) => (
@@ -253,7 +253,7 @@ function FrostNav() {
                   onClick={() => scrollTo(link.id)}
                   className={cn(
                     "text-left text-sm transition-colors",
-                    activeSection === link.id ? "text-blue-600 font-medium" : "text-neutral-400"
+                    activeSection === link.id ? "text-blue-600 font-medium" : "text-neutral-500"
                   )}
                 >
                   {link.label}
@@ -368,7 +368,7 @@ function HeroContent() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/70 backdrop-blur-xl px-4 py-1.5 mb-8 shadow-sm shadow-black/8"
+          className="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/85 backdrop-blur-xl px-4 py-1.5 mb-8 shadow-sm shadow-black/8"
         >
           <span className="text-neutral-500 text-xs font-medium tracking-wide">
             Analytics Engineer &middot; Berlin
@@ -378,7 +378,7 @@ function HeroContent() {
         <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-[0.9]">
           <AnimatedName
             text="Omer"
-            startDelay={0.4}
+            startDelay={0.3}
             className="block"
             style={{
               background: "linear-gradient(135deg, #171717 0%, #2563eb 45%, #171717 100%)",
@@ -388,14 +388,14 @@ function HeroContent() {
               backgroundClip: "text",
             }}
           />
-          <AnimatedName text="Zaman" startDelay={0.35} className="block text-neutral-900" />
+          <AnimatedName text="Zaman" startDelay={0.3} className="block text-neutral-900" />
         </h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="mt-8 mx-auto max-w-lg text-lg text-neutral-400"
+          className="mt-8 mx-auto max-w-lg text-lg text-neutral-500"
         >
           {bio.tagline}
         </motion.p>
@@ -414,7 +414,7 @@ function HeroContent() {
           </a>
           <a
             href="#contact"
-            className="px-8 py-3 rounded-full bg-white/70 backdrop-blur-md border border-white/60 text-neutral-700 text-sm font-medium hover:bg-white/80 transition-all duration-300 shadow-sm shadow-black/8"
+            className="px-8 py-3 rounded-full bg-white/85 backdrop-blur-md border border-white/60 text-neutral-700 text-sm font-medium hover:bg-white/80 transition-all duration-300 shadow-sm shadow-black/8"
           >
             Get in touch
           </a>
@@ -432,8 +432,8 @@ function HeroContent() {
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           className="flex flex-col items-center gap-2"
         >
-          <span className="text-xs text-neutral-400 tracking-widest uppercase">Scroll</span>
-          <ChevronDown className="h-4 w-4 text-neutral-400" />
+          <span className="text-xs text-neutral-500 tracking-widest uppercase">Scroll</span>
+          <ChevronDown className="h-4 w-4 text-neutral-500" />
         </motion.div>
       </motion.div>
     </section>
@@ -458,7 +458,7 @@ function AnimatedStat({ value, suffix, label }: { value: number; suffix: string;
       <div className="font-mono text-3xl font-bold text-neutral-900 md:text-4xl">
         <NumberFlow value={displayValue} />{suffix}
       </div>
-      <div className="mt-1 text-xs uppercase tracking-wider text-neutral-400">{label}</div>
+      <div className="mt-1 text-xs uppercase tracking-wider text-neutral-500">{label}</div>
     </div>
   );
 }
@@ -474,7 +474,7 @@ function AboutSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-          <GlowCard customSize glowColor="blue" className="rounded-3xl bg-white/70 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 p-8 md:p-12">
+          <GlowCard customSize glowColor="blue" className="rounded-3xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 p-8 md:p-12">
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600 mb-8">About</p>
 
             <div className="grid gap-10 md:grid-cols-[240px_1fr] md:items-start">
@@ -502,8 +502,8 @@ function AboutSection() {
                 <h2 className="text-3xl font-bold leading-tight text-neutral-900 md:text-4xl">
                   I build the data infrastructure teams depend on.
                 </h2>
-                <p className="mt-6 text-base leading-relaxed text-neutral-600">{bio.about[0]}</p>
-                <p className="mt-4 text-sm leading-relaxed text-neutral-400">{bio.about[2]}</p>
+                <p className="mt-6 text-base leading-relaxed text-neutral-500">{bio.about[0]}</p>
+                <p className="mt-4 text-sm leading-relaxed text-neutral-500">{bio.about[2]}</p>
 
                 <div className="mt-6 flex flex-wrap gap-6">
                   <span className="inline-flex items-center gap-2 text-sm text-neutral-500">
@@ -552,7 +552,7 @@ function TechMarquee() {
         {[...techStack, ...techStack].map((tech, i) => (
           <span
             key={i}
-            className="shrink-0 text-sm font-medium text-neutral-300 whitespace-nowrap"
+            className="shrink-0 text-sm font-medium text-neutral-400 whitespace-nowrap"
           >
             {tech}
           </span>
@@ -591,14 +591,14 @@ function SkillsSection() {
             return (
               <ScrollReveal key={cat} delay={i * 0.1}>
                 <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-8">
-                  <h3 className="shrink-0 w-36 text-xs font-semibold uppercase tracking-widest text-neutral-400">
+                  <h3 className="shrink-0 w-36 text-xs font-semibold uppercase tracking-widest text-neutral-500">
                     {categoryMeta[cat].label}
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {catSkills.map((skill) => (
                       <span
                         key={skill.name}
-                        className="rounded-full bg-white/70 backdrop-blur-xl border border-white/60 shadow-sm shadow-black/8 px-4 py-2 text-sm text-neutral-700 hover:bg-white/80 hover:shadow-md transition-all"
+                        className="rounded-full bg-white/85 backdrop-blur-xl border border-white/60 shadow-sm shadow-black/8 px-4 py-2 text-sm text-neutral-700 hover:bg-white/80 hover:shadow-md transition-all"
                       >
                         {skill.name}
                       </span>
@@ -635,10 +635,10 @@ function PipelineFlow() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.15, type: "spring", stiffness: 200, damping: 20 }}
-            className="flex flex-col items-center gap-1 rounded-xl bg-white/70 backdrop-blur-xl border border-white/60 shadow-sm shadow-black/8 px-4 py-3 md:px-6 md:py-4"
+            className="flex flex-col items-center gap-1 rounded-xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-sm shadow-black/8 px-4 py-3 md:px-6 md:py-4"
           >
             <span className="font-mono text-xs font-bold text-blue-600">{stage.label}</span>
-            <span className="text-[10px] text-neutral-400">{stage.sublabel}</span>
+            <span className="text-[10px] text-neutral-500">{stage.sublabel}</span>
           </motion.div>
           {i < pipelineStages.length - 1 && (
             <motion.div
@@ -688,21 +688,7 @@ function FrostProjectCard({ project, index, featured }: { project: Project; inde
       onClick={() => setExpanded(!expanded)}
       className="group cursor-pointer transition-all duration-300"
     >
-      <div className={cn(
-        "flex items-center justify-center bg-gradient-to-br",
-        categoryGradients[project.category] || "from-neutral-100 to-neutral-50",
-        featured
-          ? "-mx-8 -mt-8 mb-4 h-32 rounded-t-2xl"
-          : "-mx-6 -mt-6 mb-4 h-20 rounded-t-xl"
-      )}>
-        <CategoryIcon
-          category={project.category}
-          className={cn(
-            "text-white/60",
-            featured ? "h-10 w-10" : "h-7 w-7"
-          )}
-        />
-      </div>
+      {/* No gradient header — clean top */}
 
       <div className="flex items-start justify-between">
         <div>
@@ -722,7 +708,7 @@ function FrostProjectCard({ project, index, featured }: { project: Project; inde
             {project.description}
           </p>
           {featured && (
-            <p className="mt-3 text-sm leading-relaxed text-neutral-400">
+            <p className="mt-3 text-sm leading-relaxed text-neutral-500">
               {project.longDescription}
             </p>
           )}
@@ -734,7 +720,7 @@ function FrostProjectCard({ project, index, featured }: { project: Project; inde
           )}>
             {project.metric}
           </span>
-          <p className="text-xs text-neutral-400">{project.metricLabel}</p>
+          <p className="text-xs text-neutral-500">{project.metricLabel}</p>
         </div>
       </div>
       <div className="mt-4 flex flex-wrap gap-2">
@@ -780,14 +766,14 @@ function FrostProjectCard({ project, index, featured }: { project: Project; inde
 
   if (featured) {
     return (
-      <GlowCard customSize glowColor="blue" className="rounded-2xl bg-white/70 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 p-8 h-full overflow-hidden hover:bg-white/80 hover:shadow-xl">
+      <GlowCard customSize glowColor="blue" className="rounded-2xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 p-8 h-full overflow-hidden hover:bg-white/80 hover:shadow-xl">
         {cardInner}
       </GlowCard>
     );
   }
 
   return (
-    <GlowCard customSize glowColor="purple" className="rounded-xl bg-white/70 backdrop-blur-xl border border-white/60 shadow-sm shadow-black/8 p-6 h-full overflow-hidden hover:bg-white/80 hover:shadow-md">
+    <GlowCard customSize glowColor="purple" className="rounded-xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-sm shadow-black/8 p-6 h-full overflow-hidden hover:bg-white/80 hover:shadow-md">
       {cardInner}
     </GlowCard>
   );
@@ -833,7 +819,7 @@ function ProjectsSection() {
                     "relative text-sm font-medium transition-colors duration-200 pb-1",
                     activeCategory === cat.id
                       ? "text-blue-600"
-                      : "text-neutral-400 hover:text-neutral-600"
+                      : "text-neutral-500 hover:text-neutral-500"
                   )}
                 >
                   {cat.label}
@@ -854,7 +840,7 @@ function ProjectsSection() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -4 }}
                 transition={{ duration: 0.2 }}
-                className="mt-2 text-xs text-neutral-400"
+                className="mt-2 text-xs text-neutral-500"
               >
                 {filterTabDescriptions[activeCategory]}
               </motion.p>
@@ -933,7 +919,7 @@ function ExperienceSection() {
                 <div className="pb-4">
                   <p className="font-mono text-sm text-blue-600">{entry.date}</p>
                   <h3 className="mt-2 text-xl font-semibold text-neutral-900">{entry.role}</h3>
-                  <p className="text-sm text-neutral-400">{entry.company}</p>
+                  <p className="text-sm text-neutral-500">{entry.company}</p>
                   <p className="mt-3 text-base leading-relaxed text-neutral-500">{entry.description}</p>
                 </div>
               </div>
@@ -1016,9 +1002,9 @@ function TestimonialsSection() {
                 key={i}
                 customSize
                 glowColor="blue"
-                className="shrink-0 w-[350px] rounded-2xl bg-white/70 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 p-6"
+                className="shrink-0 w-[350px] rounded-2xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 p-6"
               >
-                <p className="text-sm leading-relaxed text-neutral-600 italic">&ldquo;{t.quote}&rdquo;</p>
+                <p className="text-sm leading-relaxed text-neutral-500 italic">&ldquo;{t.quote}&rdquo;</p>
                 <div className="mt-4 border-t border-neutral-200/50 pt-4 flex items-center gap-3">
                   {t.photo ? (
                     <Image
@@ -1041,7 +1027,7 @@ function TestimonialsSection() {
                         </a>
                       ) : t.name}
                     </p>
-                    <p className="text-xs text-neutral-400">{t.role}</p>
+                    <p className="text-xs text-neutral-500">{t.role}</p>
                   </div>
                 </div>
               </GlowCard>
@@ -1094,7 +1080,7 @@ function ContactSection() {
         </ScrollReveal>
 
         <ScrollReveal delay={0.1}>
-          <p className="mt-4 text-neutral-400">
+          <p className="mt-4 text-neutral-500">
             Have a project in mind, a question about data, or just want to say hi?
           </p>
         </ScrollReveal>
@@ -1106,21 +1092,21 @@ function ContactSection() {
               name="name"
               placeholder="Name"
               required
-              className="w-full rounded-xl bg-white/60 backdrop-blur-md border border-white/60 px-4 py-3 text-sm text-neutral-900 placeholder-neutral-400 outline-none focus:border-blue-600/30 focus:ring-2 focus:ring-blue-600/10 transition-all shadow-sm shadow-black/8"
+              className="w-full rounded-xl bg-white/80 backdrop-blur-xl border border-white/70 px-4 py-3 text-sm text-neutral-900 placeholder-neutral-400 outline-none focus:border-blue-600/30 focus:ring-2 focus:ring-blue-600/10 transition-all shadow-sm shadow-black/8"
             />
             <input
               type="email"
               name="email"
               placeholder="Email"
               required
-              className="w-full rounded-xl bg-white/60 backdrop-blur-md border border-white/60 px-4 py-3 text-sm text-neutral-900 placeholder-neutral-400 outline-none focus:border-blue-600/30 focus:ring-2 focus:ring-blue-600/10 transition-all shadow-sm shadow-black/8"
+              className="w-full rounded-xl bg-white/80 backdrop-blur-xl border border-white/70 px-4 py-3 text-sm text-neutral-900 placeholder-neutral-400 outline-none focus:border-blue-600/30 focus:ring-2 focus:ring-blue-600/10 transition-all shadow-sm shadow-black/8"
             />
             <textarea
               name="message"
               placeholder="Message"
               rows={4}
               required
-              className="w-full resize-none rounded-xl bg-white/60 backdrop-blur-md border border-white/60 px-4 py-3 text-sm text-neutral-900 placeholder-neutral-400 outline-none focus:border-blue-600/30 focus:ring-2 focus:ring-blue-600/10 transition-all shadow-sm shadow-black/8"
+              className="w-full resize-none rounded-xl bg-white/80 backdrop-blur-xl border border-white/70 px-4 py-3 text-sm text-neutral-900 placeholder-neutral-400 outline-none focus:border-blue-600/30 focus:ring-2 focus:ring-blue-600/10 transition-all shadow-sm shadow-black/8"
             />
             <button
               type="submit"
@@ -1160,7 +1146,7 @@ function Footer() {
       <div className="mx-auto max-w-6xl">
         <div className="h-px bg-neutral-200/40 mb-8" />
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-          <p className="text-sm text-neutral-400">Built by Omer Zaman</p>
+          <p className="text-sm text-neutral-500">Built by Omer Zaman</p>
 
           <div className="flex items-center gap-4">
             {[
@@ -1174,7 +1160,7 @@ function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="text-neutral-400 transition-colors hover:text-neutral-600"
+                className="text-neutral-500 transition-colors hover:text-neutral-500"
               >
                 <Icon className="h-4 w-4" />
               </a>
@@ -1182,7 +1168,7 @@ function Footer() {
 
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="ml-4 flex h-8 w-8 items-center justify-center rounded-full bg-white/70 backdrop-blur-xl border border-white/60 shadow-sm shadow-black/8 transition-all hover:bg-white/80"
+              className="ml-4 flex h-8 w-8 items-center justify-center rounded-full bg-white/85 backdrop-blur-xl border border-white/60 shadow-sm shadow-black/8 transition-all hover:bg-white/80"
               aria-label="Back to top"
             >
               <ArrowUp className="h-3.5 w-3.5 text-neutral-500" />
@@ -1207,7 +1193,7 @@ function FloatingDock() {
 
   return (
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40">
-      <div className="flex items-center gap-2 rounded-2xl bg-white/70 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/10 px-3 py-2">
+      <div className="flex items-center gap-2 rounded-2xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/10 px-3 py-2">
         {dockItems.map(({ href, icon: Icon, label }) => (
           <motion.a
             key={label}
@@ -1250,7 +1236,7 @@ export default function FrostPage() {
         <div className="fixed top-4 right-4 z-50">
           <a
             href="/"
-            className="rounded-full border border-white/60 bg-white/70 backdrop-blur-xl px-4 py-2 text-xs font-medium text-neutral-500 hover:bg-white/80 hover:text-neutral-700 transition-all shadow-sm shadow-black/8"
+            className="rounded-full border border-white/60 bg-white/85 backdrop-blur-xl px-4 py-2 text-xs font-medium text-neutral-500 hover:bg-white/80 hover:text-neutral-700 transition-all shadow-sm shadow-black/8"
           >
             Compare versions
           </a>
