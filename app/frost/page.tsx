@@ -336,7 +336,7 @@ function HeroContent() {
         </motion.div>
 
         <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-[0.9]">
-          <AnimatedName text="Omer" startDelay={0.3} className="block text-blue-600" />
+          <AnimatedName text="Omer" startDelay={0.3} className="block text-blue-800" />
           <AnimatedName text="Zaman" startDelay={0.3} className="block text-neutral-900" />
         </h1>
 
