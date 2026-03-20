@@ -20,6 +20,7 @@ import {
   ArrowUp,
   Menu,
   X,
+  User,
 } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -154,116 +155,75 @@ function DynamicMeshBackground() {
    --------------------------------------------------------------------------- */
 
 const navLinks = [
-  { id: "about", label: "About" },
-  { id: "skills", label: "Skills" },
-  { id: "projects", label: "Projects" },
-  { id: "experience", label: "Experience" },
-  { id: "contact", label: "Contact" },
+  { id: "about", label: "About", icon: User },
+  { id: "skills", label: "Skills", icon: Wrench },
+  { id: "projects", label: "Projects", icon: BarChart3 },
+  { id: "experience", label: "Experience", icon: MapPin },
+  { id: "contact", label: "Contact", icon: Mail },
 ];
 
 function FrostNav() {
-  const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
-  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     function handleScroll() {
-      setScrolled(window.scrollY > 20);
-
-      const sections = navLinks.map((l) => l.id);
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sections[i]);
+      const ids = navLinks.map((l) => l.id);
+      for (let i = ids.length - 1; i >= 0; i--) {
+        const el = document.getElementById(ids[i]);
         if (el && el.getBoundingClientRect().top <= 120) {
-          setActiveSection(sections[i]);
+          setActiveSection(ids[i]);
           return;
         }
       }
       setActiveSection("");
     }
-
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   function scrollTo(id: string) {
     const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-      setMobileOpen(false);
-    }
+    if (el) el.scrollIntoView({ behavior: "smooth" });
   }
 
   return (
-    <nav
-      className={cn(
-        "fixed top-0 left-0 right-0 z-40 transition-all duration-300",
-        scrolled || mobileOpen
-          ? "bg-white/90 backdrop-blur-xl border-b border-white/60 shadow-sm shadow-black/8"
-          : "bg-transparent"
-      )}
-    >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <a href="#" className="text-sm font-medium text-neutral-900 tracking-tight">
-          Omer
-        </a>
-
-        <div className="hidden items-center gap-8 md:flex">
-          {navLinks.map((link) => (
+    <div className="fixed bottom-0 sm:top-0 left-1/2 -translate-x-1/2 z-40 mb-6 sm:pt-6">
+      <div className="flex items-center gap-1 bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 py-1 px-1 rounded-full">
+        {navLinks.map((link) => {
+          const Icon = link.icon;
+          const isActive = activeSection === link.id;
+          return (
             <button
               key={link.id}
               onClick={() => scrollTo(link.id)}
               className={cn(
-                "relative text-sm font-medium transition-colors duration-200",
-                activeSection === link.id ? "text-blue-600" : "text-neutral-500 hover:text-neutral-500"
+                "relative cursor-pointer text-sm font-medium px-5 py-2 rounded-full transition-colors",
+                isActive ? "text-blue-600" : "text-neutral-500 hover:text-neutral-700"
               )}
             >
-              {link.label}
-              {activeSection === link.id && (
+              <span className="hidden md:inline">{link.label}</span>
+              <span className="md:hidden">
+                <Icon size={18} strokeWidth={2} />
+              </span>
+              {isActive && (
                 <motion.div
-                  layoutId="frost-nav-underline"
-                  className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full bg-blue-600"
-                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                />
+                  layoutId="tubelight"
+                  className="absolute inset-0 w-full bg-blue-50 rounded-full -z-10"
+                  initial={false}
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                >
+                  <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-1 bg-blue-500 rounded-t-full">
+                    <div className="absolute w-12 h-6 bg-blue-400/20 rounded-full blur-md -top-2 -left-2" />
+                    <div className="absolute w-8 h-6 bg-blue-400/20 rounded-full blur-md -top-1" />
+                    <div className="absolute w-4 h-4 bg-blue-400/20 rounded-full blur-sm top-0 left-2" />
+                  </div>
+                </motion.div>
               )}
             </button>
-          ))}
-        </div>
-
-        <button
-          className="text-neutral-500 md:hidden"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
-        >
-          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+          );
+        })}
       </div>
-
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="bg-white/90 backdrop-blur-xl border-b border-white/60 md:hidden overflow-hidden"
-          >
-            <div className="flex flex-col gap-4 px-6 py-4">
-              {navLinks.map((link) => (
-                <button
-                  key={link.id}
-                  onClick={() => scrollTo(link.id)}
-                  className={cn(
-                    "text-left text-sm transition-colors",
-                    activeSection === link.id ? "text-blue-600 font-medium" : "text-neutral-500"
-                  )}
-                >
-                  {link.label}
-                </button>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
+    </div>
   );
 }
 
