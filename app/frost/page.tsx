@@ -989,17 +989,13 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
+          transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
           className="fixed inset-0 z-50 flex items-end justify-center sm:items-center"
           onClick={onClose}
         >
-          {/* Animated backdrop */}
-          <motion.div
-            initial={{ backdropFilter: "blur(0px)", backgroundColor: "rgba(0,0,0,0)" }}
-            animate={{ backdropFilter: "blur(8px)", backgroundColor: "rgba(0,0,0,0.15)" }}
-            exit={{ backdropFilter: "blur(0px)", backgroundColor: "rgba(0,0,0,0)" }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="absolute inset-0"
+          {/* Backdrop overlay — CSS transition handles smooth blur */}
+          <div
+            className="absolute inset-0 backdrop-blur-md bg-black/15 transition-all duration-500 ease-out"
           />
 
           {/* Modal sheet */}
