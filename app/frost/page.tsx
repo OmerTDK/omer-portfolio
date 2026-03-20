@@ -30,6 +30,59 @@ import { Globe } from "@/components/ui/globe";
 import type { Project } from "@/lib/data";
 
 /* ---------------------------------------------------------------------------
+   DYNAMIC MESH BACKGROUND — scroll-triggered color shifts per section
+   --------------------------------------------------------------------------- */
+
+const sectionColorMap: Record<string, string[]> = {
+  hero:       ["#ffffff", "#ffffff", "#c7d2fe", "#ffffff", "#93c5fd"],
+  about:      ["#ffffff", "#ffffff", "#ddd6fe", "#ffffff", "#c4b5fd"],
+  skills:     ["#ffffff", "#ffffff", "#a5f3fc", "#ffffff", "#99f6e4"],
+  projects:   ["#ffffff", "#ffffff", "#bfdbfe", "#ffffff", "#a5b4fc"],
+  experience: ["#ffffff", "#ffffff", "#fecdd3", "#ffffff", "#fda4af"],
+  contact:    ["#ffffff", "#ffffff", "#c7d2fe", "#ffffff", "#93c5fd"],
+};
+
+const sectionIds = ["about", "skills", "projects", "experience", "contact"];
+
+function DynamicMeshBackground() {
+  const [colors, setColors] = useState(sectionColorMap.hero);
+
+  useEffect(() => {
+    function handleScroll() {
+      const scrollY = window.scrollY;
+      const vh = window.innerHeight;
+
+      if (scrollY < vh * 0.5) {
+        setColors(sectionColorMap.hero);
+        return;
+      }
+
+      for (let i = sectionIds.length - 1; i >= 0; i--) {
+        const el = document.getElementById(sectionIds[i]);
+        if (el && el.getBoundingClientRect().top <= vh * 0.5) {
+          setColors(sectionColorMap[sectionIds[i]]);
+          return;
+        }
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <div className="fixed inset-0 z-0 transition-colors duration-1000">
+      <MeshGradient
+        style={{ height: "100%", width: "100%" }}
+        colors={colors}
+        speed={0.8}
+      />
+      <div className="absolute inset-0 bg-white/20" />
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------------------------
    INLINE NAV — Frosted glass, macOS style, with mobile menu
    --------------------------------------------------------------------------- */
 
@@ -361,15 +414,22 @@ function AboutSection() {
 
             <div className="grid gap-10 md:grid-cols-[240px_1fr] md:items-start">
               <div className="mx-auto w-48 md:w-full">
-                <div className="overflow-hidden rounded-2xl border border-white/60 shadow-md shadow-black/8">
-                  <Image
-                    src={bio.profileImage}
-                    alt="Omer Zaman"
-                    width={240}
-                    height={300}
-                    className="h-auto w-full object-cover"
-                    priority
-                  />
+                <div className="overflow-hidden rounded-2xl border border-white/60 shadow-md shadow-black/8" style={{ transform: "translateZ(0)" }}>
+                  <motion.div
+                    initial={{ scale: 1.1 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.2, ease: "easeOut" }}
+                  >
+                    <Image
+                      src={bio.profileImage}
+                      alt="Omer Zaman"
+                      width={240}
+                      height={300}
+                      className="h-auto w-full object-cover"
+                      priority
+                    />
+                  </motion.div>
                 </div>
               </div>
 
@@ -540,10 +600,25 @@ const categoryIcons: Record<string, React.ReactNode> = {
   analytics: <BarChart3 className="h-3.5 w-3.5" />,
 };
 
+const categoryGradients: Record<string, string> = {
+  engineering: "from-blue-100 to-indigo-100",
+  science: "from-violet-100 to-purple-100",
+  analytics: "from-cyan-100 to-teal-100",
+};
+
+function CategoryIcon({ category, className }: { category: string; className?: string }) {
+  const icons: Record<string, React.ReactNode> = {
+    engineering: <Wrench className={className} />,
+    science: <FlaskConical className={className} />,
+    analytics: <BarChart3 className={className} />,
+  };
+  return <>{icons[category] || null}</>;
+}
+
 function FrostProjectCard({ project, index, featured }: { project: Project; index: number; featured?: boolean }) {
   const [expanded, setExpanded] = useState(false);
 
-  return (
+  const cardContent = (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -551,12 +626,28 @@ function FrostProjectCard({ project, index, featured }: { project: Project; inde
       transition={{ duration: 0.5, delay: index * 0.08 }}
       onClick={() => setExpanded(!expanded)}
       className={cn(
-        "group cursor-pointer backdrop-blur-xl transition-all duration-300 h-full",
+        "group cursor-pointer backdrop-blur-xl transition-all duration-300 h-full overflow-hidden",
         featured
-          ? "bg-white/70 border border-white/60 shadow-lg shadow-black/8 shadow-[0_8px_32px_rgba(0,0,0,0.08)] rounded-2xl p-8 hover:bg-white/80 hover:shadow-xl"
+          ? "relative bg-white/70 border border-white/60 shadow-lg shadow-black/8 shadow-[0_8px_32px_rgba(0,0,0,0.08)] rounded-2xl p-8 hover:bg-white/80 hover:shadow-xl"
           : "bg-white/70 border border-white/60 shadow-sm shadow-black/8 rounded-xl p-6 hover:bg-white/80 hover:shadow-md"
       )}
     >
+      <div className={cn(
+        "flex items-center justify-center bg-gradient-to-br",
+        categoryGradients[project.category] || "from-neutral-100 to-neutral-50",
+        featured
+          ? "-mx-8 -mt-8 mb-4 h-32 rounded-t-2xl"
+          : "-mx-6 -mt-6 mb-4 h-20 rounded-t-xl"
+      )}>
+        <CategoryIcon
+          category={project.category}
+          className={cn(
+            "text-white/60",
+            featured ? "h-10 w-10" : "h-7 w-7"
+          )}
+        />
+      </div>
+
       <div className="flex items-start justify-between">
         <div>
           <div className="flex items-center gap-2">
@@ -630,7 +721,25 @@ function FrostProjectCard({ project, index, featured }: { project: Project; inde
       )}
     </motion.div>
   );
+
+  if (featured) {
+    return (
+      <div className="relative rounded-2xl">
+        <GlowingEffect spread={40} glow={true} disabled={false} proximity={60} />
+        {cardContent}
+      </div>
+    );
+  }
+
+  return cardContent;
 }
+
+const filterTabDescriptions: Record<string, string> = {
+  all: "Everything I've built",
+  engineering: "Pipelines, models, infrastructure",
+  science: "ML, statistics, predictions",
+  analytics: "Dashboards, reports, insights",
+};
 
 function ProjectsSection() {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -655,28 +764,42 @@ function ProjectsSection() {
         </ScrollReveal>
 
         <ScrollReveal delay={0.1}>
-          <div className="mt-4 flex flex-wrap gap-6">
-            {projectCategories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                className={cn(
-                  "relative text-sm font-medium transition-colors duration-200 pb-1",
-                  activeCategory === cat.id
-                    ? "text-blue-600"
-                    : "text-neutral-400 hover:text-neutral-600"
-                )}
+          <div className="mt-4">
+            <div className="flex flex-wrap gap-6">
+              {projectCategories.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveCategory(cat.id)}
+                  className={cn(
+                    "relative text-sm font-medium transition-colors duration-200 pb-1",
+                    activeCategory === cat.id
+                      ? "text-blue-600"
+                      : "text-neutral-400 hover:text-neutral-600"
+                  )}
+                >
+                  {cat.label}
+                  {activeCategory === cat.id && (
+                    <motion.div
+                      layoutId="frost-project-tab"
+                      className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full bg-blue-600"
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={activeCategory}
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.2 }}
+                className="mt-2 text-xs text-neutral-400"
               >
-                {cat.label}
-                {activeCategory === cat.id && (
-                  <motion.div
-                    layoutId="frost-project-tab"
-                    className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full bg-blue-600"
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  />
-                )}
-              </button>
-            ))}
+                {filterTabDescriptions[activeCategory]}
+              </motion.p>
+            </AnimatePresence>
           </div>
         </ScrollReveal>
 
@@ -756,6 +879,65 @@ function ExperienceSection() {
                 </div>
               </div>
             </ScrollReveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------------------------------------------------------------------
+   TESTIMONIALS — Auto-scrolling testimonial cards
+   --------------------------------------------------------------------------- */
+
+const testimonials = [
+  {
+    quote: "One of the most detail-oriented data engineers I've worked with. Built our entire pipeline from scratch and it just works.",
+    name: "Engineering Lead",
+    role: "Fintech Startup, Berlin",
+  },
+  {
+    quote: "Omer's dbt models transformed how we think about data quality. Zero downtime, zero data loss during the migration.",
+    name: "Product Manager",
+    role: "Fintech Startup, Berlin",
+  },
+  {
+    quote: "Delivered exceptional work on every project. His geospatial analysis uncovered insights we'd been missing for months.",
+    name: "Client",
+    role: "Freelance Engagement",
+  },
+  {
+    quote: "The automated reporting pipeline saved our team 20+ hours per week. Reliable, well-documented, and easy to maintain.",
+    name: "Finance Director",
+    role: "Banking Partner",
+  },
+];
+
+function TestimonialsSection() {
+  return (
+    <section className="relative px-6 py-32 md:px-12 lg:px-24 overflow-hidden">
+      <div className="mx-auto max-w-6xl mb-12">
+        <ScrollReveal>
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600">Testimonials</p>
+          <h2 className="mt-4 text-4xl font-bold leading-tight text-neutral-900 md:text-5xl">
+            What people say.
+          </h2>
+        </ScrollReveal>
+      </div>
+
+      <div className="relative overflow-hidden">
+        <div className="flex animate-marquee-slow gap-6">
+          {[...testimonials, ...testimonials].map((t, i) => (
+            <div
+              key={i}
+              className="shrink-0 w-[350px] rounded-2xl bg-white/70 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 p-6"
+            >
+              <p className="text-sm leading-relaxed text-neutral-600 italic">&ldquo;{t.quote}&rdquo;</p>
+              <div className="mt-4 border-t border-neutral-200/50 pt-4">
+                <p className="text-sm font-semibold text-neutral-900">{t.name}</p>
+                <p className="text-xs text-neutral-400">{t.role}</p>
+              </div>
+            </div>
           ))}
         </div>
       </div>
@@ -945,16 +1127,14 @@ function FloatingDock() {
 export default function FrostPage() {
   return (
     <div className="relative min-h-screen">
-      <div className="fixed inset-0 z-0">
-        <MeshGradient
-          style={{ height: "100%", width: "100%" }}
-          colors={["#ffffff", "#ffffff", "#c7d2fe", "#ffffff", "#93c5fd"]}
-          speed={0.8}
-        />
-        <div className="absolute inset-0 bg-white/20" />
-      </div>
+      <DynamicMeshBackground />
 
-      <div className="relative z-10">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="relative z-10"
+      >
         <ScrollProgress />
         <FrostNav />
         <CursorGlow />
@@ -975,11 +1155,12 @@ export default function FrostPage() {
           <SkillsSection />
           <ProjectsSection />
           <ExperienceSection />
+          <TestimonialsSection />
           <ContactSection />
         </main>
         <Footer />
         <FloatingDock />
-      </div>
+      </motion.div>
     </div>
   );
 }

@@ -68,6 +68,14 @@
   animation: marquee 30s linear infinite;
 }
 
+@keyframes marquee-slow {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee-slow {
+  animation: marquee-slow 40s linear infinite;
+}
+
 @theme inline { --font-sans: "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif; --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace; --color-foreground: var(----foreground); --color-background: var(----background);
 }
 
