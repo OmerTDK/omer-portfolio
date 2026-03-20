@@ -44,43 +44,95 @@ const sectionColorMap: Record<string, string[]> = {
 
 const sectionIds = ["about", "skills", "projects", "experience", "contact"];
 
+// Parse hex to RGB
+function hexToRgb(hex: string): [number, number, number] {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return [r, g, b];
+}
+
+// RGB back to hex
+function rgbToHex(r: number, g: number, b: number): string {
+  return "#" + [r, g, b].map(v => Math.round(v).toString(16).padStart(2, "0")).join("");
+}
+
+// Lerp between two color arrays
+function lerpColors(from: string[], to: string[], t: number): string[] {
+  return from.map((fromHex, i) => {
+    const [r1, g1, b1] = hexToRgb(fromHex);
+    const [r2, g2, b2] = hexToRgb(to[i]);
+    return rgbToHex(
+      r1 + (r2 - r1) * t,
+      g1 + (g2 - g1) * t,
+      b1 + (b2 - b1) * t,
+    );
+  });
+}
+
 function DynamicMeshBackground() {
   const [colors, setColors] = useState(sectionColorMap.hero);
   const currentSection = useRef("hero");
+  const targetColors = useRef(sectionColorMap.hero);
+  const currentColors = useRef(sectionColorMap.hero);
+  const animationRef = useRef<number | null>(null);
 
+  // Smoothly interpolate colors over ~1.5 seconds
   useEffect(() => {
-    let ticking = false;
+    let startTime: number | null = null;
+    const duration = 1500; // ms
+
+    function animate(time: number) {
+      if (!startTime) startTime = time;
+      const elapsed = time - startTime;
+      const t = Math.min(elapsed / duration, 1);
+      // Ease-in-out cubic
+      const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+      const interpolated = lerpColors(currentColors.current, targetColors.current, eased);
+      setColors(interpolated);
+
+      if (t < 1) {
+        animationRef.current = requestAnimationFrame(animate);
+      } else {
+        currentColors.current = targetColors.current;
+        animationRef.current = null;
+      }
+    }
 
     function handleScroll() {
-      if (ticking) return;
-      ticking = true;
+      const vh = window.innerHeight;
+      let newSection = "hero";
 
-      requestAnimationFrame(() => {
-        const vh = window.innerHeight;
-        let newSection = "hero";
-
-        if (window.scrollY >= vh * 0.5) {
-          for (let i = sectionIds.length - 1; i >= 0; i--) {
-            const el = document.getElementById(sectionIds[i]);
-            if (el && el.getBoundingClientRect().top <= vh * 0.5) {
-              newSection = sectionIds[i];
-              break;
-            }
+      if (window.scrollY >= vh * 0.5) {
+        for (let i = sectionIds.length - 1; i >= 0; i--) {
+          const el = document.getElementById(sectionIds[i]);
+          if (el && el.getBoundingClientRect().top <= vh * 0.5) {
+            newSection = sectionIds[i];
+            break;
           }
         }
+      }
 
-        if (newSection !== currentSection.current) {
-          currentSection.current = newSection;
-          setColors(sectionColorMap[newSection]);
-        }
+      if (newSection !== currentSection.current) {
+        currentSection.current = newSection;
+        // Snapshot current interpolated state as the new start
+        currentColors.current = [...colors];
+        targetColors.current = sectionColorMap[newSection];
 
-        ticking = false;
-      });
+        // Restart animation
+        if (animationRef.current) cancelAnimationFrame(animationRef.current);
+        startTime = null;
+        animationRef.current = requestAnimationFrame(animate);
+      }
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    };
+  }, [colors]);
 
   return (
     <div className="fixed inset-0 z-0">
