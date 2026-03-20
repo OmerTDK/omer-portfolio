@@ -770,26 +770,19 @@ function ProjectsSection() {
 
         <ScrollReveal delay={0.1}>
           <div className="mt-4">
-            <div className="flex flex-wrap gap-6">
+            <div className="flex flex-wrap gap-2">
               {projectCategories.map((cat) => (
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
                   className={cn(
-                    "relative text-sm font-medium transition-colors duration-200 pb-1",
+                    "relative rounded-full px-5 py-2 text-sm font-medium transition-all duration-200",
                     activeCategory === cat.id
-                      ? "text-blue-600"
-                      : "text-neutral-500 hover:text-neutral-500"
+                      ? "bg-blue-600 text-white shadow-md shadow-blue-600/20"
+                      : "bg-white/85 backdrop-blur-xl border border-white/60 text-neutral-500 hover:text-neutral-700 hover:bg-white/90"
                   )}
                 >
                   {cat.label}
-                  {activeCategory === cat.id && (
-                    <motion.div
-                      layoutId="frost-project-tab"
-                      className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full bg-blue-600"
-                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                    />
-                  )}
                 </button>
               ))}
             </div>
