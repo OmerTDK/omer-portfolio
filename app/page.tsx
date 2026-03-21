@@ -385,39 +385,50 @@ function useMouseParallax(strength: number = 1) {
 }
 
 /* ---------------------------------------------------------------------------
-   HERO — cinematic reveal with clip-path + parallax orbs
+   HERO — cinematic reveal with clip-path + parallax frosted pills
    --------------------------------------------------------------------------- */
 
-function HeroOrb({
+function HeroPill({
   className,
-  size,
+  width,
+  height,
+  rotate,
   color,
-  blur,
   parallaxStrength,
+  floatDuration = 12,
+  floatDistance = 15,
 }: {
   className: string;
-  size: number;
+  width: number;
+  height: number;
+  rotate: number;
   color: string;
-  blur: number;
   parallaxStrength: number;
+  floatDuration?: number;
+  floatDistance?: number;
 }) {
   const ref = useMouseParallax(parallaxStrength);
   return (
     <div ref={ref} className={cn("absolute transition-transform duration-700 ease-out", className)}>
       <motion.div
-        className="rounded-full"
-        style={{
-          width: size,
-          height: size,
-          background: color,
-          filter: `blur(${blur}px)`,
-        }}
+        style={{ width, height, rotate }}
         animate={{
-          scale: [1, 1.15, 0.95, 1],
-          y: [0, -15, 8, 0],
+          y: [0, floatDistance, -floatDistance * 0.3, 0],
+          rotate: [rotate, rotate + 3, rotate - 2, rotate],
+          scale: [1, 1.04, 0.97, 1],
         }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      />
+        transition={{ duration: floatDuration, repeat: Infinity, ease: "easeInOut" }}
+        className="relative"
+      >
+        <div
+          className="absolute inset-0 rounded-full border border-white/50 shadow-lg"
+          style={{
+            background: `linear-gradient(135deg, ${color}, transparent 70%)`,
+            backdropFilter: "blur(8px)",
+            boxShadow: "0 8px 32px rgba(100,120,220,0.12), inset 0 1px 1px rgba(255,255,255,0.6)",
+          }}
+        />
+      </motion.div>
     </div>
   );
 }
@@ -425,13 +436,13 @@ function HeroOrb({
 function HeroContent({ visible }: { visible: boolean }) {
   return (
     <section className="relative flex min-h-screen items-center justify-center px-6 overflow-hidden">
-      {/* Parallax orbs — depth layers */}
+      {/* Parallax frosted pills — mouse-reactive depth layers */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <HeroOrb className="left-[5%] top-[15%]" size={500} color="rgba(99,102,241,0.25)" blur={80} parallaxStrength={0.8} />
-        <HeroOrb className="right-[0%] top-[60%]" size={400} color="rgba(56,189,248,0.2)" blur={70} parallaxStrength={-0.6} />
-        <HeroOrb className="left-[30%] bottom-[5%]" size={300} color="rgba(139,92,246,0.22)" blur={60} parallaxStrength={1.2} />
-        <HeroOrb className="right-[20%] top-[8%]" size={200} color="rgba(14,165,233,0.18)" blur={50} parallaxStrength={-1.0} />
-        <HeroOrb className="left-[55%] top-[40%]" size={150} color="rgba(79,70,229,0.15)" blur={40} parallaxStrength={0.5} />
+        <HeroPill className="left-[-10%] md:left-[-5%] top-[15%] md:top-[20%]" width={600} height={140} rotate={12} color="rgba(99,102,241,0.30)" parallaxStrength={0.8} floatDuration={14} floatDistance={20} />
+        <HeroPill className="right-[-5%] md:right-[0%] top-[70%] md:top-[75%]" width={500} height={120} rotate={-15} color="rgba(56,189,248,0.28)" parallaxStrength={-0.6} floatDuration={10} floatDistance={18} />
+        <HeroPill className="left-[5%] md:left-[10%] bottom-[5%] md:bottom-[10%]" width={300} height={80} rotate={-8} color="rgba(139,92,246,0.25)" parallaxStrength={1.2} floatDuration={16} floatDistance={12} />
+        <HeroPill className="right-[15%] md:right-[20%] top-[10%] md:top-[15%]" width={200} height={60} rotate={20} color="rgba(14,165,233,0.24)" parallaxStrength={-1.0} floatDuration={9} floatDistance={22} />
+        <HeroPill className="left-[20%] md:left-[25%] top-[5%] md:top-[10%]" width={150} height={40} rotate={-25} color="rgba(79,70,229,0.22)" parallaxStrength={0.5} floatDuration={11} floatDistance={16} />
       </div>
 
       {/* Frosted glass hero card */}
