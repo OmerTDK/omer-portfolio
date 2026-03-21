@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { SmoothScroll } from "@/components/smooth-scroll";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -25,6 +27,11 @@ export const metadata: Metadata = {
     siteName: "Omer Zaman",
     locale: "en_US",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Omer Zaman | Analytics Engineer",
+    description: "Building data pipelines that scale",
   },
 };
 
@@ -58,8 +65,9 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        {children}
+        <SmoothScroll>{children}</SmoothScroll>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

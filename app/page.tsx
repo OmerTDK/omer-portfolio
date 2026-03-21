@@ -223,6 +223,25 @@ function FrostNav() {
             </button>
           );
         })}
+
+        {/* Social links — visible on mobile nav, hidden on lg where FloatingDock shows */}
+        <div className="flex items-center gap-1 border-l border-neutral-200/50 pl-1 lg:hidden">
+          {[
+            { href: links.github, icon: Github, label: "GitHub" },
+            { href: links.linkedin, icon: Linkedin, label: "LinkedIn" },
+          ].map(({ href, icon: Icon, label }) => (
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={label}
+              className="flex h-8 w-8 items-center justify-center rounded-full text-neutral-400 hover:text-neutral-700 transition-colors"
+            >
+              <Icon size={16} strokeWidth={2} />
+            </a>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -357,7 +376,7 @@ function FrostShape({
    HERO — with per-character staggered animation + floating shapes
    --------------------------------------------------------------------------- */
 
-function AnimatedName({ text, className, style, startDelay = 0.4 }: { text: string; className?: string; style?: React.CSSProperties; startDelay?: number }) {
+function AnimatedName({ text, className, style, startDelay = 0.2 }: { text: string; className?: string; style?: React.CSSProperties; startDelay?: number }) {
   return (
     <span className={className} style={style}>
       {text.split("").map((char, i) => (
@@ -455,15 +474,15 @@ function HeroContent() {
         </motion.p>
 
         <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter text-neutral-900">
-          <AnimatedName text="Omer" startDelay={0.3} className="inline" />
+          <AnimatedName text="Omer" startDelay={0.15} className="inline" />
           <span className="inline-block w-[0.25em]" />
-          <AnimatedName text="Zaman" startDelay={0.5} className="inline" />
+          <AnimatedName text="Zaman" startDelay={0.3} className="inline" />
         </h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
           className="mt-8 mx-auto max-w-lg text-lg text-neutral-500"
         >
           {bio.tagline}
@@ -472,7 +491,7 @@ function HeroContent() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.2 }}
+          transition={{ duration: 0.5, delay: 0.7 }}
           className="mt-10 flex items-center justify-center gap-4"
         >
           <a
@@ -493,7 +512,7 @@ function HeroContent() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 1 }}
+        transition={{ delay: 1.2, duration: 0.8 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
       >
         <motion.div
@@ -1004,6 +1023,19 @@ function ProjectDiagram({ title }: { title: string }) {
 }
 
 function ProjectModal({ project, onClose }: { project: Project | null; onClose: () => void }) {
+  useEffect(() => {
+    if (!project) return;
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === "Escape") onClose();
+    }
+    document.addEventListener("keydown", handleKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handleKey);
+      document.body.style.overflow = "";
+    };
+  }, [project, onClose]);
+
   return (
     <AnimatePresence mode="wait">
       {project && (
@@ -1011,6 +1043,9 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
           key="modal-backdrop"
           className="fixed inset-0 z-50 flex items-end justify-center sm:items-center"
           onClick={onClose}
+          role="dialog"
+          aria-modal="true"
+          aria-label={project.title}
         >
           {/* Backdrop — separate motion for silky smooth blur fade */}
           <motion.div
@@ -1287,7 +1322,7 @@ function TestimonialsSection() {
 
       <div className="relative overflow-hidden">
         <div className="flex animate-marquee-slow gap-6">
-          {[...testimonials, ...testimonials].map((t, i) => {
+          {[...testimonials, ...testimonials, ...testimonials].map((t, i) => {
             const initials = t.name.split(" ").map(n => n[0]).join("").slice(0, 2);
             return (
               <div
@@ -1377,6 +1412,8 @@ function ContactSection() {
 
         <ScrollReveal delay={0.2}>
           <form onSubmit={handleSubmit} className="mt-12 space-y-4 text-left">
+            {/* Honeypot spam trap */}
+            <input type="text" name="_gotcha" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
             <input
               type="text"
               name="name"
@@ -1408,9 +1445,11 @@ function ContactSection() {
                   : "bg-neutral-900 text-white hover:bg-neutral-800"
               )}
             >
-              {status === "sending" && "Sending..."}
-              {status === "sent" && "Sent!"}
-              {status === "error" && "Try again"}
+              <span aria-live="polite">
+                {status === "sending" && "Sending..."}
+                {status === "sent" && "Sent!"}
+                {status === "error" && "Try again"}
+              </span>
               {status === "idle" && (
                 <>
                   <span>Send Message</span>
@@ -1482,8 +1521,8 @@ function FloatingDock() {
   ];
 
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 pointer-events-none hidden sm:block">
-      <div className="pointer-events-auto flex items-center gap-2 rounded-2xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/10 px-3 py-2">
+    <div className="fixed left-6 top-1/2 -translate-y-1/2 z-40 pointer-events-none hidden lg:block">
+      <div className="pointer-events-auto flex flex-col items-center gap-2 rounded-2xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/10 px-2 py-3">
         {dockItems.map(({ href, icon: Icon, label }) => (
           <motion.a
             key={label}
@@ -1491,7 +1530,7 @@ function FloatingDock() {
             target={href.startsWith("mailto") ? undefined : "_blank"}
             rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
             aria-label={label}
-            whileHover={{ scale: 1.3, y: -8 }}
+            whileHover={{ scale: 1.3, x: 8 }}
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 20 }}
             className="flex h-10 w-10 items-center justify-center rounded-full bg-white/60 border border-white/50 shadow-sm shadow-black/5 text-neutral-500 hover:text-neutral-900 hover:shadow-md transition-colors"

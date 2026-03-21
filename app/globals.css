@@ -3,7 +3,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @layer base {
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: auto; }
 
   :root {
     --background: 0 0% 0%;
