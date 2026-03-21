@@ -36,7 +36,7 @@ import type { Project } from "@/lib/data";
    --------------------------------------------------------------------------- */
 
 const sectionColorMap: Record<string, string[]> = {
-  hero:       ["#ffffff", "#eef2ff", "#dbeafe", "#ede9fe", "#dbeafe"],
+  hero:       ["#c7d2fe", "#a5b4fc", "#818cf8", "#93c5fd", "#6366f1"],
   about:      ["#ffffff", "#e0e7ff", "#c7d2fe", "#e9d5ff", "#bfdbfe"],
   skills:     ["#ffffff", "#dbeafe", "#c4b5fd", "#d4d4f8", "#a5d8ff"],
   projects:   ["#ffffff", "#d0d5ff", "#a5b4fc", "#c4b5fd", "#93c5fd"],
@@ -307,212 +307,223 @@ function CursorGlow() {
 }
 
 /* ---------------------------------------------------------------------------
-   FLOATING SHAPES — frosted glass geometric shapes (adapted from kokonutd)
+   CINEMATIC PRELOADER — branded intro that reveals the site
    --------------------------------------------------------------------------- */
 
-function FrostShape({
-  className,
-  delay = 0,
-  width = 400,
-  height = 100,
-  rotate = 0,
-  color = "rgba(129,140,248,0.18)",
-  floatDuration = 12,
-  floatDistance = 15,
-  rotateDrift = 0,
-  scalePulse = false,
-}: {
-  className?: string;
-  delay?: number;
-  width?: number;
-  height?: number;
-  rotate?: number;
-  color?: string;
-  floatDuration?: number;
-  floatDistance?: number;
-  rotateDrift?: number;
-  scalePulse?: boolean;
-}) {
+function Preloader({ onComplete }: { onComplete: () => void }) {
+  const [phase, setPhase] = useState<"enter" | "hold" | "exit">("enter");
+
+  useEffect(() => {
+    const t1 = setTimeout(() => setPhase("hold"), 100);
+    const t2 = setTimeout(() => setPhase("exit"), 1400);
+    const t3 = setTimeout(onComplete, 2200);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+  }, [onComplete]);
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: -150, rotate: rotate - 15 }}
-      animate={{ opacity: 1, y: 0, rotate }}
-      transition={{
-        duration: 2.4,
-        delay,
-        ease: [0.23, 0.86, 0.39, 0.96] as const,
-        opacity: { duration: 1.2 },
-      }}
-      className={cn("absolute", className)}
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-neutral-950"
+      animate={phase === "exit" ? { opacity: 0, scale: 1.1 } : { opacity: 1, scale: 1 }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
     >
+      {/* Radial glow pulse */}
       <motion.div
-        animate={{
-          y: [0, floatDistance, -floatDistance * 0.3, 0],
-          rotate: rotateDrift ? [0, rotateDrift, -rotateDrift * 0.5, 0] : undefined,
-          scale: scalePulse ? [1, 1.05, 0.97, 1] : undefined,
-        }}
-        transition={{
-          duration: floatDuration,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        style={{ width, height }}
-        className="relative"
-      >
-        <div
-          className="absolute inset-0 rounded-full border border-white/50 shadow-lg"
-          style={{
-            background: `linear-gradient(135deg, ${color}, transparent 70%)`,
-            backdropFilter: "blur(8px)",
-            boxShadow: "0 8px 32px rgba(100,120,220,0.12), inset 0 1px 1px rgba(255,255,255,0.6)",
+        className="absolute w-[600px] h-[600px] rounded-full"
+        style={{ background: "radial-gradient(circle, rgba(99,102,241,0.3) 0%, transparent 70%)" }}
+        initial={{ scale: 0.5, opacity: 0 }}
+        animate={{ scale: [0.5, 1.2, 1], opacity: [0, 0.8, 0.4] }}
+        transition={{ duration: 1.5, ease: "easeOut" }}
+      />
+
+      {/* Name reveal */}
+      <div className="relative overflow-hidden">
+        <motion.h1
+          className="font-bold text-5xl md:text-7xl tracking-tighter text-white"
+          initial={{ y: 80 }}
+          animate={phase === "enter" || phase === "hold" ? { y: 0 } : { y: -80 }}
+          transition={{
+            duration: phase === "exit" ? 0.5 : 0.8,
+            ease: [0.22, 1, 0.36, 1],
           }}
-        />
-      </motion.div>
+        >
+          Omer Zaman
+        </motion.h1>
+      </div>
+
+      {/* Subtitle */}
+      <motion.p
+        className="absolute bottom-[38%] font-mono text-xs uppercase tracking-[0.4em] text-indigo-300/60"
+        initial={{ opacity: 0 }}
+        animate={phase === "hold" ? { opacity: 1 } : phase === "exit" ? { opacity: 0 } : { opacity: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        Analytics Engineer
+      </motion.p>
+
+      {/* Progress line */}
+      <motion.div
+        className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-indigo-500 via-blue-400 to-cyan-400"
+        initial={{ width: "0%" }}
+        animate={{ width: "100%" }}
+        transition={{ duration: 1.8, ease: "easeInOut" }}
+      />
     </motion.div>
   );
 }
 
 /* ---------------------------------------------------------------------------
-   HERO — with per-character staggered animation + floating shapes
+   MOUSE PARALLAX LAYER — shapes react to cursor position
    --------------------------------------------------------------------------- */
 
-function AnimatedName({ text, className, style, startDelay = 0.2 }: { text: string; className?: string; style?: React.CSSProperties; startDelay?: number }) {
+function useMouseParallax(strength: number = 1) {
+  const x = useRef(0);
+  const y = useRef(0);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (window.innerWidth < 768) return;
+    function handleMove(e: MouseEvent) {
+      const cx = (e.clientX / window.innerWidth - 0.5) * 2;
+      const cy = (e.clientY / window.innerHeight - 0.5) * 2;
+      x.current = cx;
+      y.current = cy;
+      if (ref.current) {
+        ref.current.style.transform = `translate(${cx * strength * 30}px, ${cy * strength * 20}px)`;
+      }
+    }
+    window.addEventListener("mousemove", handleMove, { passive: true });
+    return () => window.removeEventListener("mousemove", handleMove);
+  }, [strength]);
+
+  return ref;
+}
+
+/* ---------------------------------------------------------------------------
+   HERO — cinematic reveal with clip-path + parallax orbs
+   --------------------------------------------------------------------------- */
+
+function HeroOrb({
+  className,
+  size,
+  color,
+  blur,
+  parallaxStrength,
+}: {
+  className: string;
+  size: number;
+  color: string;
+  blur: number;
+  parallaxStrength: number;
+}) {
+  const ref = useMouseParallax(parallaxStrength);
   return (
-    <span className={className} style={style}>
-      {text.split("").map((char, i) => (
-        <motion.span
-          key={i}
-          initial={{ y: 40, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{
-            delay: startDelay + i * 0.04,
-            type: "spring",
-            stiffness: 150,
-            damping: 25,
-          }}
-          className="inline-block"
-        >
-          {char}
-        </motion.span>
-      ))}
-    </span>
+    <div ref={ref} className={cn("absolute transition-transform duration-700 ease-out", className)}>
+      <motion.div
+        className="rounded-full"
+        style={{
+          width: size,
+          height: size,
+          background: color,
+          filter: `blur(${blur}px)`,
+        }}
+        animate={{
+          scale: [1, 1.15, 0.95, 1],
+          y: [0, -15, 8, 0],
+        }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+      />
+    </div>
   );
 }
 
-function HeroContent() {
+function HeroContent({ visible }: { visible: boolean }) {
   return (
     <section className="relative flex min-h-screen items-center justify-center px-6 overflow-hidden">
-      {/* Floating geometric shapes */}
+      {/* Parallax orbs — depth layers */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <FrostShape
-          delay={0.3}
-          width={600}
-          height={140}
-          rotate={12}
-          color="rgba(99,102,241,0.30)"
-          floatDuration={14}
-          floatDistance={20}
-          rotateDrift={4}
-          className="left-[-10%] md:left-[-5%] top-[15%] md:top-[20%]"
-        />
-        <FrostShape
-          delay={0.5}
-          width={500}
-          height={120}
-          rotate={-15}
-          color="rgba(56,189,248,0.28)"
-          floatDuration={10}
-          floatDistance={18}
-          rotateDrift={-6}
-          scalePulse
-          className="right-[-5%] md:right-[0%] top-[70%] md:top-[75%]"
-        />
-        <FrostShape
-          delay={0.4}
-          width={300}
-          height={80}
-          rotate={-8}
-          color="rgba(139,92,246,0.25)"
-          floatDuration={16}
-          floatDistance={12}
-          rotateDrift={3}
-          className="left-[5%] md:left-[10%] bottom-[5%] md:bottom-[10%]"
-        />
-        <FrostShape
-          delay={0.6}
-          width={200}
-          height={60}
-          rotate={20}
-          color="rgba(14,165,233,0.24)"
-          floatDuration={9}
-          floatDistance={22}
-          rotateDrift={-8}
-          scalePulse
-          className="right-[15%] md:right-[20%] top-[10%] md:top-[15%]"
-        />
-        <FrostShape
-          delay={0.7}
-          width={150}
-          height={40}
-          rotate={-25}
-          color="rgba(79,70,229,0.22)"
-          floatDuration={11}
-          floatDistance={16}
-          rotateDrift={5}
-          className="left-[20%] md:left-[25%] top-[5%] md:top-[10%]"
-        />
+        <HeroOrb className="left-[5%] top-[15%]" size={500} color="rgba(99,102,241,0.25)" blur={80} parallaxStrength={0.8} />
+        <HeroOrb className="right-[0%] top-[60%]" size={400} color="rgba(56,189,248,0.2)" blur={70} parallaxStrength={-0.6} />
+        <HeroOrb className="left-[30%] bottom-[5%]" size={300} color="rgba(139,92,246,0.22)" blur={60} parallaxStrength={1.2} />
+        <HeroOrb className="right-[20%] top-[8%]" size={200} color="rgba(14,165,233,0.18)" blur={50} parallaxStrength={-1.0} />
+        <HeroOrb className="left-[55%] top-[40%]" size={150} color="rgba(79,70,229,0.15)" blur={40} parallaxStrength={0.5} />
       </div>
 
+      {/* Frosted glass hero card */}
       <div className="relative z-10 text-center max-w-5xl mx-auto">
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="font-mono text-base md:text-lg uppercase tracking-[0.3em] text-neutral-400 mb-8"
-        >
-          Analytics Engineer
-        </motion.p>
+        {/* Role — slide up */}
+        <div className="overflow-hidden mb-8">
+          <motion.p
+            initial={{ y: 40 }}
+            animate={visible ? { y: 0 } : { y: 40 }}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            className="font-mono text-base md:text-lg uppercase tracking-[0.3em] text-neutral-400"
+          >
+            Analytics Engineer
+          </motion.p>
+        </div>
 
+        {/* Name — clip-path reveal line by line */}
         <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter text-neutral-900">
-          <AnimatedName text="Omer" startDelay={0.15} className="inline" />
-          <span className="inline-block w-[0.25em]" />
-          <AnimatedName text="Zaman" startDelay={0.3} className="inline" />
+          <span className="block overflow-hidden">
+            <motion.span
+              className="block"
+              initial={{ y: "100%" }}
+              animate={visible ? { y: "0%" } : { y: "100%" }}
+              transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            >
+              Omer
+            </motion.span>
+          </span>
+          <span className="block overflow-hidden">
+            <motion.span
+              className="block bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 bg-clip-text text-transparent"
+              initial={{ y: "100%" }}
+              animate={visible ? { y: "0%" } : { y: "100%" }}
+              transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            >
+              Zaman
+            </motion.span>
+          </span>
         </h1>
 
+        {/* Tagline — fade up */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={visible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.7, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="mt-8 mx-auto max-w-lg text-lg text-neutral-500"
         >
           {bio.tagline}
         </motion.p>
 
+        {/* CTAs — scale in */}
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.7 }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={visible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+          transition={{ duration: 0.6, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="mt-10 flex items-center justify-center gap-4"
         >
           <a
             href="#projects"
-            className="px-8 py-3 rounded-full bg-neutral-900 text-white text-sm font-medium hover:bg-neutral-800 transition-all duration-300 shadow-lg shadow-black/10"
+            className="group relative px-8 py-3 rounded-full bg-neutral-900 text-white text-sm font-medium hover:bg-neutral-800 transition-all duration-300 shadow-lg shadow-black/10 overflow-hidden"
           >
-            View my work
+            <span className="relative z-10">View my work</span>
+            <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </a>
           <a
             href="#contact"
-            className="px-8 py-3 rounded-full bg-white/85 backdrop-blur-md border border-white/60 text-neutral-700 text-sm font-medium hover:bg-white/80 transition-all duration-300 shadow-sm shadow-black/8"
+            className="px-8 py-3 rounded-full bg-white/85 backdrop-blur-md border border-white/60 text-neutral-700 text-sm font-medium hover:bg-white/80 hover:border-indigo-200 transition-all duration-300 shadow-sm shadow-black/8"
           >
             Get in touch
           </a>
         </motion.div>
       </div>
 
+      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.8 }}
+        animate={visible ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ delay: 1.4, duration: 0.8 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
       >
         <motion.div
@@ -1548,24 +1559,26 @@ function FloatingDock() {
    --------------------------------------------------------------------------- */
 
 export default function FrostPage() {
+  const [loaded, setLoaded] = useState(false);
+  const handleLoaded = useCallback(() => setLoaded(true), []);
+
   return (
     <div className="relative min-h-screen">
-      <DynamicMeshBackground />
+      <AnimatePresence>{!loaded && <Preloader onComplete={handleLoaded} />}</AnimatePresence>
 
-      {/* SVG paths removed — didn't fit the frost aesthetic */}
+      <DynamicMeshBackground />
 
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        animate={loaded ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
         className="relative z-10"
       >
         <ScrollProgress />
         <FrostNav />
-        {/* CursorGlow removed — added visual noise on light background */}
 
         <main id="main-content">
-          <HeroContent />
+          <HeroContent visible={loaded} />
           <AboutSection />
           <TechMarquee />
           <SkillsSection />
