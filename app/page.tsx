@@ -311,61 +311,47 @@ function CursorGlow() {
    --------------------------------------------------------------------------- */
 
 function Preloader({ onComplete }: { onComplete: () => void }) {
-  const [phase, setPhase] = useState<"enter" | "hold" | "exit">("enter");
+  const [phase, setPhase] = useState<"enter" | "exit">("enter");
 
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase("hold"), 100);
-    const t2 = setTimeout(() => setPhase("exit"), 1400);
-    const t3 = setTimeout(onComplete, 2200);
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+    const t1 = setTimeout(() => setPhase("exit"), 1200);
+    const t2 = setTimeout(onComplete, 1900);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [onComplete]);
 
   return (
     <motion.div
       className="fixed inset-0 z-[100] flex items-center justify-center bg-neutral-950"
-      animate={phase === "exit" ? { opacity: 0, scale: 1.1 } : { opacity: 1, scale: 1 }}
-      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      animate={phase === "exit" ? { opacity: 0 } : { opacity: 1 }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
     >
       {/* Radial glow pulse */}
       <motion.div
-        className="absolute w-[600px] h-[600px] rounded-full"
-        style={{ background: "radial-gradient(circle, rgba(99,102,241,0.3) 0%, transparent 70%)" }}
-        initial={{ scale: 0.5, opacity: 0 }}
-        animate={{ scale: [0.5, 1.2, 1], opacity: [0, 0.8, 0.4] }}
-        transition={{ duration: 1.5, ease: "easeOut" }}
+        className="absolute w-[500px] h-[500px] rounded-full"
+        style={{ background: "radial-gradient(circle, rgba(99,102,241,0.25) 0%, transparent 70%)" }}
+        initial={{ scale: 0.3, opacity: 0 }}
+        animate={{ scale: [0.3, 1.3, 1], opacity: [0, 0.7, 0.3] }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
       />
 
-      {/* Name reveal */}
+      {/* Monogram — just initials, teases the full name reveal */}
       <div className="relative overflow-hidden">
-        <motion.h1
-          className="font-bold text-5xl md:text-7xl tracking-tighter text-white"
-          initial={{ y: 80 }}
-          animate={phase === "enter" || phase === "hold" ? { y: 0 } : { y: -80 }}
-          transition={{
-            duration: phase === "exit" ? 0.5 : 0.8,
-            ease: [0.22, 1, 0.36, 1],
-          }}
+        <motion.span
+          className="block font-bold text-6xl md:text-8xl tracking-tighter bg-gradient-to-r from-indigo-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent"
+          initial={{ y: 80, opacity: 0 }}
+          animate={phase === "enter" ? { y: 0, opacity: 1 } : { y: -60, opacity: 0 }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          Omer Zaman
-        </motion.h1>
+          OZ
+        </motion.span>
       </div>
-
-      {/* Subtitle */}
-      <motion.p
-        className="absolute bottom-[38%] font-mono text-xs uppercase tracking-[0.4em] text-indigo-300/60"
-        initial={{ opacity: 0 }}
-        animate={phase === "hold" ? { opacity: 1 } : phase === "exit" ? { opacity: 0 } : { opacity: 0 }}
-        transition={{ duration: 0.4 }}
-      >
-        Analytics Engineer
-      </motion.p>
 
       {/* Progress line */}
       <motion.div
         className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-indigo-500 via-blue-400 to-cyan-400"
         initial={{ width: "0%" }}
         animate={{ width: "100%" }}
-        transition={{ duration: 1.8, ease: "easeInOut" }}
+        transition={{ duration: 1.4, ease: "easeInOut" }}
       />
     </motion.div>
   );
