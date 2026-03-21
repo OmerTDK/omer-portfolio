@@ -1150,7 +1150,7 @@ function ProjectsSection() {
         </div>
 
         {remainingProjects.length > 0 && (
-          <div className="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-4 grid gap-4 md:grid-cols-2">
             <AnimatePresence mode="popLayout">
               {remainingProjects.map((project, i) => (
                 <motion.div
@@ -1339,7 +1339,7 @@ function ContactSection() {
 
   return (
     <section id="contact" className="relative px-6 py-32 md:px-12 lg:px-24 overflow-hidden">
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-20 pointer-events-none hidden lg:block w-[400px] h-[400px]">
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-40 pointer-events-none hidden lg:block w-[500px] h-[500px]">
         <Globe className="relative w-full h-full max-w-none" />
       </div>
       <div className="relative mx-auto max-w-2xl text-center">
