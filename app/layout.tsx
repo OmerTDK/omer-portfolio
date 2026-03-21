@@ -53,7 +53,7 @@ export default function RootLayout({
           }}
         />
         <a
-          href="#about"
+          href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded focus:bg-[#f5f5f5] focus:px-4 focus:py-2 focus:text-[#1a1a1a]"
         >
           Skip to content

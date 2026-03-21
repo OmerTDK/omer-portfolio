@@ -27,6 +27,7 @@ import { cn } from "@/lib/utils";
 import NumberFlow from "@number-flow/react";
 // Dock component removed — caused runtime crash. Using custom dock instead.
 // GlowCard removed — added dark halo around cards. Using clean glass instead.
+
 import { Globe } from "@/components/ui/globe";
 import type { Project } from "@/lib/data";
 
@@ -571,6 +572,7 @@ function AboutSection() {
                   I build the data infrastructure teams depend on.
                 </h2>
                 <p className="mt-6 text-base leading-relaxed text-neutral-500">{bio.about[0]}</p>
+                <p className="mt-4 text-sm leading-relaxed text-neutral-500">{bio.about[1]}</p>
                 <p className="mt-4 text-sm leading-relaxed text-neutral-500">{bio.about[2]}</p>
 
                 <div className="mt-6 flex flex-wrap gap-6">
@@ -617,8 +619,8 @@ function TechMarquee() {
 
   return (
     <div className="relative py-8 overflow-hidden w-full">
-      <div className="absolute left-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-r from-white/80 to-transparent pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-l from-white/80 to-transparent pointer-events-none" />
+      <div className="absolute left-0 top-0 bottom-0 w-32 z-10 pointer-events-none" style={{ background: "linear-gradient(to right, rgba(255,255,255,0.9), transparent)" }} />
+      <div className="absolute right-0 top-0 bottom-0 w-32 z-10 pointer-events-none" style={{ background: "linear-gradient(to left, rgba(255,255,255,0.9), transparent)" }} />
       <div className="flex animate-marquee gap-16">
         {items.map((tech, i) => (
           <span
@@ -652,7 +654,7 @@ function SkillsSection() {
         <ScrollReveal>
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600">Skills</p>
           <h2 className="mt-4 text-4xl font-bold leading-tight text-neutral-900 md:text-5xl">
-            The tools I use to turn data into decisions.
+            My toolkit.
           </h2>
         </ScrollReveal>
 
@@ -1067,6 +1069,7 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
 }
 
 const filterTabDescriptions: Record<string, string> = {
+  highlights: "Best work across all disciplines",
   all: "Everything I've built",
   engineering: "Pipelines, models, infrastructure",
   science: "ML, statistics, predictions",
@@ -1074,10 +1077,14 @@ const filterTabDescriptions: Record<string, string> = {
 };
 
 function ProjectsSection() {
-  const [activeCategory, setActiveCategory] = useState("all");
+  const [activeCategory, setActiveCategory] = useState("highlights");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const filtered =
-    activeCategory === "all" ? projects : projects.filter((p) => p.category === activeCategory);
+    activeCategory === "highlights"
+      ? projects.filter((p) => p.highlight)
+      : activeCategory === "all"
+        ? projects
+        : projects.filter((p) => p.category === activeCategory);
 
   const featuredProjects = filtered.slice(0, 3);
   const remainingProjects = filtered.slice(3);
@@ -1088,7 +1095,7 @@ function ProjectsSection() {
         <ScrollReveal>
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600">Projects</p>
           <h2 className="mt-4 text-4xl font-bold leading-tight text-neutral-900 md:text-5xl">
-            Things I&apos;ve built and explored.
+            Built in production. Backed by real metrics.
           </h2>
         </ScrollReveal>
 
@@ -1178,7 +1185,7 @@ function ExperienceSection() {
         <ScrollReveal>
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600">Experience</p>
           <h2 className="mt-4 text-4xl font-bold leading-tight text-neutral-900 md:text-5xl">
-            Where I&apos;ve been. What I&apos;ve built.
+            4+ years across startups, enterprise, and freelance.
           </h2>
         </ScrollReveal>
 
@@ -1243,21 +1250,6 @@ const testimonials = [
     photo: "/assets/testimonials/robin.jpg",
     linkedin: "https://www.linkedin.com/in/robin-aguilera-503a092a/",
   },
-  {
-    quote: "One of the most detail-oriented data engineers I've worked with. Built our entire pipeline from scratch and it just works.",
-    name: "Engineering Lead",
-    role: "Fintech Startup, Berlin",
-  },
-  {
-    quote: "Omer's dbt models transformed how we think about data quality. Zero downtime, zero data loss during the migration.",
-    name: "Product Manager",
-    role: "Fintech Startup, Berlin",
-  },
-  {
-    quote: "The automated reporting pipeline saved our team 20+ hours per week. Reliable, well-documented, and easy to maintain.",
-    name: "Finance Director",
-    role: "Banking Partner",
-  },
 ];
 
 function TestimonialsSection() {
@@ -1267,7 +1259,7 @@ function TestimonialsSection() {
         <ScrollReveal>
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600">Testimonials</p>
           <h2 className="mt-4 text-4xl font-bold leading-tight text-neutral-900 md:text-5xl">
-            What people say.
+            Don&apos;t take my word for it.
           </h2>
         </ScrollReveal>
       </div>
@@ -1353,7 +1345,7 @@ function ContactSection() {
       <div className="relative mx-auto max-w-2xl text-center">
         <ScrollReveal>
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600">Contact</p>
-          <h2 className="mt-4 text-4xl font-bold text-neutral-900 md:text-5xl">Let&apos;s Connect</h2>
+          <h2 className="mt-4 text-4xl font-bold text-neutral-900 md:text-5xl">Let&apos;s build something together.</h2>
         </ScrollReveal>
 
         <ScrollReveal delay={0.1}>
@@ -1437,7 +1429,7 @@ function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="text-neutral-500 transition-colors hover:text-neutral-500"
+                className="text-neutral-500 transition-colors hover:text-neutral-800"
               >
                 <Icon className="h-4 w-4" />
               </a>
@@ -1469,7 +1461,7 @@ function FloatingDock() {
   ];
 
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 pointer-events-none">
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 pointer-events-none hidden sm:block">
       <div className="pointer-events-auto flex items-center gap-2 rounded-2xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/10 px-3 py-2">
         {dockItems.map(({ href, icon: Icon, label }) => (
           <motion.a
@@ -1512,16 +1504,7 @@ export default function FrostPage() {
         <FrostNav />
         {/* CursorGlow removed — added visual noise on light background */}
 
-        <div className="fixed top-4 right-4 z-50">
-          <a
-            href="/"
-            className="rounded-full border border-white/60 bg-white/85 backdrop-blur-xl px-4 py-2 text-xs font-medium text-neutral-500 hover:bg-white/80 hover:text-neutral-700 transition-all shadow-sm shadow-black/8"
-          >
-            Compare versions
-          </a>
-        </div>
-
-        <main>
+        <main id="main-content">
           <HeroContent />
           <AboutSection />
           <TechMarquee />

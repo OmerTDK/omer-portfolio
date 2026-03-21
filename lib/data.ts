@@ -6,6 +6,7 @@ export interface Project {
   metric: string;
   metricLabel: string;
   category: "engineering" | "science" | "analytics";
+  highlight?: boolean;
   github?: string;
 }
 
@@ -35,7 +36,7 @@ export const bio = {
     "With a freshly completed MSc in Data Science and 4+ years of hands-on experience across freelance, enterprise, and startup environments, I bridge the gap between engineering rigor and statistical modeling.",
   ],
   stats: [
-    { value: 32, label: "Completed Projects", suffix: "" },
+    { value: 32, label: "Projects Delivered", suffix: "+" },
     { value: 10, label: "Clients", suffix: "+" },
   ],
 };
@@ -68,6 +69,7 @@ export const projects: Project[] = [
     metric: "41",
     metricLabel: "Models",
     category: "engineering",
+    highlight: true,
   },
   {
     title: "Automated Financial Reporting",
@@ -95,6 +97,7 @@ export const projects: Project[] = [
     metric: "12.5%",
     metricLabel: "Monthly MAPE",
     category: "science",
+    highlight: true,
   },
   {
     title: "AI Document Extraction",
@@ -104,6 +107,7 @@ export const projects: Project[] = [
     metric: "28",
     metricLabel: "Fields Extracted",
     category: "engineering",
+    highlight: true,
   },
   {
     title: "Executive KPI Dashboard",
@@ -113,6 +117,7 @@ export const projects: Project[] = [
     metric: "20+",
     metricLabel: "KPIs Tracked",
     category: "analytics",
+    highlight: true,
   },
   {
     title: "Tax Invoice Parser",
@@ -122,6 +127,7 @@ export const projects: Project[] = [
     metric: "100ms",
     metricLabel: "Per Invoice",
     category: "engineering",
+    highlight: true,
   },
   {
     title: "Banking Loan Sale Automation",
@@ -232,6 +238,7 @@ export const links = {
 };
 
 export const projectCategories = [
+  { id: "highlights", label: "Highlights" },
   { id: "all", label: "All" },
   { id: "engineering", label: "Data Engineering" },
   { id: "science", label: "Data Science" },
