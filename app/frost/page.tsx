@@ -554,18 +554,18 @@ function TiltPhoto({ src, alt }: { src: string; alt: string }) {
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="mx-auto w-48 md:w-full transition-transform duration-200 ease-out"
+      className="mx-auto w-48 md:w-full h-full transition-transform duration-200 ease-out"
       style={{ transformStyle: "preserve-3d" }}
     >
-      <div className="relative">
+      <div className="relative h-full">
         <div className="absolute -inset-2 rounded-3xl bg-gradient-to-br from-indigo-400/20 via-violet-400/10 to-cyan-400/20 blur-xl" />
-        <div className="relative overflow-hidden rounded-2xl shadow-xl shadow-indigo-500/10">
+        <div className="relative overflow-hidden rounded-2xl shadow-xl shadow-indigo-500/10 h-full">
           <Image
             src={src}
             alt={alt}
             width={240}
-            height={300}
-            className="h-auto w-full object-cover"
+            height={400}
+            className="h-full w-full object-cover object-top"
             priority
           />
         </div>
@@ -588,7 +588,7 @@ function AboutSection() {
           <div className="rounded-3xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 p-8 md:p-12">
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600 mb-8">About</p>
 
-            <div className="grid gap-10 md:grid-cols-[240px_1fr] md:items-start">
+            <div className="grid gap-10 md:grid-cols-[240px_1fr] md:items-stretch">
               <TiltPhoto src={bio.profileImage} alt="Omer Zaman" />
 
               <div>
