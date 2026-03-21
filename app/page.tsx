@@ -599,7 +599,7 @@ function AboutSection() {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
           <div className="rounded-3xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 p-8 md:p-12">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600 mb-8">About</p>
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-indigo-500 mb-8">About</p>
 
             <div className="grid gap-10 md:grid-cols-[240px_1fr] md:items-stretch">
               <TiltPhoto src={bio.profileImage} alt="Omer Zaman" />
@@ -643,34 +643,7 @@ function AboutSection() {
   );
 }
 
-/* ---------------------------------------------------------------------------
-   TECH MARQUEE — scrolling tech stack names
-   --------------------------------------------------------------------------- */
-
-function TechMarquee() {
-  const techStack = [
-    "BigQuery", "dbt", "SQL", "Python", "Pandas", "GCP", "Docker",
-    "Metabase", "Streamlit", "TensorFlow", "Git", "Cloud Run",
-  ];
-  const items = [...techStack, ...techStack, ...techStack];
-
-  return (
-    <div className="relative py-8 overflow-hidden w-full">
-      <div className="absolute left-0 top-0 bottom-0 w-32 z-10 pointer-events-none" style={{ background: "linear-gradient(to right, rgba(255,255,255,0.9), transparent)" }} />
-      <div className="absolute right-0 top-0 bottom-0 w-32 z-10 pointer-events-none" style={{ background: "linear-gradient(to left, rgba(255,255,255,0.9), transparent)" }} />
-      <div className="flex animate-marquee gap-16">
-        {items.map((tech, i) => (
-          <span
-            key={i}
-            className="shrink-0 text-sm font-semibold text-neutral-400 whitespace-nowrap tracking-wide uppercase"
-          >
-            {tech}
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
+/* TechMarquee removed — redundant with Skills section */
 
 /* ---------------------------------------------------------------------------
    SKILLS — Horizontal pills layout, frosted glass
@@ -689,7 +662,7 @@ function SkillsSection() {
     <section id="skills" className="relative px-6 py-32 md:px-12 lg:px-24">
       <div className="mx-auto max-w-6xl">
         <ScrollReveal>
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600">Skills</p>
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-600">Skills</p>
           <h2 className="mt-4 text-4xl font-bold leading-tight text-neutral-900 md:text-5xl">
             My toolkit.
           </h2>
@@ -749,16 +722,33 @@ function CategoryIcon({ category, className }: { category: string; className?: s
   return <>{icons[category] || null}</>;
 }
 
+const categoryAccents: Record<string, string> = {
+  engineering: "text-blue-600",
+  science: "text-violet-600",
+  analytics: "text-amber-600",
+};
+
+const categoryAccentBg: Record<string, string> = {
+  engineering: "bg-blue-600",
+  science: "bg-violet-600",
+  analytics: "bg-amber-600",
+};
+
 function FrostProjectCard({ project, index, featured, onSelect }: { project: Project; index: number; featured?: boolean; onSelect?: (p: Project) => void }) {
+  const accent = categoryAccents[project.category] || "text-blue-600";
+
   const cardInner = (
     <div
       onClick={() => onSelect?.(project)}
       className="group cursor-pointer transition-all duration-300"
     >
+      {/* Show diagram inline on featured cards */}
+      {featured && <div className="mb-5"><ProjectDiagram title={project.title} /></div>}
+
       <div className="flex items-start justify-between">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-blue-500">{categoryIcons[project.category]}</span>
+            <span className={accent}>{categoryIcons[project.category]}</span>
             <h3 className={cn(
               "font-semibold text-neutral-900 group-hover:text-blue-600 transition-colors",
               featured ? "text-xl" : "text-lg"
@@ -775,7 +765,8 @@ function FrostProjectCard({ project, index, featured, onSelect }: { project: Pro
         </div>
         <div className="ml-4 text-right shrink-0">
           <span className={cn(
-            "font-mono font-bold text-blue-600",
+            "font-mono font-bold",
+            accent,
             featured ? "text-3xl" : "text-2xl"
           )}>
             {project.metric}
@@ -799,7 +790,7 @@ function FrostProjectCard({ project, index, featured, onSelect }: { project: Pro
           target="_blank"
           rel="noopener noreferrer"
           onClick={(e) => e.stopPropagation()}
-          className="mt-3 inline-flex items-center gap-1 text-xs text-blue-600 hover:underline"
+          className={cn("mt-3 inline-flex items-center gap-1 text-xs hover:underline", accent)}
         >
           View on GitHub <ExternalLink className="h-3 w-3" />
         </a>
@@ -809,14 +800,14 @@ function FrostProjectCard({ project, index, featured, onSelect }: { project: Pro
 
   if (featured) {
     return (
-      <div className="rounded-2xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 p-8 h-full overflow-hidden hover:bg-white/80 hover:shadow-xl">
+      <div className="rounded-2xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 p-8 h-full overflow-hidden hover:bg-white/80 hover:shadow-xl transition-shadow">
         {cardInner}
       </div>
     );
   }
 
   return (
-    <div className="rounded-xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-sm shadow-black/8 p-6 h-full overflow-hidden hover:bg-white/80 hover:shadow-md">
+    <div className="rounded-xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-sm shadow-black/8 p-6 h-full overflow-hidden hover:bg-white/80 hover:shadow-md transition-shadow">
       {cardInner}
     </div>
   );
@@ -1146,7 +1137,7 @@ function ProjectsSection() {
     <section id="projects" className="relative px-6 py-32 md:px-12 lg:px-24">
       <div className="mx-auto max-w-6xl">
         <ScrollReveal>
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600">Projects</p>
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-violet-600">Projects</p>
           <h2 className="mt-4 text-4xl font-bold leading-tight text-neutral-900 md:text-5xl">
             Built in production. Backed by real metrics.
           </h2>
@@ -1162,7 +1153,7 @@ function ProjectsSection() {
                   className={cn(
                     "relative rounded-full px-5 py-2 text-sm font-medium transition-all duration-200",
                     activeCategory === cat.id
-                      ? "bg-blue-600 text-white shadow-md shadow-blue-600/20"
+                      ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/20"
                       : "bg-white/85 backdrop-blur-xl border border-white/60 text-neutral-500 hover:text-neutral-700 hover:bg-white/90"
                   )}
                 >
@@ -1228,6 +1219,41 @@ function ProjectsSection() {
 }
 
 /* ---------------------------------------------------------------------------
+   IMPACT BANNER — bold scroll-stopping stat strip
+   --------------------------------------------------------------------------- */
+
+function ImpactBanner() {
+  const stats = [
+    { value: "4+", label: "Years Experience" },
+    { value: "32+", label: "Projects Delivered" },
+    { value: "41", label: "dbt Models in Prod" },
+    { value: "100ms", label: "Per Invoice Parsed" },
+  ];
+
+  return (
+    <section className="relative py-24 px-6 md:px-12 lg:px-24 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 opacity-[0.07] rounded-none" />
+      <div className="mx-auto max-w-6xl">
+        <ScrollReveal>
+          <div className="grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-12">
+            {stats.map((stat) => (
+              <div key={stat.label} className="text-center">
+                <div className="font-mono text-4xl font-bold text-neutral-900 md:text-5xl tracking-tight">
+                  {stat.value}
+                </div>
+                <div className="mt-2 text-xs uppercase tracking-widest text-neutral-500">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------------------------------------------------------------------
    EXPERIENCE — Clean dot timeline
    --------------------------------------------------------------------------- */
 
@@ -1236,7 +1262,7 @@ function ExperienceSection() {
     <section id="experience" className="relative px-6 py-32 md:px-12 lg:px-24">
       <div className="mx-auto max-w-6xl">
         <ScrollReveal>
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600">Experience</p>
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-amber-600">Experience</p>
           <h2 className="mt-4 text-4xl font-bold leading-tight text-neutral-900 md:text-5xl">
             4+ years across startups, enterprise, and freelance.
           </h2>
@@ -1250,13 +1276,13 @@ function ExperienceSection() {
                   <div
                     className={cn(
                       "h-3 w-3 shrink-0 rounded-full",
-                      entry.isCurrent ? "bg-blue-600" : "bg-neutral-300"
+                      entry.isCurrent ? "bg-amber-500" : "bg-neutral-300"
                     )}
                   />
                   <div className="mt-2 w-px flex-1 bg-neutral-200/50" />
                 </div>
                 <div className="pb-4">
-                  <p className="font-mono text-sm text-blue-600">{entry.date}</p>
+                  <p className="font-mono text-sm text-amber-600">{entry.date}</p>
                   <h3 className="mt-2 text-xl font-semibold text-neutral-900">{entry.role}</h3>
                   <p className="text-sm text-neutral-500">{entry.company}</p>
                   <p className="mt-3 text-base leading-relaxed text-neutral-500">{entry.description}</p>
@@ -1278,28 +1304,28 @@ const testimonials = [
   {
     quote: "Omer has an exceptional ability to turn complex data challenges into clean, reliable solutions. His attention to detail and deep understanding of data architecture make him an invaluable asset to any team.",
     name: "Adnan Zafar",
-    role: "Client",
+    role: "Freelance Client — Dashboard & Analytics",
     photo: "/assets/testimonials/adnan.jpg",
     linkedin: "https://www.linkedin.com/in/adnan-zafar-%F0%9F%87%AC%F0%9F%87%A7-%F0%9F%87%A6%F0%9F%87%BA-%F0%9F%87%AA%F0%9F%87%BA-1875a0218/",
   },
   {
     quote: "Working with Omer is always a great experience. He brings a unique combination of analytical thinking and engineering rigor that consistently delivers results above expectations.",
     name: "M. Zain R.",
-    role: "Client",
+    role: "Freelance Client — Data Pipeline Project",
     photo: "/assets/testimonials/zain.jpg",
     linkedin: "https://www.linkedin.com/in/mzainr99/",
   },
   {
     quote: "Omer's dedication to his craft is truly inspiring. He doesn't just build pipelines — he thinks deeply about data quality and how it impacts every downstream decision. A brilliant mind with a collaborative spirit.",
     name: "Esra Ilbay",
-    role: "Client",
+    role: "Freelance Client — Predictive Modeling",
     photo: "/assets/testimonials/esra.jpg",
     linkedin: "https://www.linkedin.com/in/esrailbay/",
   },
   {
     quote: "Omer brings a rare combination of technical depth and clear communication. He can architect a complex data platform and explain it to stakeholders in the same breath. A pleasure to work with.",
     name: "Robin Aguilera",
-    role: "Client",
+    role: "Freelance Client — Sales Strategy Analysis",
     photo: "/assets/testimonials/robin.jpg",
     linkedin: "https://www.linkedin.com/in/robin-aguilera-503a092a/",
   },
@@ -1310,7 +1336,7 @@ function TestimonialsSection() {
     <section className="relative px-6 py-32 md:px-12 lg:px-24 overflow-hidden">
       <div className="mx-auto max-w-6xl mb-12">
         <ScrollReveal>
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600">Testimonials</p>
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-emerald-600">Testimonials</p>
           <h2 className="mt-4 text-4xl font-bold leading-tight text-neutral-900 md:text-5xl">
             Don&apos;t take my word for it.
           </h2>
@@ -1397,7 +1423,7 @@ function ContactSection() {
       </div>
       <div className="relative mx-auto max-w-2xl text-center">
         <ScrollReveal>
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600">Contact</p>
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-rose-500">Contact</p>
           <h2 className="mt-4 text-4xl font-bold text-neutral-900 md:text-5xl">Let&apos;s build something together.</h2>
         </ScrollReveal>
 
@@ -1566,9 +1592,9 @@ export default function FrostPage() {
         <main id="main-content">
           <HeroContent visible={loaded} />
           <AboutSection />
-          <TechMarquee />
           <SkillsSection />
           <ProjectsSection />
+          <ImpactBanner />
           <ExperienceSection />
           <TestimonialsSection />
           <ContactSection />
