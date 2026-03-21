@@ -4,7 +4,7 @@ import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { bio, skills, projects, projectCategories, experience, links } from "@/lib/data";
 import { MeshGradient } from "@paper-design/shaders-react";
 import { motion, AnimatePresence, useInView } from "motion/react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import {
   MapPin,
   GraduationCap,
@@ -532,6 +532,48 @@ function AnimatedStat({ value, suffix, label }: { value: number; suffix: string;
   );
 }
 
+function TiltPhoto({ src, alt }: { src: string; alt: string }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const card = cardRef.current;
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    card.style.transform = `perspective(800px) rotateY(${x * 12}deg) rotateX(${-y * 12}deg) scale3d(1.02, 1.02, 1.02)`;
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    const card = cardRef.current;
+    if (card) card.style.transform = "perspective(800px) rotateY(0deg) rotateX(0deg) scale3d(1,1,1)";
+  }, []);
+
+  return (
+    <div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="mx-auto w-48 md:w-full transition-transform duration-200 ease-out"
+      style={{ transformStyle: "preserve-3d" }}
+    >
+      <div className="relative">
+        <div className="absolute -inset-2 rounded-3xl bg-gradient-to-br from-indigo-400/20 via-violet-400/10 to-cyan-400/20 blur-xl" />
+        <div className="relative overflow-hidden rounded-2xl shadow-xl shadow-indigo-500/10">
+          <Image
+            src={src}
+            alt={alt}
+            width={240}
+            height={300}
+            className="h-auto w-full object-cover"
+            priority
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function AboutSection() {
   return (
     <section id="about" className="relative px-6 py-32 md:px-12 lg:px-24">
@@ -547,25 +589,7 @@ function AboutSection() {
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600 mb-8">About</p>
 
             <div className="grid gap-10 md:grid-cols-[240px_1fr] md:items-start">
-              <div className="mx-auto w-48 md:w-full">
-                <div className="overflow-hidden rounded-2xl border border-white/60 shadow-md shadow-black/8" style={{ transform: "translateZ(0)" }}>
-                  <motion.div
-                    initial={{ scale: 1.1 }}
-                    whileInView={{ scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.2, ease: "easeOut" }}
-                  >
-                    <Image
-                      src={bio.profileImage}
-                      alt="Omer Zaman"
-                      width={240}
-                      height={300}
-                      className="h-auto w-full object-cover"
-                      priority
-                    />
-                  </motion.div>
-                </div>
-              </div>
+              <TiltPhoto src={bio.profileImage} alt="Omer Zaman" />
 
               <div>
                 <h2 className="text-3xl font-bold leading-tight text-neutral-900 md:text-4xl">
