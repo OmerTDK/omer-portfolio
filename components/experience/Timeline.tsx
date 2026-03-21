@@ -49,7 +49,7 @@ export function Timeline() {
 
   return (
     <div ref={containerRef} className="relative mx-auto max-w-3xl py-8">
-      <div className="timeline-line absolute left-4 top-0 h-full w-px bg-gradient-to-b from-[#60a5fa]/30 via-[#8b5cf6]/30 to-transparent md:left-1/2" />
+      <div className="timeline-line absolute left-4 top-0 h-full w-px bg-gradient-to-b from-cyan-400/20 via-white/5 to-transparent md:left-1/2" />
 
       {experience.map((entry, i) => (
         <div
@@ -62,16 +62,16 @@ export function Timeline() {
           <div
             className={cn(
               "absolute left-3 top-1.5 h-3 w-3 rounded-full md:top-1.5",
-              entry.isCurrent ? "bg-[#60a5fa]" : "bg-[#8b5cf6]",
+              entry.isCurrent ? "bg-cyan-400" : "bg-orange-400",
               i % 2 === 0 ? "md:left-auto md:-right-1.5" : "md:-left-1.5"
             )}
-            style={{ boxShadow: `0 0 10px ${entry.isCurrent ? "#60a5fa" : "#8b5cf6"}50` }}
+            style={{ boxShadow: entry.isCurrent ? "0 0 12px rgba(6,182,212,0.5)" : "0 0 12px rgba(249,115,22,0.3)" }}
           />
 
-          <p className="font-mono text-sm text-[#22d3ee]">{entry.date}</p>
-          <h3 className="mt-1 text-lg font-semibold text-[#f1f5f9]">{entry.role}</h3>
-          <p className="text-sm font-medium text-[#60a5fa]">{entry.company}</p>
-          <p className="mt-2 text-sm leading-relaxed text-[#94a3b8]">{entry.description}</p>
+          <p className="font-mono text-sm text-cyan-400">{entry.date}</p>
+          <h3 className="mt-1 text-lg font-semibold text-white">{entry.role}</h3>
+          <p className="text-sm font-medium text-white/40">{entry.company}</p>
+          <p className="mt-2 text-sm leading-relaxed text-white/50">{entry.description}</p>
         </div>
       ))}
     </div>
