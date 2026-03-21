@@ -36,7 +36,7 @@ import type { Project } from "@/lib/data";
    --------------------------------------------------------------------------- */
 
 const sectionColorMap: Record<string, string[]> = {
-  hero:       ["#c7d2fe", "#a5b4fc", "#818cf8", "#93c5fd", "#6366f1"],
+  hero:       ["#eef2ff", "#dbeafe", "#c7d2fe", "#e0e7ff", "#a5b4fc"],
   about:      ["#ffffff", "#e0e7ff", "#c7d2fe", "#e9d5ff", "#bfdbfe"],
   skills:     ["#ffffff", "#dbeafe", "#c4b5fd", "#d4d4f8", "#a5d8ff"],
   projects:   ["#ffffff", "#d0d5ff", "#a5b4fc", "#c4b5fd", "#93c5fd"],
@@ -421,11 +421,12 @@ function HeroPill({
         className="relative"
       >
         <div
-          className="absolute inset-0 rounded-full border border-white/50 shadow-lg"
+          className="absolute inset-0 rounded-full border border-white/60 shadow-xl"
           style={{
-            background: `linear-gradient(135deg, ${color}, transparent 70%)`,
-            backdropFilter: "blur(8px)",
-            boxShadow: "0 8px 32px rgba(100,120,220,0.12), inset 0 1px 1px rgba(255,255,255,0.6)",
+            background: `linear-gradient(135deg, ${color}, rgba(255,255,255,0.15) 70%)`,
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            boxShadow: "0 8px 32px rgba(100,120,220,0.18), inset 0 1px 2px rgba(255,255,255,0.7)",
           }}
         />
       </motion.div>
@@ -438,11 +439,11 @@ function HeroContent({ visible }: { visible: boolean }) {
     <section className="relative flex min-h-screen items-center justify-center px-6 overflow-hidden">
       {/* Parallax frosted pills — mouse-reactive depth layers */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <HeroPill className="left-[-10%] md:left-[-5%] top-[15%] md:top-[20%]" width={600} height={140} rotate={12} color="rgba(99,102,241,0.30)" parallaxStrength={0.8} floatDuration={14} floatDistance={20} />
-        <HeroPill className="right-[-5%] md:right-[0%] top-[70%] md:top-[75%]" width={500} height={120} rotate={-15} color="rgba(56,189,248,0.28)" parallaxStrength={-0.6} floatDuration={10} floatDistance={18} />
-        <HeroPill className="left-[5%] md:left-[10%] bottom-[5%] md:bottom-[10%]" width={300} height={80} rotate={-8} color="rgba(139,92,246,0.25)" parallaxStrength={1.2} floatDuration={16} floatDistance={12} />
-        <HeroPill className="right-[15%] md:right-[20%] top-[10%] md:top-[15%]" width={200} height={60} rotate={20} color="rgba(14,165,233,0.24)" parallaxStrength={-1.0} floatDuration={9} floatDistance={22} />
-        <HeroPill className="left-[20%] md:left-[25%] top-[5%] md:top-[10%]" width={150} height={40} rotate={-25} color="rgba(79,70,229,0.22)" parallaxStrength={0.5} floatDuration={11} floatDistance={16} />
+        <HeroPill className="left-[-10%] md:left-[-5%] top-[15%] md:top-[20%]" width={600} height={140} rotate={12} color="rgba(99,102,241,0.45)" parallaxStrength={0.8} floatDuration={14} floatDistance={20} />
+        <HeroPill className="right-[-5%] md:right-[0%] top-[70%] md:top-[75%]" width={500} height={120} rotate={-15} color="rgba(56,189,248,0.42)" parallaxStrength={-0.6} floatDuration={10} floatDistance={18} />
+        <HeroPill className="left-[5%] md:left-[10%] bottom-[5%] md:bottom-[10%]" width={300} height={80} rotate={-8} color="rgba(139,92,246,0.38)" parallaxStrength={1.2} floatDuration={16} floatDistance={12} />
+        <HeroPill className="right-[15%] md:right-[20%] top-[10%] md:top-[15%]" width={200} height={60} rotate={20} color="rgba(14,165,233,0.35)" parallaxStrength={-1.0} floatDuration={9} floatDistance={22} />
+        <HeroPill className="left-[20%] md:left-[25%] top-[5%] md:top-[10%]" width={150} height={40} rotate={-25} color="rgba(79,70,229,0.32)" parallaxStrength={0.5} floatDuration={11} floatDistance={16} />
       </div>
 
       {/* Frosted glass hero card */}
