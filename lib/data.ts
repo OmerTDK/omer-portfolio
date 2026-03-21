@@ -27,7 +27,7 @@ export const bio = {
   name: "Omer Zaman",
   title: "Analytics Engineer",
   tagline: "The bridge between raw data and real decisions.",
-  profileImage: "/assets/omer-profile.jpg",
+  profileImage: "/assets/omer-profile.png",
   location: "Berlin, Germany",
   education: "MSc Data Science — Arden University (Graduated)",
   about: [
