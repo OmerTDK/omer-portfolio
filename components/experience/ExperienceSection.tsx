@@ -11,34 +11,66 @@ export function ExperienceSection() {
         <ScrollReveal>
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-amber-600">Experience</p>
           <h2 className="mt-4 text-4xl font-bold leading-tight text-neutral-900 md:text-5xl">
-            4+ years across startups, enterprise, and freelance.
+            Where I&apos;ve been.
           </h2>
         </ScrollReveal>
 
-        <div className="mt-16 max-w-2xl space-y-16">
-          {experience.map((entry) => (
-            <ScrollReveal key={entry.date}>
-              <div className="flex gap-6">
-                <div className="flex flex-col items-center pt-2">
+        <div className="relative mt-16 max-w-2xl">
+          {/* Continuous timeline line */}
+          <div className="absolute left-[5px] top-2 bottom-0 w-px bg-gradient-to-b from-amber-300 via-neutral-200 to-transparent" />
+
+          <div className="space-y-8">
+            {experience.map((entry, i) => (
+              <ScrollReveal key={entry.date} delay={i * 0.08}>
+                <div className="relative flex gap-5 pl-0">
+                  {/* Dot */}
+                  <div className="relative z-10 mt-1.5 shrink-0">
+                    <div
+                      className={cn(
+                        "h-[11px] w-[11px] rounded-full border-2",
+                        entry.isCurrent
+                          ? "border-amber-500 bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,0.5)]"
+                          : "border-neutral-300 bg-white",
+                      )}
+                    />
+                  </div>
+
+                  {/* Content */}
                   <div
                     className={cn(
-                      "h-3 w-3 shrink-0 rounded-full",
-                      entry.isCurrent ? "bg-amber-500" : "bg-neutral-300",
+                      "flex-1 rounded-xl pb-2 transition-colors",
+                      entry.isCurrent &&
+                        "rounded-xl border border-amber-200/60 bg-amber-50/30 p-5 shadow-sm shadow-amber-500/5 backdrop-blur-sm",
                     )}
-                  />
-                  <div className="mt-2 w-px flex-1 bg-neutral-200/50" />
+                  >
+                    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
+                      <h3
+                        className={cn(
+                          "text-lg font-semibold text-neutral-900",
+                          entry.isCurrent && "text-xl",
+                        )}
+                      >
+                        {entry.role}
+                      </h3>
+                      {entry.isCurrent && (
+                        <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-amber-700">
+                          Current
+                        </span>
+                      )}
+                    </div>
+                    <div className="mt-1 flex flex-wrap items-center gap-2 text-sm text-neutral-500">
+                      <span>{entry.company}</span>
+                      <span className="text-neutral-300">·</span>
+                      <span className="font-mono text-xs text-amber-600/80">{entry.date}</span>
+                    </div>
+                    <p className="mt-2.5 text-sm leading-relaxed text-neutral-500">
+                      {entry.description}
+                    </p>
+                  </div>
                 </div>
-                <div className="pb-4">
-                  <p className="font-mono text-sm text-amber-600">{entry.date}</p>
-                  <h3 className="mt-2 text-xl font-semibold text-neutral-900">{entry.role}</h3>
-                  <p className="text-sm text-neutral-500">{entry.company}</p>
-                  <p className="mt-3 text-base leading-relaxed text-neutral-500">
-                    {entry.description}
-                  </p>
-                </div>
-              </div>
-            </ScrollReveal>
-          ))}
+              </ScrollReveal>
+            ))}
+          </div>
         </div>
       </div>
     </section>
