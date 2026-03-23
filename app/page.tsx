@@ -18,15 +18,12 @@ import {
   FlaskConical,
   BarChart3,
   ArrowUp,
-  Menu,
   X,
   User,
 } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import NumberFlow from "@number-flow/react";
-// Dock component removed — caused runtime crash. Using custom dock instead.
-// GlowCard removed — added dark halo around cards. Using clean glass instead.
 
 import { Globe } from "@/components/ui/globe";
 import type { Project } from "@/lib/data";
@@ -274,39 +271,6 @@ function ScrollProgress() {
 }
 
 /* ---------------------------------------------------------------------------
-   CURSOR GLOW — radial gradient following mouse (desktop only)
-   --------------------------------------------------------------------------- */
-
-function CursorGlow() {
-  const glowRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (window.innerWidth < 768) return;
-
-    function handleMove(e: MouseEvent) {
-      if (glowRef.current) {
-        glowRef.current.style.transform = `translate(${e.clientX - 250}px, ${e.clientY - 250}px)`;
-      }
-    }
-
-    window.addEventListener("mousemove", handleMove, { passive: true });
-    return () => window.removeEventListener("mousemove", handleMove);
-  }, []);
-
-  return (
-    <div
-      ref={glowRef}
-      className="fixed top-0 left-0 pointer-events-none z-30 w-[500px] h-[500px] rounded-full blur-[100px] hidden md:block"
-      style={{
-        willChange: "transform",
-        opacity: 0.5,
-        background: "radial-gradient(circle, rgba(147, 197, 253, 0.6) 0%, rgba(199, 210, 254, 0.25) 40%, transparent 70%)",
-      }}
-    />
-  );
-}
-
-/* ---------------------------------------------------------------------------
    CINEMATIC PRELOADER — branded intro that reveals the site
    --------------------------------------------------------------------------- */
 
@@ -544,11 +508,7 @@ function HeroContent({ visible }: { visible: boolean }) {
 function AnimatedStat({ value, suffix, label }: { value: number; suffix: string; label: string }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true });
-  const [displayValue, setDisplayValue] = useState(0);
-
-  useEffect(() => {
-    if (inView) setDisplayValue(value);
-  }, [inView, value]);
+  const displayValue = inView ? value : 0;
 
   return (
     <div ref={ref} className="text-center">
@@ -588,10 +548,13 @@ function TiltPhoto({ src, alt }: { src: string; alt: string }) {
       <div className="relative h-full">
         <div className="absolute -inset-2 rounded-3xl bg-gradient-to-br from-indigo-400/20 via-violet-400/10 to-cyan-400/20 blur-xl" />
         <div className="relative overflow-hidden rounded-2xl shadow-xl shadow-indigo-500/10 h-full">
-          <img
+          <Image
             src={src}
             alt={alt}
+            width={350}
+            height={440}
             className="h-full w-full object-cover object-top"
+            priority
           />
         </div>
       </div>
@@ -719,34 +682,13 @@ const categoryIcons: Record<string, React.ReactNode> = {
   analytics: <BarChart3 className="h-3.5 w-3.5" />,
 };
 
-const categoryGradients: Record<string, string> = {
-  engineering: "from-white/80 to-blue-50/50",
-  science: "from-white/80 to-violet-50/50",
-  analytics: "from-white/80 to-indigo-50/50",
-};
-
-function CategoryIcon({ category, className }: { category: string; className?: string }) {
-  const icons: Record<string, React.ReactNode> = {
-    engineering: <Wrench className={className} />,
-    science: <FlaskConical className={className} />,
-    analytics: <BarChart3 className={className} />,
-  };
-  return <>{icons[category] || null}</>;
-}
-
 const categoryAccents: Record<string, string> = {
   engineering: "text-blue-600",
   science: "text-violet-600",
   analytics: "text-amber-600",
 };
 
-const categoryAccentBg: Record<string, string> = {
-  engineering: "bg-blue-600",
-  science: "bg-violet-600",
-  analytics: "bg-amber-600",
-};
-
-function FrostProjectCard({ project, index, featured, onSelect }: { project: Project; index: number; featured?: boolean; onSelect?: (p: Project) => void }) {
+function FrostProjectCard({ project, featured, onSelect }: { project: Project; index: number; featured?: boolean; onSelect?: (p: Project) => void }) {
   const accent = categoryAccents[project.category] || "text-blue-600";
 
   const cardInner = (
@@ -1449,25 +1391,34 @@ function ContactSection() {
           <form onSubmit={handleSubmit} className="mt-12 space-y-4 text-left">
             {/* Honeypot spam trap */}
             <input type="text" name="_gotcha" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
+            <label htmlFor="contact-name" className="sr-only">Name</label>
             <input
+              id="contact-name"
               type="text"
               name="name"
               placeholder="Name"
               required
+              aria-label="Your name"
               className="w-full rounded-xl bg-white/80 backdrop-blur-xl border border-white/70 px-4 py-3 text-sm text-neutral-900 placeholder-neutral-400 outline-none focus:border-blue-600/30 focus:ring-2 focus:ring-blue-600/10 transition-all shadow-sm shadow-black/8"
             />
+            <label htmlFor="contact-email" className="sr-only">Email</label>
             <input
+              id="contact-email"
               type="email"
               name="email"
               placeholder="Email"
               required
+              aria-label="Your email"
               className="w-full rounded-xl bg-white/80 backdrop-blur-xl border border-white/70 px-4 py-3 text-sm text-neutral-900 placeholder-neutral-400 outline-none focus:border-blue-600/30 focus:ring-2 focus:ring-blue-600/10 transition-all shadow-sm shadow-black/8"
             />
+            <label htmlFor="contact-message" className="sr-only">Message</label>
             <textarea
+              id="contact-message"
               name="message"
               placeholder="Message"
               rows={4}
               required
+              aria-label="Your message"
               className="w-full resize-none rounded-xl bg-white/80 backdrop-blur-xl border border-white/70 px-4 py-3 text-sm text-neutral-900 placeholder-neutral-400 outline-none focus:border-blue-600/30 focus:ring-2 focus:ring-blue-600/10 transition-all shadow-sm shadow-black/8"
             />
             <button
