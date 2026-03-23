@@ -11,7 +11,7 @@ export function ExperienceSection() {
         <ScrollReveal>
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-amber-600">Experience</p>
           <h2 className="mt-4 text-4xl font-bold leading-tight text-neutral-900 md:text-5xl">
-            Where I&apos;ve been.
+            4+ years across startups, enterprise, and freelance.
           </h2>
         </ScrollReveal>
 
