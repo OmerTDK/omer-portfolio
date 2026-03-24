@@ -49,7 +49,7 @@ export function FrostNav() {
               key={link.id}
               onClick={() => scrollTo(link.id)}
               className={cn(
-                "relative cursor-pointer rounded-full px-5 py-2 text-sm font-medium transition-colors",
+                "relative cursor-pointer rounded-full px-5 py-2 text-sm font-medium transition-all active:scale-[0.95]",
                 isActive ? "text-blue-600" : "text-neutral-500 hover:text-neutral-700",
               )}
             >

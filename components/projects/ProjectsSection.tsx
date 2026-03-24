@@ -356,7 +356,7 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-6 inline-flex items-center gap-2 rounded-full bg-neutral-900 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-neutral-800"
+                className="mt-6 inline-flex items-center gap-2 rounded-full bg-neutral-900 px-6 py-2.5 text-sm font-medium text-white transition-all hover:bg-neutral-800 active:scale-[0.97]"
               >
                 <Github className="h-4 w-4" />
                 View on GitHub
@@ -408,9 +408,9 @@ export function ProjectsSection() {
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
                   className={cn(
-                    "relative rounded-full px-5 py-2 text-sm font-medium transition-all duration-200",
+                    "relative rounded-full px-5 py-2 text-sm font-medium transition-all duration-200 active:scale-[0.97]",
                     activeCategory === cat.id
-                      ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/20"
+                      ? "bg-blue-600 text-white shadow-md shadow-blue-600/20"
                       : "border border-white/60 bg-white/85 text-neutral-500 backdrop-blur-xl hover:bg-white/90 hover:text-neutral-700",
                   )}
                 >

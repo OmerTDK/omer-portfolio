@@ -147,11 +147,11 @@ export function HeroContent({ visible }: { visible: boolean }) {
             className="group relative px-8 py-3 rounded-full bg-neutral-900 text-white text-sm font-medium hover:bg-neutral-800 active:scale-[0.97] transition-all duration-300 shadow-lg shadow-black/10 overflow-hidden"
           >
             <span className="relative z-10">View my work</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="absolute inset-0 bg-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </a>
           <a
             href="#contact"
-            className="px-8 py-3 rounded-full bg-white/85 backdrop-blur-md border border-white/60 text-neutral-700 text-sm font-medium hover:bg-white/80 hover:border-indigo-200 transition-all duration-300 shadow-sm shadow-black/8"
+            className="px-8 py-3 rounded-full bg-white/85 backdrop-blur-md border border-white/60 text-neutral-700 text-sm font-medium hover:bg-white/80 hover:border-blue-200 active:scale-[0.97] transition-all duration-300 shadow-sm shadow-black/8"
           >
             Get in touch
           </a>
