@@ -356,7 +356,7 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-6 inline-flex items-center gap-2 rounded-full bg-neutral-900 px-6 py-2.5 text-sm font-medium text-white transition-all hover:bg-neutral-800 active:scale-[0.97]"
+                className="mt-6 inline-flex items-center gap-2 rounded-full bg-neutral-900 px-6 py-2.5 text-sm font-medium text-white transition-all duration-200 hover:bg-blue-600 hover:scale-[1.03] hover:shadow-lg active:scale-[0.96]"
               >
                 <Github className="h-4 w-4" />
                 View on GitHub

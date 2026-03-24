@@ -144,14 +144,14 @@ export function HeroContent({ visible }: { visible: boolean }) {
         >
           <a
             href="#projects"
-            className="group relative px-8 py-3 rounded-full bg-neutral-900 text-white text-sm font-medium hover:bg-neutral-800 active:scale-[0.97] transition-all duration-300 shadow-lg shadow-black/10 overflow-hidden"
+            className="group relative px-8 py-3 rounded-full bg-neutral-900 text-white text-sm font-medium hover:bg-blue-600 hover:scale-[1.03] hover:shadow-xl active:scale-[0.96] transition-all duration-200 shadow-lg shadow-black/10 overflow-hidden"
           >
             <span className="relative z-10">View my work</span>
             <div className="absolute inset-0 bg-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </a>
           <a
             href="#contact"
-            className="px-8 py-3 rounded-full bg-white/85 backdrop-blur-md border border-white/60 text-neutral-700 text-sm font-medium hover:bg-white/80 hover:border-blue-200 active:scale-[0.97] transition-all duration-300 shadow-sm shadow-black/8"
+            className="px-8 py-3 rounded-full bg-white/85 backdrop-blur-md border border-white/60 text-neutral-700 text-sm font-medium hover:bg-white/80 hover:border-blue-300 hover:scale-[1.03] hover:shadow-md active:scale-[0.96] transition-all duration-200 shadow-sm shadow-black/8"
           >
             Get in touch
           </a>

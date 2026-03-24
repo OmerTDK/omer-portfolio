@@ -100,10 +100,10 @@ export function ContactSection() {
               type="submit"
               disabled={status === "sending" || status === "sent"}
               className={cn(
-                "inline-flex items-center gap-2 rounded-full px-8 py-3 text-sm font-medium shadow-lg shadow-black/10 transition-all active:scale-[0.97]",
+                "inline-flex items-center gap-2 rounded-full px-8 py-3 text-sm font-medium shadow-lg shadow-black/10 transition-all duration-200 hover:scale-[1.03] hover:shadow-xl active:scale-[0.96]",
                 status === "sent"
                   ? "bg-emerald-500 text-white"
-                  : "bg-neutral-900 text-white hover:bg-neutral-800",
+                  : "bg-neutral-900 text-white hover:bg-blue-600",
               )}
             >
               {status === "sending" && (
