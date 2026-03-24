@@ -44,7 +44,7 @@ export function TestimonialsSection() {
     <section className="relative overflow-hidden px-6 py-32 md:px-12 lg:px-24">
       <div className="mx-auto mb-12 max-w-6xl">
         <ScrollReveal>
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-emerald-600">
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600">
             Testimonials
           </p>
           <h2 className="mt-4 text-4xl font-bold leading-tight text-neutral-900 md:text-5xl">
@@ -53,8 +53,8 @@ export function TestimonialsSection() {
         </ScrollReveal>
       </div>
 
-      <div className="relative overflow-hidden">
-        <div className="flex animate-marquee-slow gap-6">
+      <div className="group relative overflow-hidden">
+        <div className="flex animate-marquee-slow gap-6 group-hover:[animation-play-state:paused]">
           {[...testimonials, ...testimonials, ...testimonials].map((t, i) => {
             const initials = t.name
               .split(" ")

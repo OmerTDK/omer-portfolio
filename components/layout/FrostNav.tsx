@@ -39,7 +39,7 @@ export function FrostNav() {
   }
 
   return (
-    <div className="pointer-events-none fixed bottom-0 left-1/2 z-40 mb-6 -translate-x-1/2 sm:top-0 sm:pt-6">
+    <div className="pointer-events-none fixed left-1/2 top-0 z-40 -translate-x-1/2 pt-4">
       <div className="pointer-events-auto flex items-center gap-1 rounded-full border border-white/60 bg-white/85 px-1 py-1 shadow-lg shadow-black/8 backdrop-blur-xl">
         {navLinks.map((link) => {
           const Icon = link.icon;

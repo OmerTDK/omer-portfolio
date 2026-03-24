@@ -16,7 +16,7 @@ export function SkillsSection() {
     <section id="skills" className="relative px-6 py-32 md:px-12 lg:px-24">
       <div className="mx-auto max-w-6xl">
         <ScrollReveal>
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-600">Skills</p>
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600">Skills</p>
           <h2 className="mt-4 text-4xl font-bold leading-tight text-neutral-900 md:text-5xl">
             My toolkit.
           </h2>

@@ -12,7 +12,7 @@ const stats = [
 export function ImpactBanner() {
   return (
     <section className="relative overflow-hidden px-6 py-24 md:px-12 lg:px-24">
-      <div className="absolute inset-0 rounded-none bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 opacity-[0.07]" />
+      <div className="absolute inset-0 rounded-none bg-blue-600 opacity-[0.05]" />
       <div className="mx-auto max-w-6xl">
         <ScrollReveal>
           <div className="grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-12">

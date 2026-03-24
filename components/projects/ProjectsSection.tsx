@@ -2,11 +2,33 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Wrench, FlaskConical, BarChart3, ExternalLink, Github, X } from "lucide-react";
+import { Wrench, FlaskConical, BarChart3, ExternalLink, Github, X, FileText, Bot, CheckCircle, Database, Settings, ClipboardList, Bell, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { projects, projectCategories } from "@/lib/data";
 import type { Project } from "@/lib/data";
+
+import type { LucideIcon } from "lucide-react";
+
+function PipelineSvg({ nodes }: { nodes: { label: string; color: string; Icon: LucideIcon }[]; markerId?: string }) {
+  return (
+    <div className="flex items-center justify-between gap-2 py-2">
+      {nodes.map((node, i) => (
+        <div key={node.label} className="flex items-center gap-2">
+          <div className="flex flex-col items-center gap-1.5 rounded-xl border border-neutral-200/60 px-4 py-3" style={{ backgroundColor: node.color }}>
+            <node.Icon className="h-4 w-4 text-neutral-600" />
+            <span className="text-[10px] font-medium text-neutral-700">{node.label}</span>
+          </div>
+          {i < nodes.length - 1 && (
+            <svg width="24" height="12" viewBox="0 0 24 12" className="shrink-0 text-neutral-400">
+              <path d="M0 6h20M16 2l4 4-4 4" stroke="currentColor" strokeWidth="1.5" fill="none" />
+            </svg>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
 
 const categoryIcons: Record<string, React.ReactNode> = {
   engineering: <Wrench className="h-3.5 w-3.5" />,
@@ -33,7 +55,13 @@ function FrostProjectCard({
   const accent = categoryAccents[project.category] || "text-blue-600";
 
   const cardInner = (
-    <div onClick={() => onSelect?.(project)} className="group cursor-pointer transition-all duration-300">
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={() => onSelect?.(project)}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onSelect?.(project); } }}
+      className="group cursor-pointer transition-all duration-300"
+    >
       {featured && (
         <div className="mb-5">
           <ProjectDiagram title={project.title} />
@@ -141,72 +169,30 @@ function ProjectDiagram({ title }: { title: string }) {
     ),
 
     "AI Document Extraction": (
-      <svg viewBox="0 0 600 120" className="w-full h-auto" fill="none">
-        {[
-          { x: 0, label: "PDF Upload", color: "#fee2e2", icon: "\uD83D\uDCC4" },
-          { x: 155, label: "Gemini AI", color: "#dbeafe", icon: "\uD83E\uDD16" },
-          { x: 310, label: "Validate", color: "#e0e7ff", icon: "\u2713" },
-          { x: 465, label: "BigQuery", color: "#d1fae5", icon: "\uD83D\uDCCA" },
-        ].map((node, i) => (
-          <g key={node.label}>
-            <rect x={node.x} y={20} width={120} height={70} rx={12} fill={node.color} stroke="#e2e8f0" strokeWidth={1} />
-            <text x={node.x + 60} y={48} textAnchor="middle" fontSize={18}>{node.icon}</text>
-            <text x={node.x + 60} y={72} textAnchor="middle" className="text-[10px] font-medium" fill="#374151">{node.label}</text>
-            {i < 3 && <path d={`M${node.x + 125} 55 L${node.x + 150} 55`} stroke="#94a3b8" strokeWidth={1.5} markerEnd="url(#arrow2)" />}
-          </g>
-        ))}
-        <defs>
-          <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth={6} markerHeight={6} orient="auto-start-reverse">
-            <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
-          </marker>
-        </defs>
-      </svg>
+      <PipelineSvg markerId="arrow2" nodes={[
+        { label: "PDF Upload", color: "#fee2e2", Icon: FileText },
+        { label: "Gemini AI", color: "#dbeafe", Icon: Bot },
+        { label: "Validate", color: "#e0e7ff", Icon: CheckCircle },
+        { label: "BigQuery", color: "#d1fae5", Icon: Database },
+      ]} />
     ),
 
     "Automated Financial Reporting": (
-      <svg viewBox="0 0 600 120" className="w-full h-auto" fill="none">
-        {[
-          { x: 0, label: "BigQuery", color: "#dbeafe", icon: "\uD83D\uDDC4" },
-          { x: 155, label: "Transform", color: "#e0e7ff", icon: "\u2699\uFE0F" },
-          { x: 310, label: "Sheets", color: "#d1fae5", icon: "\uD83D\uDCCB" },
-          { x: 465, label: "Slack", color: "#fef3c7", icon: "\uD83D\uDD14" },
-        ].map((node, i) => (
-          <g key={node.label}>
-            <rect x={node.x} y={20} width={120} height={70} rx={12} fill={node.color} stroke="#e2e8f0" strokeWidth={1} />
-            <text x={node.x + 60} y={48} textAnchor="middle" fontSize={18}>{node.icon}</text>
-            <text x={node.x + 60} y={72} textAnchor="middle" className="text-[10px] font-medium" fill="#374151">{node.label}</text>
-            {i < 3 && <path d={`M${node.x + 125} 55 L${node.x + 150} 55`} stroke="#94a3b8" strokeWidth={1.5} markerEnd="url(#arrow3)" />}
-          </g>
-        ))}
-        <defs>
-          <marker id="arrow3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth={6} markerHeight={6} orient="auto-start-reverse">
-            <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
-          </marker>
-        </defs>
-      </svg>
+      <PipelineSvg markerId="arrow3" nodes={[
+        { label: "BigQuery", color: "#dbeafe", Icon: Database },
+        { label: "Transform", color: "#e0e7ff", Icon: Settings },
+        { label: "Sheets", color: "#d1fae5", Icon: ClipboardList },
+        { label: "Slack", color: "#fef3c7", Icon: Bell },
+      ]} />
     ),
 
     "Tax Invoice Parser": (
-      <svg viewBox="0 0 600 120" className="w-full h-auto" fill="none">
-        {[
-          { x: 0, label: "PDF Invoice", color: "#fee2e2", icon: "\uD83D\uDCC4" },
-          { x: 155, label: "Regex Parse", color: "#dbeafe", icon: "\uD83D\uDD0D" },
-          { x: 310, label: "Structured", color: "#d1fae5", icon: "\uD83D\uDCCA" },
-          { x: 465, label: "BigQuery", color: "#e0e7ff", icon: "\uD83D\uDDC4" },
-        ].map((node, i) => (
-          <g key={node.label}>
-            <rect x={node.x} y={20} width={120} height={70} rx={12} fill={node.color} stroke="#e2e8f0" strokeWidth={1} />
-            <text x={node.x + 60} y={48} textAnchor="middle" fontSize={18}>{node.icon}</text>
-            <text x={node.x + 60} y={72} textAnchor="middle" className="text-[10px] font-medium" fill="#374151">{node.label}</text>
-            {i < 3 && <path d={`M${node.x + 125} 55 L${node.x + 150} 55`} stroke="#94a3b8" strokeWidth={1.5} markerEnd="url(#arrow4)" />}
-          </g>
-        ))}
-        <defs>
-          <marker id="arrow4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth={6} markerHeight={6} orient="auto-start-reverse">
-            <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
-          </marker>
-        </defs>
-      </svg>
+      <PipelineSvg markerId="arrow4" nodes={[
+        { label: "PDF Invoice", color: "#fee2e2", Icon: FileText },
+        { label: "Regex Parse", color: "#dbeafe", Icon: Search },
+        { label: "Structured", color: "#d1fae5", Icon: BarChart3 },
+        { label: "BigQuery", color: "#e0e7ff", Icon: Database },
+      ]} />
     ),
 
     "Executive KPI Dashboard": (
@@ -263,26 +249,12 @@ function ProjectDiagram({ title }: { title: string }) {
     ),
 
     "Banking Loan Sale Automation": (
-      <svg viewBox="0 0 600 120" className="w-full h-auto" fill="none">
-        {[
-          { x: 0, label: "Query", color: "#dbeafe", icon: "\uD83D\uDDC4" },
-          { x: 155, label: "Validate", color: "#fef3c7", icon: "\u2713" },
-          { x: 310, label: "Filter", color: "#e0e7ff", icon: "\u2699\uFE0F" },
-          { x: 465, label: "9-Tab Report", color: "#d1fae5", icon: "\uD83D\uDCCB" },
-        ].map((node, i) => (
-          <g key={node.label}>
-            <rect x={node.x} y={20} width={120} height={70} rx={12} fill={node.color} stroke="#e2e8f0" strokeWidth={1} />
-            <text x={node.x + 60} y={48} textAnchor="middle" fontSize={18}>{node.icon}</text>
-            <text x={node.x + 60} y={72} textAnchor="middle" className="text-[10px] font-medium" fill="#374151">{node.label}</text>
-            {i < 3 && <path d={`M${node.x + 125} 55 L${node.x + 150} 55`} stroke="#94a3b8" strokeWidth={1.5} markerEnd="url(#arrow7)" />}
-          </g>
-        ))}
-        <defs>
-          <marker id="arrow7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth={6} markerHeight={6} orient="auto-start-reverse">
-            <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
-          </marker>
-        </defs>
-      </svg>
+      <PipelineSvg markerId="arrow7" nodes={[
+        { label: "Query", color: "#dbeafe", Icon: Database },
+        { label: "Validate", color: "#fef3c7", Icon: CheckCircle },
+        { label: "Filter", color: "#e0e7ff", Icon: Settings },
+        { label: "9-Tab Report", color: "#d1fae5", Icon: ClipboardList },
+      ]} />
     ),
   };
 
@@ -422,7 +394,7 @@ export function ProjectsSection() {
     <section id="projects" className="relative px-6 py-32 md:px-12 lg:px-24">
       <div className="mx-auto max-w-6xl">
         <ScrollReveal>
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-violet-600">Projects</p>
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600">Projects</p>
           <h2 className="mt-4 text-4xl font-bold leading-tight text-neutral-900 md:text-5xl">
             Built in production. Backed by real metrics.
           </h2>
@@ -495,6 +467,10 @@ export function ProjectsSection() {
               ))}
             </AnimatePresence>
           </div>
+        )}
+
+        {filtered.length === 0 && (
+          <p className="mt-10 text-center text-sm text-neutral-400">No projects in this category yet.</p>
         )}
 
         <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />

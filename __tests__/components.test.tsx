@@ -7,11 +7,13 @@ vi.mock("motion/react", () => ({
     {
       get: (_target, prop) => {
         if (prop === "div" || prop === "span" || prop === "p" || prop === "a") {
-          return ({ children, ...props }: React.PropsWithChildren<Record<string, unknown>>) => {
+          const MotionComponent = ({ children, ...props }: React.PropsWithChildren<Record<string, unknown>>) => {
             const { initial: _i, animate: _a, exit: _e, transition: _t, whileInView: _w, viewport: _v, whileHover: _wh, whileTap: _wt, layoutId: _l, layout: _la, ...rest } = props;
             const Tag = prop as keyof JSX.IntrinsicElements;
             return <Tag {...rest}>{children}</Tag>;
           };
+          MotionComponent.displayName = `motion.${String(prop)}`;
+          return MotionComponent;
         }
         return undefined;
       },

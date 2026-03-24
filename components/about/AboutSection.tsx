@@ -77,7 +77,7 @@ export function AboutSection() {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
           <div className="rounded-3xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg shadow-black/8 p-8 md:p-12">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-indigo-500 mb-8">About</p>
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600 mb-8">About</p>
 
             <div className="grid gap-10 md:grid-cols-[240px_1fr] md:items-stretch">
               <TiltPhoto src={bio.profileImage} alt="Omer Zaman" />

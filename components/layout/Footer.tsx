@@ -19,8 +19,8 @@ export function Footer() {
               <a
                 key={label}
                 href={href}
-                target="_blank"
-                rel="noopener noreferrer"
+                target={href.startsWith("mailto") ? undefined : "_blank"}
+                rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
                 aria-label={label}
                 className="text-neutral-500 transition-colors hover:text-neutral-800"
               >

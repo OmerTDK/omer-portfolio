@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Send } from "lucide-react";
+import { Send, Loader2 } from "lucide-react";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { Globe } from "@/components/ui/globe";
 import { cn } from "@/lib/utils";
@@ -38,7 +38,7 @@ export function ContactSection() {
       </div>
       <div className="relative mx-auto max-w-2xl text-center">
         <ScrollReveal>
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-rose-500">Contact</p>
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600">Contact</p>
           <h2 className="mt-4 text-4xl font-bold text-neutral-900 md:text-5xl">
             Let&apos;s build something together.
           </h2>
@@ -100,17 +100,20 @@ export function ContactSection() {
               type="submit"
               disabled={status === "sending" || status === "sent"}
               className={cn(
-                "inline-flex items-center gap-2 rounded-full px-8 py-3 text-sm font-medium shadow-lg shadow-black/10 transition-all",
+                "inline-flex items-center gap-2 rounded-full px-8 py-3 text-sm font-medium shadow-lg shadow-black/10 transition-all active:scale-[0.97]",
                 status === "sent"
                   ? "bg-emerald-500 text-white"
                   : "bg-neutral-900 text-white hover:bg-neutral-800",
               )}
             >
-              <span aria-live="polite">
-                {status === "sending" && "Sending..."}
-                {status === "sent" && "Sent!"}
-                {status === "error" && "Try again"}
-              </span>
+              {status === "sending" && (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <span>Sending...</span>
+                </>
+              )}
+              {status === "sent" && <span>Sent!</span>}
+              {status === "error" && <span>Try again</span>}
               {status === "idle" && (
                 <>
                   <span>Send Message</span>

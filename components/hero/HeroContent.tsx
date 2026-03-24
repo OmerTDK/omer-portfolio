@@ -144,7 +144,7 @@ export function HeroContent({ visible }: { visible: boolean }) {
         >
           <a
             href="#projects"
-            className="group relative px-8 py-3 rounded-full bg-neutral-900 text-white text-sm font-medium hover:bg-neutral-800 transition-all duration-300 shadow-lg shadow-black/10 overflow-hidden"
+            className="group relative px-8 py-3 rounded-full bg-neutral-900 text-white text-sm font-medium hover:bg-neutral-800 active:scale-[0.97] transition-all duration-300 shadow-lg shadow-black/10 overflow-hidden"
           >
             <span className="relative z-10">View my work</span>
             <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
