@@ -53,8 +53,8 @@ export function TestimonialsSection() {
         </ScrollReveal>
       </div>
 
-      <div className="group relative overflow-hidden">
-        <div className="flex animate-marquee-slow gap-6 group-hover:[animation-play-state:paused]">
+      <div className="relative overflow-hidden">
+        <div className="flex animate-marquee-slow gap-6">
           {[...testimonials, ...testimonials, ...testimonials].map((t, i) => {
             const initials = t.name
               .split(" ")
